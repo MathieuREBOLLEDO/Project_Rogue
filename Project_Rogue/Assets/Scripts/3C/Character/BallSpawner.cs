@@ -19,6 +19,8 @@ public class BallSpawner : MonoBehaviour
     {
         if (BallManager.Instance.AllBallsInactiveOrAtBottom())
         {
+            GameManager.Instance.SetState(GameState.WaitingForBalls);
+
             if (fireMode == FireMode.SingleShot)
             {
                 ShootOneBall(pos);

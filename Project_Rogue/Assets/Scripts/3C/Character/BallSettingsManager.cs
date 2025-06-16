@@ -5,7 +5,9 @@ public class BallSettingsManager : MonoBehaviour
     public static BallSettingsManager Instance;
 
     [Header("Ball Speed Settings")]
-    public float baseSpeed = 5f;
+    public float currentSpeed = 5f;
+    public float initSpeed = 5f;
+
     public float speedIncrease = 1f;
     public float increaseInterval = 10f;
 
@@ -17,11 +19,18 @@ public class BallSettingsManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        ResetBallSpeed();
     }
 
     public float GetBallSpeed()
     {
-        return baseSpeed;
+        return currentSpeed;
+    }
+
+    private void ResetBallSpeed()
+    {
+        currentSpeed = initSpeed;
     }
 
     public void StartSpeedIncreaseLoop()
@@ -34,6 +43,7 @@ public class BallSettingsManager : MonoBehaviour
     {
         isSpeedIncreasing = false;
         StopAllCoroutines();
+        ResetBallSpeed();
     }
 
     private System.Collections.IEnumerator SpeedIncreaseRoutine()
@@ -43,7 +53,7 @@ public class BallSettingsManager : MonoBehaviour
         while (!BallManager.Instance.AllBallsInactiveOrAtBottom())
         {
             yield return new WaitForSeconds(increaseInterval);
-            baseSpeed += speedIncrease;
+            currentSpeed += speedIncrease;
         }
 
         isSpeedIncreasing = false;
