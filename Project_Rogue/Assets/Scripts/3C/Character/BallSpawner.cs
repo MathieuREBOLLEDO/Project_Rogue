@@ -27,6 +27,7 @@ public class BallSpawner : MonoBehaviour
             {
                 StartCoroutine(FireBurst(pos));
             }
+            BallSettingsManager.Instance.StartSpeedIncreaseLoop();
         }
     }
 
@@ -35,7 +36,7 @@ public class BallSpawner : MonoBehaviour
         GameObject ball = BallManager.Instance.GetBall();
         if (ball != null)
         {
-            ball.SetActive(true);
+            //ball.SetActive(true);
             ball.GetComponent<BallController>().LaunchBall(pos);
         }
     }

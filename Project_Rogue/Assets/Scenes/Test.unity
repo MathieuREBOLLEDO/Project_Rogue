@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 446047632}
   - component: {fileID: 446047633}
   - component: {fileID: 446047634}
+  - component: {fileID: 446047635}
   m_Layer: 0
   m_Name: BallPool
   m_TagString: Untagged
@@ -472,6 +473,21 @@ MonoBehaviour:
   fireMode: 1
   burstCount: 20
   burstDelay: 0.1
+--- !u!114 &446047635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446047631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c27cd5b9ee1ce24fb0db90c94364ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 5
+  speedIncrease: 3
+  increaseInterval: 10
 --- !u!1 &881323780
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,9 +706,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1129a3c0161584591034351808f37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentState: 1
   OnGameStateChanged:
     m_PersistentCalls:
       m_Calls: []
+  CurrentTurnState: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

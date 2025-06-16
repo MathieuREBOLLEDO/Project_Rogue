@@ -45,8 +45,9 @@ public class InputManager : MonoBehaviour
     {
         if (context.started)
         {
-            if (!GameManager.Instance || GameManager.Instance.CurrentState != GameState.Playing)
+            if (GameManager.Instance.CurrentTurnState != TurnState.PlayerTurn)
                 return;
+
             Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
             screenPosition = ScreenUtils.ConvertScreenToWorld(screenPosition);
             OnTouchScreen.Invoke(screenPosition);

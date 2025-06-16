@@ -6,10 +6,12 @@ using UnityEngine;
 //[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class BallController: MonoBehaviour 
 {  
-    public float speed = 5f;
+    //public float speed = 5f;
 
     private Vector2 direction;
     private bool isLaunched = false;
+    public bool isInUse = false;
+
     Vector2 screenMin;
     public bool hasTouchedBottom { get; private set; } = false; 
 
@@ -37,17 +39,18 @@ public class BallController: MonoBehaviour
     public void LaunchBall(Vector2 mousePos)
     {
         // Direction initiale vers le haut avec un angle aléatoire
-        if (!isLaunched)
-        {
-            
-            direction = (mousePos - (Vector2)transform.position).normalized;
-            isLaunched = true;
-            hasTouchedBottom = false;
-        }        
+
+        isInUse = true;
+        direction = (mousePos - (Vector2)transform.position).normalized;
+        isLaunched = true;
+        hasTouchedBottom = false;
+
     }
 
     void MoveBall()
     {
+
+        float speed = BallSettingsManager.Instance.GetBallSpeed();
         Vector3 pos = transform.position;
         pos += (Vector3)(direction * speed * Time.deltaTime);
 
@@ -87,11 +90,11 @@ public class BallController: MonoBehaviour
     public void ResetBall()
     {
         isLaunched = false;
-        Vector3 startPos = new Vector3(transform.position.x, screenMin.y + radius, 0f);
         hasTouchedBottom = true;
-        transform.position = startPos;
-        gameObject.SetActive(false);
-        //BallManager.Instance.AllBallsInactiveOrAtBottom();
+        isInUse = false;
+        transform.position = new Vector3(transform.position.x, screenMin.y + radius, 0f);
+        //gameObject.SetActive(false);
+        BallManager.Instance.CheckAllBallsState();
     }
 }
 

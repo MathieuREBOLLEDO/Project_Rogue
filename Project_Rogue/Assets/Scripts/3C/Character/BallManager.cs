@@ -13,7 +13,7 @@ public class BallManager : MonoBehaviour
     private List<GameObject> pool = new List<GameObject>();
 
     public UnityEvent OnAllBallsInactiveOrAtBottom;
-    private bool eventInvoked = false;
+    
 
     void Awake()
     {
@@ -21,54 +21,53 @@ public class BallManager : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = Instantiate(ballPrefab, this.transform);
-            obj.SetActive(false);
+            //obj.SetActive(false);
             pool.Add(obj);
         }
     }
 
-    public void StartBallTurn()
+    public void CheckAllBallsState()
     {
-        GameManager.Instance.SetState(GameState.WaitingForBalls);
-        eventInvoked = false;
-
-        foreach (GameObject ball in pool)
+        if (AllBallsInactiveOrAtBottom() && GameManager.Instance.CurrentState == GameState.WaitingForBalls)
         {
-            ball.SetActive(true);
-            ball.GetComponent<BallController>().ResetBall();
-        }
-    }
 
+            // Arrêter la vitesse croissante
+            BallSettingsManager.Instance.StopSpeedIncreaseLoop();
 
-    void Update()
-    {
-        if (GameManager.Instance.IsWaiting() && !eventInvoked && AllBallsInactiveOrAtBottom())
-        {
-            eventInvoked = true;
             GameManager.Instance.SetState(GameState.Playing);
+            GameManager.Instance.StartMachineTurn();
             OnAllBallsInactiveOrAtBottom.Invoke();
         }
     }
+
     public GameObject GetBall()
     {
         foreach (GameObject ball in pool)
         {
-            if (!ball.activeInHierarchy)
+            BallController bc = ball.GetComponent<BallController>();
+            if (!bc.isInUse)
             {
                 return ball;
             }
         }
 
-        // Optionnel : étendre dynamiquement si aucun disponible
         GameObject newBall = Instantiate(ballPrefab, this.transform);
-        newBall.SetActive(false);
         pool.Add(newBall);
         return newBall;
     }
+
+    public List<GameObject> GetAllBalls()
+    {
+        return pool;
+    }
+
+
     public bool AllBallsInactiveOrAtBottom()
     {
         foreach (GameObject ball in pool)
         {
-            if (ball.activeInHierarchy && !ball.GetComponent<BallController>().hasTouchedBottom)
+            BallController bc = ball.GetComponent<BallController>();
+            if (bc.isInUse && !bc.hasTouchedBottom)
             {
                 return false;
             }
