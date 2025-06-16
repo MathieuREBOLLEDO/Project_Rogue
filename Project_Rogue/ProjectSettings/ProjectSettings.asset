@@ -143,7 +143,7 @@ PlayerSettings:
   vrSettings:
     enable360StereoCapture: 0
   isWsaHolographicRemotingEnabled: 0
-  enableFrameTimingStats: 0
+  enableFrameTimingStats: 1
   enableOpenGLProfilerGPURecorders: 1
   useHDRDisplay: 0
   hdrBitDepth: 0
@@ -153,7 +153,9 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.DefaultCompany.Project_Rogue
+    Standalone: com.DefaultCompany.Project-Rogue
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -859,8 +861,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Project_Rogue
-  metroPackageVersion: 
+  metroPackageName: ProjectRogue
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -868,7 +870,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Project_Rogue
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Project_Rogue
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
@@ -933,7 +935,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
   cloudProjectId: 2c9fff5f-f4d4-4af9-93fd-9e1fa585df34
   framebufferDepthMemorylessMode: 0

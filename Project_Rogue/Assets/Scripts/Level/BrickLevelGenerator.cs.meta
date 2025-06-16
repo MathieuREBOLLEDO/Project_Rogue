@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: e7c3d3578875ba74a863fcae79dee29c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cameraData: {fileID: 11400000, guid: 499d8afad81553140ae81857559b4084, type: 2}
+  - brickPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
