@@ -78,10 +78,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator HandleMachineTurn()
     {
-        yield return new WaitForSeconds(1f);
-
-        // Appelle ici BrickLevelGenerator.GenerateNextLine() ou autre
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
 
         StartPlayerTurn(); // relance le tour du joueur
     }
