@@ -13,7 +13,6 @@ public class PlayerTurnState : ITurnState
     public void Enter()
     {
         _gameStateManager.SetState(GameState.Playing);
-        Debug.LogWarning("Player turn started.");
         // Indicateurs visuels, etc.
     }
 
