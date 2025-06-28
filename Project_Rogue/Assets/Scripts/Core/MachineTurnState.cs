@@ -25,6 +25,7 @@ public class MachineTurnState : ITurnState
 
     private IEnumerator HandleMachineTurn()
     {
+
         yield return new WaitForSeconds(0.1f);
 
         GameManager.Instance.StartPlayerTurn(); // temporaire, on peut l’extraire aussi
