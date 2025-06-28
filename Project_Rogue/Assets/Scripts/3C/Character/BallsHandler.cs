@@ -3,16 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BallManager : MonoBehaviour
+public class BallsHandler : MonoBehaviour
 {
-    public static BallManager Instance;
+    public static BallsHandler Instance;
+
+    [Header("Unity Events")]
+    public UnityEvent OnAllBallsInactiveOrAtBottom;
+    public UnityEvent OnBallCheckTriggered;
+
+    // Nouveaux events :
+    public UnityEvent OnSpeedIncreaseShouldStop;
+    public UnityEvent OnGameShouldResume;
+    public UnityEvent OnMachineTurnShouldStart;
+
 
     public GameObject ballPrefab;
     public int poolSize = 20;
 
     private List<GameObject> pool = new List<GameObject>();
 
-    public UnityEvent OnAllBallsInactiveOrAtBottom;
+    //public UnityEvent OnAllBallsInactiveOrAtBottom;
     
 
     void Awake()
@@ -24,21 +34,22 @@ public class BallManager : MonoBehaviour
             //obj.SetActive(false);
             pool.Add(obj);
         }
+
     }
 
     public void CheckAllBallsState()
     {
-        if (AllBallsInactiveOrAtBottom() && GameManager.Instance.CurrentState == GameState.WaitingForBalls)
+        OnBallCheckTriggered.Invoke();
+
+        if (AllBallsInactiveOrAtBottom())
         {
-
-            // Arrêter la vitesse croissante
-            BallSettingsManager.Instance.StopSpeedIncreaseLoop();
-
-            GameManager.Instance.SetState(GameState.Playing);
-            GameManager.Instance.StartMachineTurn();
-            OnAllBallsInactiveOrAtBottom.Invoke();
+            OnSpeedIncreaseShouldStop?.Invoke();
+            OnGameShouldResume?.Invoke();
+            OnMachineTurnShouldStart?.Invoke();
+            OnAllBallsInactiveOrAtBottom?.Invoke();
         }
     }
+
 
     public GameObject GetBall()
     {

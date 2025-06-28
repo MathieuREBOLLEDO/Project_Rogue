@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum FireMode
 {
@@ -14,12 +15,12 @@ public class BallSpawner : MonoBehaviour
     public int burstCount = 10; // nombre de balles en rafale
     public float burstDelay = 0.1f;
 
-
     public void TryShootBall(Vector2 pos)
     {
-        if (BallManager.Instance.AllBallsInactiveOrAtBottom())
+        if (BallsHandler.Instance.AllBallsInactiveOrAtBottom())
         {
-            GameManager.Instance.SetState(GameState.WaitingForBalls);
+            EventBus.PublishGameStateChange(GameState.WaitingForBalls);
+           // GameManager.Instance.SetState(GameState.WaitingForBalls);
 
             if (fireMode == FireMode.SingleShot)
             {
@@ -35,11 +36,11 @@ public class BallSpawner : MonoBehaviour
 
     void ShootOneBall(Vector2 pos)
     {
-        GameObject ball = BallManager.Instance.GetBall();
+        GameObject ball = BallsHandler.Instance.GetBall();
         if (ball != null)
         {
             //ball.SetActive(true);
-            ball.GetComponent<BallController>().LaunchBall(pos);
+            ball.GetComponent<BallController>().Launch(pos);
         }
     }
 

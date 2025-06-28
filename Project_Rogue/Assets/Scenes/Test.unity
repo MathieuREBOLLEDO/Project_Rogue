@@ -404,7 +404,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 446047632}
-  - component: {fileID: 446047633}
+  - component: {fileID: 446047636}
   - component: {fileID: 446047634}
   - component: {fileID: 446047635}
   m_Layer: 0
@@ -429,35 +429,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1269828369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &446047633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446047631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e094591a58529b646b95e9487b6b32b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 1560229207743785726, guid: 40f58894cf72f0d4fb5681b7a2b5753b, type: 3}
-  poolSize: 20
-  OnAllBallsInactiveOrAtBottom:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 881323782}
-        m_TargetAssemblyTypeName: BrickLevelGenerator, Assembly-CSharp
-        m_MethodName: AddNewTopRow
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &446047634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,6 +444,9 @@ MonoBehaviour:
   fireMode: 1
   burstCount: 20
   burstDelay: 0.1
+  OnBallSpawned:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &446047635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +463,71 @@ MonoBehaviour:
   initSpeed: 5
   speedIncrease: 3
   increaseInterval: 10
+--- !u!114 &446047636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446047631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1abb233f4950ac2489c85c64cdbef957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnAllBallsInactiveOrAtBottom:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBallCheckTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSpeedIncreaseShouldStop:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 446047635}
+        m_TargetAssemblyTypeName: BallSettingsManager, Assembly-CSharp
+        m_MethodName: StopSpeedIncreaseLoop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnGameShouldResume:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameStateManagerWrapper, Assembly-CSharp
+        m_MethodName: ResumeGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnMachineTurnShouldStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2029653189}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartMachineTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ballPrefab: {fileID: 1560229207743785726, guid: 40f58894cf72f0d4fb5681b7a2b5753b, type: 3}
+  poolSize: 20
 --- !u!1 &881323780
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +572,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c3d3578875ba74a863fcae79dee29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useSeed: 0
+  seed: 0
+  linesToGenerate: 1
+  presetLinePool: []
   brickPrefab: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
   rows: 6
   columns: 10
@@ -709,11 +752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1129a3c0161584591034351808f37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 1
-  OnGameStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  CurrentTurnState: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

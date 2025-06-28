@@ -50,7 +50,7 @@ public class BallSettingsManager : MonoBehaviour
     {
         isSpeedIncreasing = true;
 
-        while (!BallManager.Instance.AllBallsInactiveOrAtBottom())
+        while (!BallsHandler.Instance.AllBallsInactiveOrAtBottom())
         {
             yield return new WaitForSeconds(increaseInterval);
             currentSpeed += speedIncrease;
