@@ -283,6 +283,15 @@ public class BrickLevelGenerator : MonoBehaviour
     private IRandomProvider randomProvider;
     private ILineGenerator lineGenerator;
 
+    private void OnEnable()
+    {
+        EventBus.OnGameStateChanged += HandleGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        EventBus.OnGameStateChanged -= HandleGameStateChanged;
+    }
     void Awake()
     {
         randomProvider = new SeededRandomProvider(useSeed ? seed : System.DateTime.Now.Millisecond);
@@ -300,6 +309,12 @@ public class BrickLevelGenerator : MonoBehaviour
         {
             AddProceduralLineAt(i);
         }
+    }
+
+    private void HandleGameStateChanged(GameState state)
+    {
+        //if (state == GameState.WaitingForBalls)
+            AddProceduralLineAt(0); // Ou tout autre logique selon l'état
     }
 
     void AddProceduralLineAt(int index)
