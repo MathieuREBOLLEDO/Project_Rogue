@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+    using UnityEngine;
+    using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
-{
+    public class InputManager : MonoBehaviour
+    {
     private PlayerControls playerControls;
 
     [Header("Trail")]
@@ -26,53 +26,21 @@ public class InputManager : MonoBehaviour
     {
 
 
-
-<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
-
-<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = true;
-=======
-<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = true;
->>>>>>> Après
-<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = true;
-=======
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = true;
->>>>>>> Après
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = true;
-
-=======
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = true;
->>>>>>> Après
-<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
-#endif
-    }
-=======
-#endif
-    }
->>>>>>> Après
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     UnityEditor.EditorApplication.isPlaying = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         UnityEngine.Cursor.visible = true;
-#endif
-}
+    #endif
+    }   
 
-private void OnEnable() => playerControls.Enable();
-private void OnDisable() => playerControls.Disable();
+    private void OnEnable() => playerControls.Enable();
+    private void OnDisable() => playerControls.Disable();
 
-#endregion
+    #endregion
 
-#region Touch
-private void TouchScreen(InputAction.CallbackContext context)
-{
+    #region Touch
+    private void TouchScreen(InputAction.CallbackContext context)
+    {
     if (context.started)
     {
         // if (GameManager.Instance.CurrentTurnState != TurnState.PlayerTurn)
@@ -83,7 +51,7 @@ private void TouchScreen(InputAction.CallbackContext context)
         OnTouchScreen.Invoke(screenPosition);
         Debug.Log("Input Pressed");
     }
-}
+    }
     #endregion
 
-}
+    }
