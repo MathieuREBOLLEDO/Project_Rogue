@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
+/*
 public class BrickLevelGenerator : MonoBehaviour
 {
+    
     #region Variables
     [Header("Procedural Generation")]
     public bool useSeed = false;
@@ -262,4 +262,95 @@ public class BrickLevelGenerator : MonoBehaviour
         Debug.Log("Preset exported to: " + path);
     }
     #endregion
+    
+
+
+}*/
+
+public class BrickLevelGenerator : MonoBehaviour
+{
+    [Header("Config")]
+    public bool useSeed = false;
+    public int seed = 0;
+    public int linesToGenerate = 1;
+
+    public List<WeightedLine> presetLinePool;
+    public GameObject brickPrefab;
+    public int rows = 6;
+    public int columns = 8;
+    public float spacing = 0.1f;
+
+    private IRandomProvider randomProvider;
+    private ILineGenerator lineGenerator;
+
+    void Awake()
+    {
+        randomProvider = new SeededRandomProvider(useSeed ? seed : System.DateTime.Now.Millisecond);
+        lineGenerator = new WeightedLineGenerator(presetLinePool, randomProvider);
+    }
+
+    void Start()
+    {
+        GenerateInitialBricks();
+    }
+
+    void GenerateInitialBricks()
+    {
+        for (int i = 0; i < linesToGenerate; i++)
+        {
+            AddProceduralLineAt(i);
+        }
+    }
+
+    void AddProceduralLineAt(int index)
+    {
+        float brickSize = GetBrickSize();
+        float startY = ScreenUtils.ScreenMax.y - brickSize / 2f - index * (brickSize + spacing);
+        float startX = ScreenUtils.ScreenMin.x + brickSize / 2f;
+
+        string line = lineGenerator.GenerateLine();
+
+        for (int col = 0; col < columns; col++)
+        {
+            int type = (col < line.Length) ? int.Parse(line[col].ToString()) : 0;
+            if (type == 0) continue;
+
+            float x = startX + col * (brickSize + spacing);
+            Vector3 pos = new Vector3(x, startY, 0);
+
+            GameObject brick = Instantiate(brickPrefab, pos, Quaternion.identity, transform);
+            brick.transform.localScale = new Vector3(brickSize, brickSize, 1f);
+            SetBrickType(brick, type);
+        }
+    }
+
+    float GetBrickSize()
+    {
+        Vector2 screenMin = ScreenUtils.ScreenMin;
+        Vector2 screenMax = ScreenUtils.ScreenMax;
+        float screenWidth = screenMax.x - screenMin.x;
+        float screenHeight = screenMax.y - screenMin.y;
+
+        float totalHSpacing = spacing * (columns - 1);
+        float totalVSpacing = spacing * (rows - 1);
+
+        float brickWidth = (screenWidth - totalHSpacing) / columns;
+        float brickHeight = (screenHeight - totalVSpacing) / rows;
+
+        return Mathf.Min(brickWidth, brickHeight);
+    }
+
+    void SetBrickType(GameObject brick, int type)
+    {
+        Color color = type switch
+        {
+            1 => Color.red,
+            2 => Color.green,
+            3 => Color.yellow,
+            _ => Color.white
+        };
+
+        if (brick.TryGetComponent(out SpriteRenderer sr))
+            sr.color = color;
+    }
 }

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 //[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 /*
@@ -107,7 +104,7 @@ public class BallController: MonoBehaviour
 public class BallController : MonoBehaviour, IBallLauncher
 {
     private IBallMovement ballMovement;
-   // private IRendererController rendererController;
+    // private IRendererController rendererController;
     private Vector2 direction;
     private bool isLaunched = false;
     public bool isInUse { get; private set; } = false;
@@ -115,8 +112,8 @@ public class BallController : MonoBehaviour, IBallLauncher
 
     void Awake()
     {
-       ballMovement = GetComponent<IBallMovement>();
-       // rendererController = GetComponent<IRendererController>();
+        ballMovement = GetComponent<IBallMovement>();
+        // rendererController = GetComponent<IRendererController>();
     }
 
     void Start()
@@ -146,7 +143,7 @@ public class BallController : MonoBehaviour, IBallLauncher
         Vector2 normal = collision.contacts[0].normal;
         direction = Vector2.Reflect(direction, normal);
         ballMovement.SetDirection(direction);
-        
+
         var triggerable = collision.gameObject.GetComponent<ITriggerable>();
         triggerable?.OnTriggered();
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +22,7 @@ public class BallsHandler : MonoBehaviour
     private List<GameObject> pool = new List<GameObject>();
 
     //public UnityEvent OnAllBallsInactiveOrAtBottom;
-    
+
 
     void Awake()
     {

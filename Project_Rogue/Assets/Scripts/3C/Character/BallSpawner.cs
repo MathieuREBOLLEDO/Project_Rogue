@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public enum FireMode
 {
@@ -20,7 +18,7 @@ public class BallSpawner : MonoBehaviour
         if (BallsHandler.Instance.AllBallsInactiveOrAtBottom())
         {
             EventBus.PublishGameStateChange(GameState.WaitingForBalls);
-           // GameManager.Instance.SetState(GameState.WaitingForBalls);
+            // GameManager.Instance.SetState(GameState.WaitingForBalls);
 
             if (fireMode == FireMode.SingleShot)
             {

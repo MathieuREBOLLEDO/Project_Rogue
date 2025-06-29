@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BallMovement : MonoBehaviour, IBallMovement
@@ -16,7 +15,7 @@ public class BallMovement : MonoBehaviour, IBallMovement
         radius = transform.localScale.x / 2f;
     }
 
-    public void SetDirection (Vector2 direction)
+    public void SetDirection(Vector2 direction)
     {
         currentDirection = direction.normalized;
     }
@@ -36,11 +35,11 @@ public class BallMovement : MonoBehaviour, IBallMovement
 
         if (touchedEdges.Count > 0)
         {
-            SetDirection( ScreenUtils.ReflectDirection(currentDirection, touchedEdges));
+            SetDirection(ScreenUtils.ReflectDirection(currentDirection, touchedEdges));
             pos = ScreenUtils.ClampToScreen(pos, radius);
         }
 
-    
+
 
         if (ScreenUtils.TouchesBottom(pos, radius))
         {

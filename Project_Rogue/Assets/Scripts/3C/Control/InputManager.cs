@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
@@ -21,39 +18,72 @@ public class InputManager : MonoBehaviour
         playerControls = new PlayerControls();
         playerControls.Touch.Press.started += TouchScreen;
         playerControls.Touch.Press.performed += TouchScreen;
-        playerControls.Touch.Press.canceled += TouchScreen;        
+        playerControls.Touch.Press.canceled += TouchScreen;
     }
-    
-    
+
+
     private void Start()
     {
 
+
+
+<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
+
+<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = true;
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-                UnityEngine.Cursor.visible = true;
-        #endif
+=======
+<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = true;
+>>>>>>> Après
+<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = true;
+=======
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = true;
+>>>>>>> Après
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = true;
+
+=======
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = true;
+>>>>>>> Après
+<<<<<<< TODO: Unmerged change from project 'Assembly-CSharp.Player', Avant :
+#endif
     }
+=======
+#endif
+    }
+>>>>>>> Après
+#if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = true;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.visible = true;
+#endif
+}
 
-    private void OnEnable()=> playerControls.Enable();
-    private void OnDisable() => playerControls.Disable();
+private void OnEnable() => playerControls.Enable();
+private void OnDisable() => playerControls.Disable();
 
-    #endregion
+#endregion
 
-    #region Touch
-    private void TouchScreen(InputAction.CallbackContext context)
+#region Touch
+private void TouchScreen(InputAction.CallbackContext context)
+{
+    if (context.started)
     {
-        if (context.started)
-        {
-           // if (GameManager.Instance.CurrentTurnState != TurnState.PlayerTurn)
-                //return;
+        // if (GameManager.Instance.CurrentTurnState != TurnState.PlayerTurn)
+        //return;
 
-            Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
-            screenPosition = ScreenUtils.ConvertScreenToWorld(screenPosition);
-            OnTouchScreen.Invoke(screenPosition);
-            Debug.Log("Input Pressed");
-        }
+        Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
+        screenPosition = ScreenUtils.ConvertScreenToWorld(screenPosition);
+        OnTouchScreen.Invoke(screenPosition);
+        Debug.Log("Input Pressed");
     }
+}
     #endregion
 
 }

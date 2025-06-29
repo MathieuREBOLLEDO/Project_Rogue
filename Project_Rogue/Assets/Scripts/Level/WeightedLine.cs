@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-[System.Serializable]
+﻿[System.Serializable]
 public class WeightedLine
 {
     public string line;  // ex: "12300100"
