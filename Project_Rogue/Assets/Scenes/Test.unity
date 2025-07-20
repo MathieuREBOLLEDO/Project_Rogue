@@ -571,14 +571,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useSeed: 0
   seed: 0
-  linesToGenerate: 1
-  presetLinePool: []
+  linesToGenerate: 5
+  presetLinePool:
+  - line: 11111111
+    weight: 0
   brickPrefab: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
   rows: 6
   columns: 10
   spacing: 0
-  presetFileName: Presets/test
-  usePreset: 0
 --- !u!1 &1169290081
 GameObject:
   m_ObjectHideFlags: 0
