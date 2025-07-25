@@ -13,13 +13,13 @@ public class MachineTurnState : ITurnState
 
     public void Enter()
     {
-        _gameStateManager.SetState(GameState.WaitingForBalls);
+        _gameStateManager.SetState(GameState.MachineTurn);
         _coroutineRunner.StartCoroutine(HandleMachineTurn());
     }
 
     public void Exit()
     {
-        Debug.Log("Machine turn ended.");
+        Debug.LogWarning("Machine turn ended.");
     }
 
     private IEnumerator HandleMachineTurn()

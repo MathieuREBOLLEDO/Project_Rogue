@@ -2,10 +2,20 @@ using UnityEngine;
 
 public class Bricks : MonoBehaviour, ITriggerable
 {
-    public void OnTriggered()
+    protected virtual void _NotifyTriggered()
+    {
+        _NotifyDestroy();
+    }
+
+    protected void _NotifyDestroy()
     {
         Destroy(gameObject);
-        //throw new System.NotImplementedException();
+    }
+
+
+    public void OnTriggered()
+    {
+        _NotifyTriggered();
     }
 
 }

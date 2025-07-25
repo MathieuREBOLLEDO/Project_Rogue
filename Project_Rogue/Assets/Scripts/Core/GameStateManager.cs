@@ -5,6 +5,8 @@ public enum GameState
     Menu,
     Playing,
     WaitingForBalls,
+    AllBallOnGround,
+    MachineTurn,
     Paused,
     GameOver
 }

@@ -51,12 +51,12 @@ public class BrickLevelGenerator : MonoBehaviour
     private void HandleGameStateChanged(GameState state)
     {
 
-        Debug.LogError (state.ToString ());
+        Debug.LogWarning(state.ToString ());
         if (state == lastState) return; // Ignore les états répétés
 
         lastState = state;
 
-        if (state == GameState.WaitingForBalls)
+        if (state == GameState.MachineTurn)
             AddProceduralLineAt();
     }
 
@@ -117,6 +117,7 @@ public class BrickLevelGenerator : MonoBehaviour
         };
 
         if (brick.TryGetComponent(out SpriteRenderer sr))
+            color.a = 0.2f;
             sr.color = color;
     }
 }
