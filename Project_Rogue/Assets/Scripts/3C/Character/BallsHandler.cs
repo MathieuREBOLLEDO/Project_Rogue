@@ -18,8 +18,6 @@ public class BallsHandler : MonoBehaviour
 
     private List<GameObject> pool = new List<GameObject>();
 
-    //public UnityEvent OnAllBallsInactiveOrAtBottom;
-
 
     void Awake()
     {
@@ -42,7 +40,6 @@ public class BallsHandler : MonoBehaviour
             OnMachineTurnShouldStart?.Invoke();
         }
     }
-
 
     public GameObject GetBall()
     {

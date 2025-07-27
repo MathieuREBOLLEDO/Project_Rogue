@@ -109,18 +109,4 @@ public class BrickLevelGenerator : MonoBehaviour
         return Mathf.Min(brickWidth, brickHeight);
     }
 
-    private void SetBrickType(GameObject brick, int type)
-    {
-        Color color = type switch
-        {
-            1 => Color.red,
-            2 => Color.green,
-            3 => Color.yellow,
-            _ => Color.white
-        };
-
-        if (brick.TryGetComponent(out SpriteRenderer sr))
-            sr.color = color;
-    }
-
 }

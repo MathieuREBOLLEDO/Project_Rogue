@@ -7,7 +7,6 @@ using TMPro;
 public class TextUpdater : MonoBehaviour
 {
     [SerializeField] TMPro.TextMeshPro displayText;
-
     public void UpdateText(int number)
     {
         displayText.text = number.ToString();

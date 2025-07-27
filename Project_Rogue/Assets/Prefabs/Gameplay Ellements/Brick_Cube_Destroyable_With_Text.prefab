@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8567904010348615801}
+  - component: {fileID: 1502581993232685274}
   - component: {fileID: 7190740001683082169}
   - component: {fileID: 4346729842559718048}
   m_Layer: 0
@@ -35,8 +36,21 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.7, y: 0.7}
+  m_SizeDelta: {x: 0.777, y: 0.777}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1502581993232685274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438882161646956224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda7faa159d1c2c449a87772db7d6ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: {fileID: 4346729842559718048}
 --- !u!23 &7190740001683082169
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -99,7 +113,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999999
+  m_text: 999
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -126,7 +140,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2.05
+  m_fontSize: 4
   m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -183,6 +197,14 @@ PrefabInstance:
       propertyPath: m_EdgeRadius
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 649072798414004861, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4190589760539196408, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4892723853623041575, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -193,6 +215,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4892723853623041575, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415870750578184926, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
@@ -261,6 +287,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
       insertIndex: 1
       addedObject: {fileID: 2694135878903829013}
+    - targetCorrespondingSourceObject: {fileID: 649072798414004861, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6204858855461042367}
   m_SourcePrefab: {fileID: 100100000, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
 --- !u!1 &948224414023238869 stripped
 GameObject:
@@ -279,6 +308,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb81f426dda079438aca660a08cf1f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NotifyInit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6204858855461042367}
+        m_TargetAssemblyTypeName: SpriteUpdater, Assembly-CSharp
+        m_MethodName: UpdateColor
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1502581993232685274}
+        m_TargetAssemblyTypeName: TextUpdater, Assembly-CSharp
+        m_MethodName: UpdateText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  NotifyTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6204858855461042367}
+        m_TargetAssemblyTypeName: SpriteUpdater, Assembly-CSharp
+        m_MethodName: UpdateColor
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1502581993232685274}
+        m_TargetAssemblyTypeName: TextUpdater, Assembly-CSharp
+        m_MethodName: UpdateText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  NotifyDestroy:
+    m_PersistentCalls:
+      m_Calls: []
   spriteRenderer: {fileID: 5315678590342793112}
 --- !u!4 &3441961309659325272 stripped
 Transform:
@@ -290,3 +376,20 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1995903058746504904, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
   m_PrefabInstance: {fileID: 5942441169844400464}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6590510660607447853 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 649072798414004861, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
+  m_PrefabInstance: {fileID: 5942441169844400464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6204858855461042367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590510660607447853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35fb4e1f989d07c4ea4aad0025bf6522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
