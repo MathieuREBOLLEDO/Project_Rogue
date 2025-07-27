@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditorInternal.VersionControl.ListControl;
 
@@ -85,9 +86,11 @@ public class BrickLevelGenerator : MonoBehaviour
             float x = startX + col * (brickSize + spacing);
             Vector3 pos = new Vector3(x, startY, 0);
 
-            GameObject brick = Instantiate(brickPrefab, pos, Quaternion.identity, transform);
-            brick.transform.localScale = new Vector3(brickSize, brickSize, 1f);
-            SetBrickType(brick, type);
+            GameObject brickGO = Instantiate(brickPrefab, pos, Quaternion.identity, transform);
+            brickGO.transform.localScale = new Vector3(brickSize, brickSize, 1f);
+
+            if (brickGO.TryGetComponent(out Bricks brck))
+                brck.Initialize(type);
         }
     }
     float GetBrickSize()
@@ -106,7 +109,7 @@ public class BrickLevelGenerator : MonoBehaviour
         return Mathf.Min(brickWidth, brickHeight);
     }
 
-    void SetBrickType(GameObject brick, int type)
+    private void SetBrickType(GameObject brick, int type)
     {
         Color color = type switch
         {
@@ -117,7 +120,7 @@ public class BrickLevelGenerator : MonoBehaviour
         };
 
         if (brick.TryGetComponent(out SpriteRenderer sr))
-            color.a = 0.2f;
             sr.color = color;
     }
+
 }

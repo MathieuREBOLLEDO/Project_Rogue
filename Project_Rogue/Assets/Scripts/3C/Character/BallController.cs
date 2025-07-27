@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEditor;
+using UnityEngine;
 
 public class BallController : MonoBehaviour, IBallLauncher
 {
@@ -38,7 +40,7 @@ public class BallController : MonoBehaviour, IBallLauncher
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
+    { 
         Vector2 normal = collision.contacts[0].normal;
         direction = Vector2.Reflect(direction, normal);
         ballMovement.SetDirection(direction);

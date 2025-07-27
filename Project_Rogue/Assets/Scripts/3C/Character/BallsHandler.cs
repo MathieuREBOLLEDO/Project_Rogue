@@ -7,10 +7,7 @@ public class BallsHandler : MonoBehaviour
     public static BallsHandler Instance;
 
     [Header("Unity Events")]
-    public UnityEvent OnAllBallsInactiveOrAtBottom;
-    public UnityEvent OnBallCheckTriggered;
 
-    // Nouveaux events :
     public UnityEvent OnSpeedIncreaseShouldStop;
     public UnityEvent OnGameShouldResume;
     public UnityEvent OnMachineTurnShouldStart;
@@ -38,14 +35,11 @@ public class BallsHandler : MonoBehaviour
 
     public void CheckAllBallsState()
     {
-        OnBallCheckTriggered.Invoke();
-
         if (AllBallsInactiveOrAtBottom())
         {
             OnSpeedIncreaseShouldStop?.Invoke();
             OnGameShouldResume?.Invoke();
             OnMachineTurnShouldStart?.Invoke();
-            OnAllBallsInactiveOrAtBottom?.Invoke();
         }
     }
 

@@ -472,24 +472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1abb233f4950ac2489c85c64cdbef957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAllBallsInactiveOrAtBottom:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 881323782}
-        m_TargetAssemblyTypeName: BrickLevelGenerator, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnBallCheckTriggered:
-    m_PersistentCalls:
-      m_Calls: []
   OnSpeedIncreaseShouldStop:
     m_PersistentCalls:
       m_Calls:
@@ -575,7 +557,7 @@ MonoBehaviour:
   presetLinePool:
   - line: 1111111111
     weight: 0
-  brickPrefab: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
+  brickPrefab: {fileID: 948224414023238869, guid: 5e499d9bb9222334ab96f3cd2dec6de0, type: 3}
   rows: 6
   columns: 10
   spacing: 0
@@ -623,7 +605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4138328cd90214f48b76453587f262a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleKey: 282
 --- !u!1 &1169290081
 GameObject:
   m_ObjectHideFlags: 0
