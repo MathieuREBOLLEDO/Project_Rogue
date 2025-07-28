@@ -287,6 +287,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
       insertIndex: 1
       addedObject: {fileID: 2694135878903829013}
+    - targetCorrespondingSourceObject: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 4414343829465219476}
     - targetCorrespondingSourceObject: {fileID: 649072798414004861, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
       insertIndex: 1
       addedObject: {fileID: 6204858855461042367}
@@ -364,8 +367,33 @@ MonoBehaviour:
         m_CallState: 2
   NotifyDestroy:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4414343829465219476}
+        m_TargetAssemblyTypeName: AddPoint, Assembly-CSharp
+        m_MethodName: AddToScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   spriteRenderer: {fileID: 5315678590342793112}
+--- !u!114 &4414343829465219476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948224414023238869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9357e51e705b34a93b1a6b1cc188a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreValue: 20
 --- !u!4 &3441961309659325272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9057732059075351048, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}

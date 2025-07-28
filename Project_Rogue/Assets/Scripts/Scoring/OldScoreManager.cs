@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour
+public class OldScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance;
+    public static OldScoreManager Instance;
 
     public int currentScore = 0;
     public Text scoreText;

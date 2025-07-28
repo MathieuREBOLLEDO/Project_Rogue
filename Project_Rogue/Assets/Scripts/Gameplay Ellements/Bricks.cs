@@ -16,7 +16,7 @@ public class Bricks : MonoBehaviour, ITriggerable
     {
         this.type = type;
         ApplyType();
-        NotifyInit?.Invoke(numberOfLifePoint);
+        NotifyInit?.Invoke(numberOfLifePoint); // TO DO => change numberOfLifePoint by Type
         name = gameObject.name + type.ToString();
 
     }
