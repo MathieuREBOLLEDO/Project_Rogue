@@ -47,25 +47,7 @@ public class BallSpawner : MonoBehaviour
             BallSettingsManager.Instance.StartSpeedIncreaseLoop();
         }
 
-
-            /*
-
-            if (BallsHandler.Instance.vnosnInactiveOrAtBottom())
-            {
-                EventBus.PublishGameStateChange(GameState.WaitingForBalls);
-                // GameManager.Instance.SetState(GameState.WaitingForBalls);
-
-                if (fireMode == FireMode.SingleShot)
-                {
-                    ShootOneBall(pos);
-                }
-                else if (fireMode == FireMode.Burst)
-                {
-                    StartCoroutine(FireBurst(pos));
-                }
-                BallSettingsManager.Instance.StartSpeedIncreaseLoop();
-            }*/
-        }
+    }
 
     void ShootOneBall(Vector2 pos)
     {

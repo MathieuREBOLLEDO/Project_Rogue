@@ -4,8 +4,6 @@ public class BallSettingsManager : MonoBehaviour
 {
     public static BallSettingsManager Instance;
 
-    
-
     [Header("Ball Speed Settings")]
     public float currentSpeed = 5f;
     public float initSpeed = 5f;
@@ -14,8 +12,6 @@ public class BallSettingsManager : MonoBehaviour
     public float increaseInterval = 10f;
 
     private bool isSpeedIncreasing = false;
-
-   
 
     void Awake()
     {

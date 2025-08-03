@@ -53,6 +53,9 @@ public class AngleVisualizer : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
+        GetComponent<MeshRenderer>().material.color = debugColor;
+
+        //GetComponent<MeshRenderer>().GetMaterials[0].albedo = debugColor;
     }
 
     void OnDrawGizmosSelected()
