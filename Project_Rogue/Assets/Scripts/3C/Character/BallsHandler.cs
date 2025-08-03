@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,6 +6,8 @@ using UnityEngine.Events;
 public class BallsHandler : MonoBehaviour
 {
     public static BallsHandler Instance;
+
+    [SerializeField] private GameObject AverrageBallsLocations;
 
     [Header("Unity Events")]
 
@@ -16,19 +19,39 @@ public class BallsHandler : MonoBehaviour
     public GameObject ballPrefab;
     public int poolSize = 20;
 
-    private List<GameObject> pool = new List<GameObject>();
+    private List<GameObject> allBalls = new List<GameObject>();
+
+    public float lerpDuration = 0.75f;
+
+    private float screenMin;
+
 
 
     void Awake()
     {
-        Instance = this;
+        screenMin = ScreenUtils.ScreenMin.y;
+        GlobalBallVariables.SetBallSize(ballPrefab.transform.localScale.x / 2);
+
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        
+        InitLaunchPosition();
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject obj = Instantiate(ballPrefab, this.transform);
-            //obj.SetActive(false);
-            pool.Add(obj);
-        }
+            GameObject obj = Instantiate(ballPrefab, AverrageBallsLocations.transform.position, Quaternion.identity, this.transform);
 
+            allBalls.Add(obj);
+        }
+    }
+    public void InitLaunchPosition()
+    {
+        AverrageBallsLocations.transform.position = new Vector3(0f, screenMin + GlobalBallVariables.ballSize, 0);
     }
 
     public void CheckAllBallsState()
@@ -43,7 +66,7 @@ public class BallsHandler : MonoBehaviour
 
     public GameObject GetBall()
     {
-        foreach (GameObject ball in pool)
+        foreach (GameObject ball in allBalls)
         {
             BallController bc = ball.GetComponent<BallController>();
             if (!bc.isInUse)
@@ -53,19 +76,59 @@ public class BallsHandler : MonoBehaviour
         }
 
         GameObject newBall = Instantiate(ballPrefab, this.transform);
-        pool.Add(newBall);
+        allBalls.Add(newBall);
         return newBall;
     }
 
     public List<GameObject> GetAllBalls()
     {
-        return pool;
+        return allBalls;
     }
 
 
+    public void EndTurn()
+    {
+        Vector3 avgPosition = GetAverageBallPosition(allBalls);
+
+        foreach (var ball in allBalls)
+        {
+            StartCoroutine(LerpToPosition(ball.transform, avgPosition, lerpDuration));
+        }
+
+        AverrageBallsLocations.transform.position = avgPosition;
+    }
+
+    Vector3 GetAverageBallPosition(List<GameObject> balls)
+    {
+        Vector3 total = Vector3.zero;
+
+        foreach (var ball in balls)
+        {
+            total += ball.transform.position;
+        }
+
+        return total / balls.Count;
+    }
+
+    IEnumerator LerpToPosition(Transform ballTransform, Vector3 targetPos, float duration)
+    {
+        Vector3 start = ballTransform.position;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            float t = time / duration;
+            ballTransform.position = Vector3.Lerp(start, targetPos, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        ballTransform.position = targetPos;
+    }
+
     public bool AllBallsInactiveOrAtBottom()
     {
-        foreach (GameObject ball in pool)
+        foreach (GameObject ball in allBalls)
         {
             BallController bc = ball.GetComponent<BallController>();
             if (bc.isInUse && !bc.hasTouchedBottom)

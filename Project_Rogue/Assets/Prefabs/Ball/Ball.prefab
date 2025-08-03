@@ -188,5 +188,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083647adc9a20dd4889bf61d40ff7382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gizmoLength: 1
-  showLabels: 1
+  gizmoLength: 0.5
+  showLabels: 0

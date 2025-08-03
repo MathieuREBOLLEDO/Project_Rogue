@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda7faa159d1c2c449a87772db7d6ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayText: {fileID: 4346729842559718048}
 --- !u!23 &7190740001683082169
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -354,7 +353,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1502581993232685274}
-        m_TargetAssemblyTypeName: TextUpdater, Assembly-CSharp
+        m_TargetAssemblyTypeName: TextUpdaterForObject, Assembly-CSharp
         m_MethodName: UpdateText
         m_Mode: 0
         m_Arguments:

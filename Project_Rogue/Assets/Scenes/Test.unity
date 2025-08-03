@@ -554,6 +554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 446047632}
+  - component: {fileID: 446047637}
   - component: {fileID: 446047636}
   - component: {fileID: 446047634}
   - component: {fileID: 446047635}
@@ -576,7 +577,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1919124577}
   m_Father: {fileID: 1269828369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &446047634
@@ -591,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2dc9e9bab4d794d95fe595005dd1e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  averrageBallLocation: {fileID: 1919124576}
   fireMode: 1
   burstCount: 20
   burstDelay: 0.1
@@ -622,6 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1abb233f4950ac2489c85c64cdbef957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AverrageBallsLocations: {fileID: 1919124576}
   OnSpeedIncreaseShouldStop:
     m_PersistentCalls:
       m_Calls:
@@ -655,8 +659,47 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2029653189}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartMachineTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 446047636}
+        m_TargetAssemblyTypeName: BallsHandler, Assembly-CSharp
+        m_MethodName: EndTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ballPrefab: {fileID: 1560229207743785726, guid: 40f58894cf72f0d4fb5681b7a2b5753b, type: 3}
   poolSize: 20
+  lerpDuration: 1.5
+--- !u!114 &446047637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446047631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 083647adc9a20dd4889bf61d40ff7382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmoLength: 2
+  showLabels: 1
 --- !u!1 &585631331
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,10 +1019,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 802917306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fda7faa159d1c2c449a87772db7d6ad1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1db6e3fdddf342b41acf4b7d6082abd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayText: {fileID: 0}
 --- !u!1 &818613190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,6 +1066,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f09dd3e373a9846bae6aed1b1ba512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnUpdateScore:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 802917310}
+        m_TargetAssemblyTypeName: TextUpdaterForCanvas, Assembly-CSharp
+        m_MethodName: UpdateText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &881323780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,6 +1809,120 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!1 &1919124576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1919124577}
+  - component: {fileID: 1919124580}
+  - component: {fileID: 1919124579}
+  - component: {fileID: 1919124578}
+  - component: {fileID: 1919124581}
+  m_Layer: 0
+  m_Name: AverrageBallLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1919124577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919124576}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 446047632}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1919124578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919124576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c306216059a5d8489ad5b309e43a8d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
+  segmentCount: 30
+  debugColor: {r: 1, g: 1, b: 0, a: 0.3}
+--- !u!23 &1919124579
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919124576}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1919124580
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919124576}
+  m_Mesh: {fileID: 0}
+--- !u!114 &1919124581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919124576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 083647adc9a20dd4889bf61d40ff7382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmoLength: 1
+  showLabels: 1
 --- !u!1 &2029653187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,6 +1967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1129a3c0161584591034351808f37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnMachineTurnEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

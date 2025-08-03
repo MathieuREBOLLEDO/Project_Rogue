@@ -15,7 +15,19 @@ public class Bricks : MonoBehaviour, ITriggerable
     public void Initialize(int type)
     {
         this.type = type;
-        ApplyType();
+        //ApplyType();
+        int hits = type switch
+        {
+            1 => 20,
+            2 => 10,
+            3 => 25,
+            4 => 50,
+            5 => 100,
+
+            _ => 0,
+        };
+        numberOfLifePoint = hits;
+
         NotifyInit?.Invoke(numberOfLifePoint); // TO DO => change numberOfLifePoint by Type
         name = gameObject.name + type.ToString();
 

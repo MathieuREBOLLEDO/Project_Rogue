@@ -12,6 +12,7 @@ public class BallMovement : MonoBehaviour, IBallMovement
     void Awake()
     {
         screenMin = ScreenUtils.ScreenMin;
+        //GlobalBallVariables.SetBallSize(transform.localScale.x / 2);
         radius = transform.localScale.x / 2f;
     }
 
@@ -22,7 +23,9 @@ public class BallMovement : MonoBehaviour, IBallMovement
 
     public void InitPosition()
     {
-        transform.position = new Vector3(0f, screenMin.y + radius + 0.2f, 0f);
+        //BallSettingsManager.Instance.transform.position = new Vector3(0)
+        //transform.position = BallSettingsManager.Instance.transform.position;
+        //transform.position = new Vector3(0f, screenMin.y + radius,0);// + 0.2f, 0f);
     }
 
     public void Move()

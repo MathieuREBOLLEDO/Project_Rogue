@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    public UnityEvent OnMachineTurnEnd;
 
     private IGameStateManager _gameStateManager;
     private ITurnState _playerTurn;
@@ -36,6 +39,12 @@ public class GameManager : MonoBehaviour
         _currentTurn?.Exit();
         _currentTurn = _machineTurn;
         _currentTurn.Enter();
+    }
+
+    public void NotifyMachineTurnEnd()
+    {
+        OnMachineTurnEnd?.Invoke();
+        StartPlayerTurn();
     }
 }
 

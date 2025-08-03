@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class TextUpdater : MonoBehaviour
+
+public class TextUpdaterForCanvas : MonoBehaviour
 {
-    [SerializeField] TMPro.TextMeshPro displayText;
+    TMPro.TextMeshProUGUI displayText;
+
+    private void Start()
+    {
+        displayText = GetComponent<TMPro.TextMeshProUGUI>();
+    }
+
     public void UpdateText(int number)
     {
         displayText.text = number.ToString();

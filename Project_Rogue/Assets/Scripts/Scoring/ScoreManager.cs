@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class ScoreManager : MonoBehaviour
 
     private int currentRoundScore = 0;   // Score temporaire du tour
     private int totalScore = 0;          // Score final cumulé
+
+    public IntEvent OnUpdateScore;
 
     private void Awake()
     {
@@ -26,6 +29,7 @@ public class ScoreManager : MonoBehaviour
     {
         currentRoundScore += scoreValue;
         Debug.Log($"Score temporaire : {currentRoundScore}");
+        OnUpdateScore?.Invoke(scoreValue);
     }
 
     /// <summary>
