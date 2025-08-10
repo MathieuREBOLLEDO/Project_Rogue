@@ -6,9 +6,14 @@ public class Bricks : MonoBehaviour, ITriggerable
     private int type;
     private int numberOfLifePoint;
     [SerializeField] private int numberOfPoint_GainOnHit = 1;
+    [SerializeField] private int numberOfPoint_GainOnDestroy = 20;
 
+    [Header ("Int Events")]
     public IntEvent NotifyInit;
-    public IntEvent NotifyTriggered;
+    public IntEvent NotifyPointGains;
+    public IntEvent NotifyLifeLost;
+
+    [Header ("Unity Events")]
     public UnityEvent NotifyDestroy; 
 
     [SerializeField] SpriteRenderer spriteRenderer;
@@ -42,11 +47,13 @@ public class Bricks : MonoBehaviour, ITriggerable
         if(CheckForDestroy())
                 DestroyEvent();
         else
-            NotifyTriggered?.Invoke(numberOfLifePoint);       
+            NotifyPointGains?.Invoke(numberOfPoint_GainOnHit);
+        
     }
 
     protected void DestroyEvent()
     {
+        NotifyPointGains?.Invoke(numberOfPoint_GainOnDestroy);
         NotifyDestroy?.Invoke();
         Destroy(gameObject);
     }
@@ -54,6 +61,7 @@ public class Bricks : MonoBehaviour, ITriggerable
     private void UpdatelifePoint(int damage)
     {
         numberOfLifePoint -= damage;
+        NotifyLifeLost?.Invoke(numberOfLifePoint);
     }
 
     private bool CheckForDestroy()

@@ -40,9 +40,9 @@ public class ScoreManager : MonoBehaviour
     public void ValidateRoundScore()
     {
         totalScore += currentRoundScore;
-        OnUpdateTotalScore?.Invoke(totalScore);
         currentRoundScore = 0;
         Debug.Log($"Score total : {totalScore}");
+        OnUpdateTotalScore?.Invoke(totalScore);
     }
 
     public int GetTotalScore()

@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class AddPoint : MonoBehaviour
 {
-    public int scoreValue = 10;  // Points pour cette caisse
-
-    public void AddToScore()
-    {
-     // On ajoute le score
-        if (ScoreManager.Instance != null)
-            ScoreManager.Instance.AddScoreTemp(scoreValue);
-    }
-
     public void AddToScore(int point)
     {
         if (ScoreManager.Instance != null)
