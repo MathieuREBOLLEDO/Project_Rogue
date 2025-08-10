@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -244,13 +244,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trail: {fileID: 0}
+  cancelZone: {fileID: 0}
   OnTouchScreen:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 446047634}
         m_TargetAssemblyTypeName: BallSpawner, Assembly-CSharp
-        m_MethodName: TryShootBall
-        m_Mode: 0
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -271,6 +272,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 446047634}
+        m_TargetAssemblyTypeName: BallSpawner, Assembly-CSharp
+        m_MethodName: TryShootBall
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnCancel:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &177369097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &284832505
 Light:
   m_ObjectHideFlags: 0
@@ -626,63 +645,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AverrageBallsLocations: {fileID: 1919124576}
-  OnSpeedIncreaseShouldStop:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 446047635}
-        m_TargetAssemblyTypeName: BallSettingsManager, Assembly-CSharp
-        m_MethodName: StopSpeedIncreaseLoop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnGameShouldResume:
+  _NotifyPlayerTurnEnd:
     m_PersistentCalls:
       m_Calls: []
-  OnMachineTurnShouldStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2029653189}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartMachineTurn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2029653189}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartMachineTurn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 446047636}
-        m_TargetAssemblyTypeName: BallsHandler, Assembly-CSharp
-        m_MethodName: EndTurn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   ballPrefab: {fileID: 1560229207743785726, guid: 40f58894cf72f0d4fb5681b7a2b5753b, type: 3}
   poolSize: 20
   lerpDuration: 1.5
@@ -1066,7 +1031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f09dd3e373a9846bae6aed1b1ba512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnUpdateScore:
+  OnInitScore:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 802917310}
@@ -1081,6 +1046,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnUpdateRoundScore:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 802917310}
+        m_TargetAssemblyTypeName: TextUpdaterForCanvas, Assembly-CSharp
+        m_MethodName: UpdateText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnUpdateTotalScore:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &881323780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,6 +1950,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1129a3c0161584591034351808f37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPlayerTurnStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerTurnEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 446047635}
+        m_TargetAssemblyTypeName: BallSettingsManager, Assembly-CSharp
+        m_MethodName: StopSpeedIncreaseLoop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBallsTurnStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBallsTurnEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMachineTurnStart:
+    m_PersistentCalls:
+      m_Calls: []
   OnMachineTurnEnd:
     m_PersistentCalls:
       m_Calls: []

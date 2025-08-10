@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +11,10 @@ public class ScoreManager : MonoBehaviour
     private int currentRoundScore = 0;   // Score temporaire du tour
     private int totalScore = 0;          // Score final cumulé
 
-    public IntEvent OnUpdateScore;
+    
+    public IntEvent OnInitScore;
+    public IntEvent OnUpdateRoundScore;
+    public IntEvent OnUpdateTotalScore;
 
     private void Awake()
     {
@@ -21,30 +25,26 @@ public class ScoreManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    /// <summary>
-    /// Appelé quand un objet destructible est détruit.
-    /// </summary>
-    /// <param name="scoreValue">Valeur en points de l'objet détruit</param>
+    private void Start()
+    {
+        OnInitScore?.Invoke(0);
+    }
+
     public void AddScoreTemp(int scoreValue)
     {
         currentRoundScore += scoreValue;
         Debug.Log($"Score temporaire : {currentRoundScore}");
-        OnUpdateScore?.Invoke(scoreValue);
+        OnUpdateRoundScore?.Invoke(currentRoundScore);
     }
 
-    /// <summary>
-    /// Transfère le score temporaire au score final (fin de tour).
-    /// </summary>
     public void ValidateRoundScore()
     {
         totalScore += currentRoundScore;
+        OnUpdateTotalScore?.Invoke(totalScore);
         currentRoundScore = 0;
         Debug.Log($"Score total : {totalScore}");
     }
 
-    /// <summary>
-    /// Récupérer le score total actuel.
-    /// </summary>
     public int GetTotalScore()
     {
         return totalScore;

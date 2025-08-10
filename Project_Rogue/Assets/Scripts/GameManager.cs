@@ -5,7 +5,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public UnityEvent OnPlayerTurnStart;
+    public UnityEvent OnPlayerTurnEnd;
+
+    public UnityEvent OnBallsTurnStart;
+    public UnityEvent OnBallsTurnEnd;
+
+    public UnityEvent OnMachineTurnStart;
     public UnityEvent OnMachineTurnEnd;
+    
 
     private IGameStateManager _gameStateManager;
     private ITurnState _playerTurn;
@@ -31,13 +39,22 @@ public class GameManager : MonoBehaviour
     {
         _currentTurn?.Exit();
         _currentTurn = _playerTurn;
+        OnPlayerTurnStart?.Invoke();
         _currentTurn.Enter();
     }
+
+    public void NotifyPlayerTurnEnd()
+    {
+        OnPlayerTurnEnd?.Invoke();
+        StartMachineTurn();
+    }
+
 
     public void StartMachineTurn()
     {
         _currentTurn?.Exit();
         _currentTurn = _machineTurn;
+        OnMachineTurnStart?.Invoke();
         _currentTurn.Enter();
     }
 

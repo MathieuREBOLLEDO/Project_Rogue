@@ -5,6 +5,7 @@ public class Bricks : MonoBehaviour, ITriggerable
 {
     private int type;
     private int numberOfLifePoint;
+    [SerializeField] private int numberOfPoint_GainOnHit = 1;
 
     public IntEvent NotifyInit;
     public IntEvent NotifyTriggered;

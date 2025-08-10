@@ -11,9 +11,7 @@ public class BallsHandler : MonoBehaviour
 
     [Header("Unity Events")]
 
-    public UnityEvent OnSpeedIncreaseShouldStop;
-    public UnityEvent OnGameShouldResume;
-    public UnityEvent OnMachineTurnShouldStart;
+    public UnityEvent _NotifyPlayerTurnEnd;
 
 
     public GameObject ballPrefab;
@@ -39,13 +37,11 @@ public class BallsHandler : MonoBehaviour
     }
 
     private void Start()
-    {
-        
+    {        
         InitLaunchPosition();
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = Instantiate(ballPrefab, AverrageBallsLocations.transform.position, Quaternion.identity, this.transform);
-
             allBalls.Add(obj);
         }
     }
@@ -58,9 +54,8 @@ public class BallsHandler : MonoBehaviour
     {
         if (AllBallsInactiveOrAtBottom())
         {
-            OnSpeedIncreaseShouldStop?.Invoke();
-            OnGameShouldResume?.Invoke();
-            OnMachineTurnShouldStart?.Invoke();
+            MoveBallToAverragePosition();
+            GameManager.Instance.NotifyPlayerTurnEnd();
         }
     }
 
@@ -85,16 +80,13 @@ public class BallsHandler : MonoBehaviour
         return allBalls;
     }
 
-
-    public void EndTurn()
+    public void MoveBallToAverragePosition()
     {
         Vector3 avgPosition = GetAverageBallPosition(allBalls);
-
         foreach (var ball in allBalls)
         {
             StartCoroutine(LerpToPosition(ball.transform, avgPosition, lerpDuration));
         }
-
         AverrageBallsLocations.transform.position = avgPosition;
     }
 
@@ -132,9 +124,7 @@ public class BallsHandler : MonoBehaviour
         {
             BallController bc = ball.GetComponent<BallController>();
             if (bc.isInUse && !bc.hasTouchedBottom)
-            {
                 return false;
-            }
         }
         return true;
     }

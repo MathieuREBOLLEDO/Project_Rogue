@@ -12,4 +12,10 @@ public class AddPoint : MonoBehaviour
         if (ScoreManager.Instance != null)
             ScoreManager.Instance.AddScoreTemp(scoreValue);
     }
+
+    public void AddToScore(int point)
+    {
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.AddScoreTemp(point);
+    }
 }
