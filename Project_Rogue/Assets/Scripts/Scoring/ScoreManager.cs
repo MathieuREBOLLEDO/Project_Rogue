@@ -39,11 +39,31 @@ public class ScoreManager : MonoBehaviour
 
     public void ValidateRoundScore()
     {
-        totalScore += currentRoundScore;
-        currentRoundScore = 0;
-        Debug.Log($"Score total : {totalScore}");
-        OnUpdateTotalScore?.Invoke(totalScore);
+        StartCoroutine(UpdateTotalNumber());
+
+
+        //totalScore += currentRoundScore;
+        //currentRoundScore = 0;
+        //Debug.Log($"Score total : {totalScore}");
+        //OnUpdateTotalScore?.Invoke(totalScore);
     }
+
+    private IEnumerator UpdateTotalNumber()
+    {
+        int sourceScore = totalScore;
+        int destinationScore = totalScore + currentRoundScore;
+        while (sourceScore < destinationScore)
+        {
+            sourceScore++;
+            currentRoundScore --;
+            totalScore++;
+            OnUpdateRoundScore?.Invoke(currentRoundScore);
+            OnUpdateTotalScore?.Invoke(totalScore);
+            yield return new WaitForFixedUpdate(); 
+        }
+        //yield return new WaitForSeconds(0.2f);
+    }
+
 
     public int GetTotalScore()
     {
