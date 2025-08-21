@@ -53,8 +53,8 @@ public class InputManager : MonoBehaviour
             isAiming = true;
             isCanceled = false;
 
-            trail.SetActive(true);
-            trail.transform.position = worldPosition;
+            //trail.SetActive(true);
+            //trail.transform.position = worldPosition;
 
             OnTouchScreen?.Invoke(worldPosition);
             Debug.Log("Input Started");
@@ -79,23 +79,23 @@ public class InputManager : MonoBehaviour
             }
 
             isAiming = false;
-            trail.SetActive(false);
+            //trail.SetActive(false);
         }
     }
 
     private void UpdateTouchPosition(Vector2 worldPos)
     {
-        trail.transform.position = worldPos;
+        //trail.transform.position = worldPos;
 
         // Si tu as un cancel zone, tu peux vérifier si le doigt est dedans
-        if (cancelZone != null)
-        {
-            Vector2 cancelZoneScreenPos = Camera.main.WorldToScreenPoint(cancelZone.transform.position);
-            Rect cancelRect = new Rect(cancelZoneScreenPos - new Vector2(50, 50), new Vector2(100, 100)); // zone de 100x100px
-
-            Vector2 currentScreenPos = playerControls.Touch.Position.ReadValue<Vector2>();
-            isCanceled = cancelRect.Contains(currentScreenPos);
-        }
+        //if (cancelZone != null)
+        //{
+        //    Vector2 cancelZoneScreenPos = Camera.main.WorldToScreenPoint(cancelZone.transform.position);
+        //    Rect cancelRect = new Rect(cancelZoneScreenPos - new Vector2(50, 50), new Vector2(100, 100)); // zone de 100x100px
+        //
+        //    Vector2 currentScreenPos = playerControls.Touch.Position.ReadValue<Vector2>();
+        //    isCanceled = cancelRect.Contains(currentScreenPos);
+        //}
     }
 
     #endregion
