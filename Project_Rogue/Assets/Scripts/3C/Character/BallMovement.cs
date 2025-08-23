@@ -32,8 +32,6 @@ public class BallMovement : MonoBehaviour, IBallMovement
     {
         float speed = BallSettingsManager.Instance.GetBallSpeed();
         Vector3 pos = transform.position + (Vector3)(currentDirection * speed * Time.deltaTime);
-
-
         List<ScreenBounds> touchedEdges = ScreenUtils.GetTouchedEdges(pos, radius);
 
         if (touchedEdges.Count > 0)
@@ -41,15 +39,11 @@ public class BallMovement : MonoBehaviour, IBallMovement
             SetDirection(ScreenUtils.ReflectDirection(currentDirection, touchedEdges));
             pos = ScreenUtils.ClampToScreen(pos, radius);
         }
-
-
-
         if (ScreenUtils.TouchesBottom(pos, radius))
         {
             GetComponent<BallController>().ResetBall();
             return;
         }
-
         transform.position = pos;
     }
 

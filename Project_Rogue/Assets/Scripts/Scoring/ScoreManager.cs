@@ -33,7 +33,7 @@ public class ScoreManager : MonoBehaviour
     public void AddScoreTemp(int scoreValue)
     {
         currentRoundScore += scoreValue;
-        Debug.Log($"Score temporaire : {currentRoundScore}");
+        //Debug.Log($"Score temporaire : {currentRoundScore}");
         OnUpdateRoundScore?.Invoke(currentRoundScore);
     }
 
@@ -59,6 +59,7 @@ public class ScoreManager : MonoBehaviour
             totalScore++;
             OnUpdateRoundScore?.Invoke(currentRoundScore);
             OnUpdateTotalScore?.Invoke(totalScore);
+            //Debug.LogWarning("Total Score  : " + totalScore + " | CurrentTmpScore : " + currentRoundScore);
             yield return new WaitForFixedUpdate(); 
         }
         //yield return new WaitForSeconds(0.2f);

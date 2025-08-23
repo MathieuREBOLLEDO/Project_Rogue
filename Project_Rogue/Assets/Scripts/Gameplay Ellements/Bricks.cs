@@ -70,34 +70,4 @@ public class Bricks : MonoBehaviour, ITriggerable
             return true;
         else return false;
     }
-
-
-
-    private void ApplyType()
-    {
-        /*
-        Color color = type switch
-        {
-            1 => Color.green,
-            2 => Color.yellow,
-            3 => Color.blue,
-            4 => Color.magenta,
-            5 => Color.red,
-            _ => Color.white
-        };
-        spriteRenderer.color = color;
-        */
-
-        int hits = type switch
-        {
-            1 => 20,
-            2 => 10,
-            3 => 25,
-            4 => 50,
-            5 => 100,
-
-            _ => 0,
-        };
-        numberOfLifePoint = hits;
-    }
 }

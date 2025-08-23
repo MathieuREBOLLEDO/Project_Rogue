@@ -8,12 +8,12 @@ public class BrickLevelGenerator : MonoBehaviour
     [Header("Config")]
     public bool useSeed = false;
     public int seed = 0;
-    public int linesToGenerate = 1;
+    public int rows = 4;
+    public int columns = 8;
 
     public List<WeightedLine> presetLinePool;
     public GameObject brickPrefab;
-    public int rows = 6;
-    public int columns = 8;
+
     public float spacing = 0.1f;
 
     private IRandomProvider randomProvider;
@@ -21,15 +21,9 @@ public class BrickLevelGenerator : MonoBehaviour
 
     GameState lastState;
 
-    private void OnEnable()
-    {
-        EventBus.OnGameStateChanged += HandleGameStateChanged;
-    }
+    private void OnEnable() => EventBus.OnGameStateChanged += HandleGameStateChanged;
+    private void OnDisable() => EventBus.OnGameStateChanged -= HandleGameStateChanged;
 
-    private void OnDisable()
-    {
-        EventBus.OnGameStateChanged -= HandleGameStateChanged;
-    }
     void Awake()
     {
         randomProvider = new SeededRandomProvider(useSeed ? seed : System.DateTime.Now.Millisecond);
@@ -43,10 +37,8 @@ public class BrickLevelGenerator : MonoBehaviour
 
     void GenerateInitialBricks()
     {
-        for (int i = 0; i < linesToGenerate; i++)
-        {
+        for (int i = 0; i < rows; i++)
             AddProceduralLineAt();
-        }
     }
 
     private void HandleGameStateChanged(GameState state)
@@ -68,9 +60,7 @@ public class BrickLevelGenerator : MonoBehaviour
 
         // Déplace toutes les briques existantes vers le bas
         foreach (Transform child in transform)
-        {
             child.position -= new Vector3(0, verticalOffset, 0);
-        }
 
         // Calcul de la position Y pour la nouvelle ligne
         float startY = ScreenUtils.ScreenMax.y - brickSize / 2f;
@@ -93,6 +83,7 @@ public class BrickLevelGenerator : MonoBehaviour
                 brck.Initialize(type);
         }
     }
+
     float GetBrickSize()
     {
         Vector2 screenMin = ScreenUtils.ScreenMin;

@@ -8,13 +8,8 @@ public class TextUpdaterForCanvas : MonoBehaviour
 {
     TMPro.TextMeshProUGUI displayText;
 
-    private void Awake()
-    {
+    private void Awake() =>
         displayText = GetComponent<TMPro.TextMeshProUGUI>();
-    }
-
-    public void UpdateText(int number)
-    {
+    public void UpdateText(int number) => 
         displayText.text = number.ToString();
-    }
 }

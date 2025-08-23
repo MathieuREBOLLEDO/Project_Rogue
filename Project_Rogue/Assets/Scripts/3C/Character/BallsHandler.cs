@@ -7,27 +7,18 @@ public class BallsHandler : MonoBehaviour
 {
     public static BallsHandler Instance;
 
-    [SerializeField] private GameObject AverrageBallsLocations;
-
-    [Header("Unity Events")]
-
-    public UnityEvent _NotifyPlayerTurnEnd;
-
-
-    public GameObject ballPrefab;
-    public int poolSize = 20;
-
+    [Header("Ball Datas")]
+    [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private int poolSize = 20;
     private List<GameObject> allBalls = new List<GameObject>();
 
-    public float lerpDuration = 0.75f;
-
-    private float screenMin;
-
+    [Header("Spawner")]
+    [SerializeField] private GameObject AverrageBallsLocations;
+    [SerializeField] private float lerpDuration = 0.75f;
 
 
     void Awake()
     {
-        screenMin = ScreenUtils.ScreenMin.y;
         GlobalBallVariables.SetBallSize(ballPrefab.transform.localScale.x / 2);
 
         if (Instance == null)
@@ -45,10 +36,12 @@ public class BallsHandler : MonoBehaviour
             allBalls.Add(obj);
         }
     }
-    public void InitLaunchPosition()
-    {
-        AverrageBallsLocations.transform.position = new Vector3(0f, screenMin + GlobalBallVariables.ballSize, 0);
-    }
+    public void InitLaunchPosition() =>
+        AverrageBallsLocations.transform.position = new Vector3(
+            0f,
+            ScreenUtils.ScreenMin.y + GlobalBallVariables.ballSize,
+            0);
+    
 
     public void CheckAllBallsState()
     {
@@ -80,25 +73,34 @@ public class BallsHandler : MonoBehaviour
         return allBalls;
     }
 
+    public bool AllBallsInactiveOrAtBottom()
+    {
+        foreach (GameObject ball in allBalls)
+        {
+            BallController bc = ball.GetComponent<BallController>();
+            if (bc.isInUse && !bc.hasTouchedBottom)
+                return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    ///  TO DO move all datas link to average position to another scripts -> maybe (Move ball)
+    /// </summary>
+
     public void MoveBallToAverragePosition()
     {
         Vector3 avgPosition = GetAverageBallPosition(allBalls);
         foreach (var ball in allBalls)
-        {
             StartCoroutine(LerpToPosition(ball.transform, avgPosition, lerpDuration));
-        }
         AverrageBallsLocations.transform.position = avgPosition;
     }
 
     Vector3 GetAverageBallPosition(List<GameObject> balls)
     {
         Vector3 total = Vector3.zero;
-
         foreach (var ball in balls)
-        {
             total += ball.transform.position;
-        }
-
         return total / balls.Count;
     }
 
@@ -118,15 +120,6 @@ public class BallsHandler : MonoBehaviour
         ballTransform.position = targetPos;
     }
 
-    public bool AllBallsInactiveOrAtBottom()
-    {
-        foreach (GameObject ball in allBalls)
-        {
-            BallController bc = ball.GetComponent<BallController>();
-            if (bc.isInUse && !bc.hasTouchedBottom)
-                return false;
-        }
-        return true;
-    }
+    
 }
 
