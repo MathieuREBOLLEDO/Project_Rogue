@@ -11,6 +11,8 @@ public class BrickLevelGenerator : MonoBehaviour
     public int rows = 4;
     public int columns = 8;
 
+    [SerializeField] ScriptableBrickData brickData;
+
     public List<WeightedLine> presetLinePool;
     public GameObject brickPrefab;
 
@@ -55,7 +57,7 @@ public class BrickLevelGenerator : MonoBehaviour
 
     void AddProceduralLineAt()
     {
-        float brickSize = GetBrickSize();
+        float brickSize = brickData.cellSize;
         float verticalOffset = brickSize + spacing;
 
         // Déplace toutes les briques existantes vers le bas
