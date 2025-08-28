@@ -29,19 +29,59 @@ public class ScriptableBrickData : ScriptableObject
         float screenWidth = screenMax.x - screenMin.x;
         float screenHeight = screenMax.y - screenMin.y;
 
-        float totalHSpacing = spacingWithBricks * (columns - 1);
-        float totalVSpacing = spacingWithBricks * (rows - 1);
+        //float totalHSpacing = spacingWithBricks * (columns - 1);
+        //float totalVSpacing = spacingWithBricks * (rows - 1);
+        //
+        //float brickWidth = (screenWidth - totalHSpacing) / columns;
+        //float brickHeight = (screenHeight - totalVSpacing) / rows;
+        //
+        ////brickData.SetMaxRows(Mathf.FloorToInt(Screen.height / cellSize));
+        //Debug.LogError($"ScreenWidth: {screenWidth}, ScreenHeight: {screenHeight}, Columns: {columns}, Rows: {rows}");
 
-        float brickWidth = (screenWidth - totalHSpacing) / columns;
-        float brickHeight = (screenHeight - totalVSpacing) / rows;
-
-        //brickData.SetMaxRows(Mathf.FloorToInt(Screen.height / cellSize));
-
-        return Mathf.Min(brickWidth, brickHeight);
+        return ComputeBrickSize(screenWidth, screenHeight);
         //return screenWidth / columns;
     }
 
-    private int GetMaxRows()
+    public float GetBrcikSize(Canvas canvas)
+    {
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        float screenWidth = canvasRect.rect.width;
+        float screenHeight = canvasRect.rect.height;
+
+        
+
+        return ComputeBrickSize(screenWidth, screenHeight);
+    }
+
+    private float ComputeBrickSize(float width, float height)
+    {
+        float totalHSpacing = spacingWithBricks * (columns - 1);
+        float totalVSpacing = spacingWithBricks * (rows - 1);
+
+        float brickWidth = (width - totalHSpacing) / columns;
+        float brickHeight = (height - totalVSpacing) / rows;
+        return Mathf.Min(brickWidth, brickHeight);
+    }
+
+    //public static float GetBrickSizeForCanvas(Canvas cs)
+    //{
+    //
+    //    RectTransform canvasRect = cs.GetComponent<RectTransform>();
+    //    float screenWidth = canvasRect.rect.width;
+    //    float screenHeight = canvasRect.rect.height;
+    //
+    //    float totalHSpacing = spacingWithBricks * (columns - 1);
+    //    float totalVSpacing = spacingWithBricks * (rows - 1);
+    //
+    //    float brickWidth = (screenWidth - totalHSpacing) / columns;
+    //    float brickHeight = (screenHeight - totalVSpacing) / rows;
+    //
+    //    return Mathf.Min(brickWidth, brickHeight);
+    //}
+
+
+
+private int GetMaxRows()
     {
         Vector2 screenMin = ScreenUtils.ScreenMin;
         Vector2 screenMax = ScreenUtils.ScreenMax;

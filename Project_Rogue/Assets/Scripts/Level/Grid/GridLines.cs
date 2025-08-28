@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class GridLines : MonoBehaviour
     public Color lineColor = Color.green;
     public float lineThickness = 2f;
 
-    private float cellSize;
+    private float cellSizeCanvas;
 
     private void Start()
     {
@@ -28,63 +29,59 @@ public class GridLines : MonoBehaviour
                 Destroy(child.gameObject);
         }
 
-        //float screenWidth = Screen.width;
-        //float screenHeight = Screen.height;
+        Canvas canvas = gridParent.GetComponentInParent<Canvas>();       
 
-        Vector2 screenMin = ScreenUtils.ScreenMin;
-        Vector2 screenMax = ScreenUtils.ScreenMax;
-        float screenWidth = screenMax.x - screenMin.x;
-        float screenHeight = screenMax.y - screenMin.y;
-        //
-        //float cellWidth = screenWidth / cols;
-        //float cellHeight = screenHeight / rows;
-        cellSize = brickData.cellSize;
+        float cellSizeCanvas = brickData.GetBrcikSize(canvas);
+        float totalGridWidth = cellSizeCanvas * cols;
+        float totalGridHeight = cellSizeCanvas * brickData.maxNumberRows;
 
-        float totalGridWidth = cellSize * rows;
-        float totalGridHeight = cellSize * cols;
-        
-        //Vector2 startOffset = new Vector2 (0,0);
+        Vector2 startOffset = new Vector2 (0,0);
 
-        Vector2 startOffset = new Vector2(
-            (screenWidth - totalGridWidth) / 2f,
-            (screenHeight - totalGridHeight) / 2f
-        );
+        Debug.Log($"StartOffset: {startOffset}, TotalGridWidth: {totalGridWidth}, TotalGridHeight: {totalGridHeight}, CellSize: {cellSizeCanvas}");
 
-        // Lignes verticales
         for (int i = 0; i <= cols; i++)
         {
+            float xPos = startOffset.x + i * cellSizeCanvas - (lineThickness / 2f);
             CreateLine(
-                new Vector2(startOffset.x + i * cellSize, startOffset.y),
-                new Vector2(startOffset.x + i * cellSize, startOffset.y + totalGridHeight)
+                new Vector2(xPos, startOffset.y),
+                new Vector2(xPos, startOffset.y + totalGridHeight),
+                true
             );
         }
 
         // Lignes horizontales
-        for (int j = 0; j <= rows; j ++)
+        for (int j = 0; j <= brickData.maxNumberRows; j++)
         {
+            float yPos = startOffset.y - j * cellSizeCanvas-(lineThickness / 2f); ; // inversion Y
             CreateLine(
-                new Vector2(startOffset.x, startOffset.y + j * cellSize),
-                new Vector2(startOffset.x + totalGridWidth, startOffset.y + j * cellSize)
+                new Vector2(startOffset.x, yPos),
+                new Vector2(startOffset.x + totalGridWidth, yPos),
+                false
             );
         }
     }
 
-    void CreateLine(Vector2 start, Vector2 end)
+    void CreateLine(Vector2 start, Vector2 end, bool isVertical)
     {
-        //Debug.LogError("Start : " + start);
-        //Debug.LogError("End : " + end);
-        GameObject line = new GameObject("Line", typeof(Image));
+        string name = "Line ";
+        name += (isVertical) ? "Vertical" : "Horizontal";
+
+        GameObject line = new GameObject(name, typeof(Image));
         line.transform.SetParent(gridParent, false);
 
         RectTransform rt = line.GetComponent<RectTransform>();
-        rt.anchorMin = rt.anchorMax = new Vector2(0, 0);
-        rt.pivot = new Vector2(0, 0);
+        rt.anchorMin = rt.anchorMax = new Vector2(0, 1);
+        rt.pivot = new Vector2(0, 1);
 
         float length = Vector2.Distance(start, end);
         rt.sizeDelta = new Vector2(lineThickness, length);
 
         rt.anchoredPosition = start;
-        rt.rotation = Quaternion.FromToRotation(Vector3.up, (end - start).normalized);
+
+        if (isVertical)
+            rt.rotation = Quaternion.FromToRotation(Vector3.up, (end - start).normalized);
+        else
+            rt.rotation = Quaternion.AngleAxis(90, Vector3.forward);//*Quaternion.identity;;
 
         Image img = line.GetComponent<Image>();
         img.color = lineColor;
