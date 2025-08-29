@@ -15,21 +15,27 @@ public class BallSpawner : MonoBehaviour
     public float burstDelay = 0.1f;
 
     private float minAllowedAngle = -GlobalBallVariables.angleOfShooting; 
-    private float maxAllowedAngle = GlobalBallVariables.angleOfShooting;  
+    private float maxAllowedAngle = GlobalBallVariables.angleOfShooting;
+
 
     public void TryShootBall(Vector2 pos)
     {
         Vector2 shootDirection = (pos - (Vector2)averrageBallLocation.transform.position).normalized;
         float angle = Vector2.Angle(Vector2.up, shootDirection); // Angle par rapport à vertical (ou change en Vector2.right si horizontal)
 
-
-        // Vérifie si l'angle est dans les limites autorisées
-        if (angle < minAllowedAngle || angle > maxAllowedAngle)
+        
+        if (angle < minAllowedAngle || angle > maxAllowedAngle)  // Vérifie si l'angle est dans les limites autorisées
         {
             Debug.LogWarning($"Angle de tir invalide : {angle}°. Autorisé entre {minAllowedAngle}° et {maxAllowedAngle}°.");
-            return; // On bloque le tir
+            return;
         }
-        
+
+        if (ShootHandler.CheckNumberIsLessThan(0))
+        {
+            Debug.LogWarning("Not more shoot available");
+            GameManager.Instance.NotifyEndGame();
+            return;
+        }
 
         if (BallsHandler.Instance.AllBallsInactiveOrAtBottom())
         {
@@ -44,6 +50,7 @@ public class BallSpawner : MonoBehaviour
                 StartCoroutine(FireBurst(pos));
             }
 
+            ShootHandler.Instance.RemoveShootNumber(1);
             BallSettingsManager.Instance.StartSpeedIncreaseLoop();
         }
 
@@ -54,7 +61,6 @@ public class BallSpawner : MonoBehaviour
         GameObject ball = BallsHandler.Instance.GetBall();
         if (ball != null)
         {
-            //ball.SetActive(true);
             ball.GetComponent<BallController>().Launch(pos);
         }
     }
@@ -64,7 +70,6 @@ public class BallSpawner : MonoBehaviour
         for (int i = 0; i < burstCount; i++)
         {
             ShootOneBall(pos);
-            //Debug.Log(i);
             yield return new WaitForSeconds(burstDelay);
         }
     }

@@ -30,6 +30,34 @@ public class ScoreManager : MonoBehaviour
         OnInitScore?.Invoke(0);
     }
 
+    private void OnEnable()
+    {
+        GameEventManager.Instance.Subscribe(GameEventType.EnemyKilled, OnEnemyKilled);
+        GameEventManager.Instance.Subscribe(GameEventType.MachineTurnStart, OnMachineTurnStart);
+    }
+
+    private void OnDisable()
+    {
+        GameEventManager.Instance.Unsubscribe(GameEventType.EnemyKilled, OnEnemyKilled);
+        GameEventManager.Instance.Unsubscribe(GameEventType.MachineTurnStart, OnMachineTurnStart);
+    }
+
+    private void OnEnemyKilled(GameEvent gameEvent)
+    {
+        // Ajoute des points en fonction de l’ennemi tué
+        if (gameEvent.source != null)
+        {
+            // Exemple d'utilisation de gameEvent.extraData si tu passes un score custom
+            int points = gameEvent.extraData is int val ? val : 100;
+            AddScoreTemp(points);
+        }
+    }
+
+    private void OnMachineTurnStart(GameEvent gameEvent)
+    {
+        StartCoroutine(UpdateTotalNumber());
+    }
+
     public void AddScoreTemp(int scoreValue)
     {
         currentRoundScore += scoreValue;
@@ -37,16 +65,10 @@ public class ScoreManager : MonoBehaviour
         OnUpdateRoundScore?.Invoke(currentRoundScore);
     }
 
-    public void ValidateRoundScore()
-    {
-        StartCoroutine(UpdateTotalNumber());
-
-
-        //totalScore += currentRoundScore;
-        //currentRoundScore = 0;
-        //Debug.Log($"Score total : {totalScore}");
-        //OnUpdateTotalScore?.Invoke(totalScore);
-    }
+    //public void ValidateRoundScore()
+    //{
+    //    StartCoroutine(UpdateTotalNumber());
+    //}
 
     private IEnumerator UpdateTotalNumber()
     {

@@ -23,6 +23,15 @@ public class BallSettingsManager : MonoBehaviour
         ResetBallSpeed();
     }
 
+    private void OnEnable()
+    {
+        GameEventManager.Instance.Subscribe(GameEventType.PlayerTurnEnd, StopSpeedIncreaseLoop);
+    }
+
+    private void OnDisable()
+    {
+        GameEventManager.Instance.Unsubscribe(GameEventType.PlayerTurnEnd, StopSpeedIncreaseLoop);
+    }
 
     public float GetBallSpeed() 
     {
@@ -40,7 +49,7 @@ public class BallSettingsManager : MonoBehaviour
             StartCoroutine(SpeedIncreaseRoutine());
     }
 
-    public void StopSpeedIncreaseLoop()
+    public void StopSpeedIncreaseLoop(GameEvent gameEvent)
     {
         isSpeedIncreasing = false;
         StopAllCoroutines();

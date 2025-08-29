@@ -730,6 +730,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5225722348356010956, guid: 2374568d1565bc44bba6594eb3ecb8bb, type: 3}
   m_PrefabInstance: {fileID: 371967510}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &371967512 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4219194103915671002, guid: 2374568d1565bc44bba6594eb3ecb8bb, type: 3}
+  m_PrefabInstance: {fileID: 371967510}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db6e3fdddf342b41acf4b7d6082abd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &417136730
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,6 +923,7 @@ GameObject:
   - component: {fileID: 446047636}
   - component: {fileID: 446047634}
   - component: {fileID: 446047635}
+  - component: {fileID: 446047640}
   - component: {fileID: 446047638}
   m_Layer: 0
   m_Name: MG_Ball
@@ -1114,6 +1126,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84d16ff58dbd5a4b958fd93c2a0dfd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &446047640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446047631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d845c864c372d45b616fe3ba2db112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initShootNumber: 10000
+  OnChangeNumberOfShoot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 371967512}
+        m_TargetAssemblyTypeName: TextUpdaterForCanvas, Assembly-CSharp
+        m_MethodName: UpdateText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &461496549
 GameObject:
   m_ObjectHideFlags: 0
@@ -2717,6 +2757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2029653188}
   - component: {fileID: 2029653189}
+  - component: {fileID: 2029653190}
   m_Layer: 0
   m_Name: MG_Game
   m_TagString: Untagged
@@ -2793,6 +2834,21 @@ MonoBehaviour:
   OnMachineTurnEnd:
     m_PersistentCalls:
       m_Calls: []
+  OnGameEnd:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2029653190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029653187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67847f0e801b9bf4dae5fc6a5a61796d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2041212124
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class AddPoint : MonoBehaviour
 {
     public void AddToScore(int point)
     {
-        if (ScoreManager.Instance != null)
-            ScoreManager.Instance.AddScoreTemp(point);
+        //if (ScoreManager.Instance != null)
+            //ScoreManager.Instance.AddScoreTemp(point);
     }
 }
