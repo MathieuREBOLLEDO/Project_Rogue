@@ -44,16 +44,19 @@ public class Bricks : MonoBehaviour, ITriggerable
     {
         UpdatelifePoint(1); /// TO DO Valeur change en fonction des dégats du joueur
 
-        var points = (CheckForDestroy())?numberOfPoint_GainOnDestroy : numberOfPoint_GainOnHit;
+        GameEventType eventType = GameEventType.EnemyTouched;
+        int points = numberOfPoint_GainOnHit;
 
-        if(CheckForDestroy())
-                DestroyEvent();
-        //else
-            //NotifyPointGains?.Invoke(numberOfPoint_GainOnHit);
+        if (CheckForDestroy())
+        {
+            eventType = GameEventType.EnemyKilled;
+            points = numberOfPoint_GainOnDestroy;
+            DestroyEvent();
+        }
 
         // Déclenche l'événement
         var gameEvent = new GameEvent(
-            GameEventType.EnemyKilled,
+            eventType,
             source: gameObject,           // l'ennemi tué
             target: GameManager.Instance.gameObject, // si tu veux référencer le joueur
             extraData: points         // données additionnelles (ex: points gagnés)
@@ -64,12 +67,9 @@ public class Bricks : MonoBehaviour, ITriggerable
 
     protected void DestroyEvent()
     {
-        //NotifyPointGains?.Invoke(numberOfPoint_GainOnDestroy);
         NotifyDestroy?.Invoke();
         Destroy(gameObject);
     }
-
-
 
     private void UpdatelifePoint(int damage)
     {

@@ -32,17 +32,19 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEventManager.Instance.Subscribe(GameEventType.EnemyKilled, OnEnemyKilled);
+        GameEventManager.Instance.Subscribe(GameEventType.EnemyKilled, OnEnemyTriggered);
+        GameEventManager.Instance.Subscribe(GameEventType.EnemyTouched, OnEnemyTriggered);
         GameEventManager.Instance.Subscribe(GameEventType.MachineTurnStart, OnMachineTurnStart);
     }
 
     private void OnDisable()
     {
-        GameEventManager.Instance.Unsubscribe(GameEventType.EnemyKilled, OnEnemyKilled);
+        GameEventManager.Instance.Unsubscribe(GameEventType.EnemyKilled, OnEnemyTriggered);
+        GameEventManager.Instance.Unsubscribe(GameEventType.EnemyTouched, OnEnemyTriggered);
         GameEventManager.Instance.Unsubscribe(GameEventType.MachineTurnStart, OnMachineTurnStart);
     }
 
-    private void OnEnemyKilled(GameEvent gameEvent)
+    private void OnEnemyTriggered(GameEvent gameEvent)
     {
         // Ajoute des points en fonction de l’ennemi tué
         if (gameEvent.source != null)

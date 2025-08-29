@@ -39,7 +39,8 @@ public class BallSpawner : MonoBehaviour
 
         if (BallsHandler.Instance.AllBallsInactiveOrAtBottom())
         {
-            EventBus.PublishGameStateChange(GameState.WaitingForBalls);
+            GameManager.Instance.NotifyPlayerTurnEnd();
+            //EventBus.PublishGameStateChange(GameState.WaitingForBalls);
 
             if (fireMode == FireMode.SingleShot)
             {

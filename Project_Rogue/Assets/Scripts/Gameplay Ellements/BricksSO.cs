@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu( fileName = "ScriptableBrick Data" , menuName = "Bricks/Scriptable Brick")]
-public class ScriptableBricks : ScriptableObject
+[CreateAssetMenu( fileName = "NewBrickData" , menuName = "Game/Brick")]
+public class BricksSO : ScriptableObject
 {
     [SerializeField] private Color brickColor = Color.white;
     [SerializeField] private int life = 1;

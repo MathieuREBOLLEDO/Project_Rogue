@@ -70,12 +70,12 @@ public class InputManager : MonoBehaviour
             if (!isCanceled)
             {
                 OnShoot?.Invoke(worldPosition);
-                Debug.Log("Shot fired!");
+                Debug.Log("Input not canceled!");
             }
             else
             {
                 OnCancel?.Invoke();
-                Debug.Log("Shot canceled.");
+                Debug.Log("Input canceled.");
             }
 
             isAiming = false;

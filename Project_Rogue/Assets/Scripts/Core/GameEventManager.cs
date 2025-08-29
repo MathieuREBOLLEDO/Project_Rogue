@@ -36,6 +36,9 @@ public class GameEventManager : MonoBehaviour
     public void TriggerEvent(GameEvent gameEvent)
     {
         if (Instance.eventTable.ContainsKey(gameEvent.type))
+        {
             Instance.eventTable[gameEvent.type]?.Invoke(gameEvent);
+            //Debug.LogWarning($"New Game Event Type : {gameEvent.type}");
+        }
     }
 }

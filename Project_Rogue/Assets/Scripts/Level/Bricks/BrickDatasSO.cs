@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="BrickDatas",menuName ="Brcik/Brcik Datas")]
-public class ScriptableBrickData : ScriptableObject
+[CreateAssetMenu(fileName ="NewBrickDatas",menuName ="Game/Brick Datas")]
+public class BrickDatasSO : ScriptableObject
 {
     public int columns = 8;
     public int rows = 4;

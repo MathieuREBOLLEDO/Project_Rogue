@@ -11,7 +11,7 @@ public class BrickLevelGenerator : MonoBehaviour
     public int rows = 4;
     public int columns = 8;
 
-    [SerializeField] ScriptableBrickData brickData;
+    [SerializeField] BrickDatasSO brickData;
 
     public List<WeightedLine> presetLinePool;
     public GameObject brickPrefab;
@@ -21,10 +21,16 @@ public class BrickLevelGenerator : MonoBehaviour
     private IRandomProvider randomProvider;
     private ILineGenerator lineGenerator;
 
-    GameState lastState;
+    GameEventType lastEvent;
 
-    private void OnEnable() => EventBus.OnGameStateChanged += HandleGameStateChanged;
-    private void OnDisable() => EventBus.OnGameStateChanged -= HandleGameStateChanged;
+    private void OnEnable()
+    {
+        GameEventManager.Instance.Subscribe(GameEventType.MachineTurnStart, HandleGameStateChanged);
+    }
+    private void OnDisable()
+    {
+        GameEventManager.Instance.Unsubscribe(GameEventType.MachineTurnStart, HandleGameStateChanged);
+    }
 
     void Awake()
     {
@@ -43,15 +49,14 @@ public class BrickLevelGenerator : MonoBehaviour
             AddProceduralLineAt();
     }
 
-    private void HandleGameStateChanged(GameState state)
+    private void HandleGameStateChanged(GameEvent gameEvent)
     {
+        Debug.LogWarning(gameEvent.type.ToString());
+        if (gameEvent.type == lastEvent) return; // Ignore les états répétés
 
-        Debug.LogWarning(state.ToString ());
-        if (state == lastState) return; // Ignore les états répétés
+        lastEvent = gameEvent.type;
 
-        lastState = state;
-
-        if (state == GameState.MachineTurn)
+        if (gameEvent.type == GameEventType.MachineTurnStart)
             AddProceduralLineAt();
     }
 
@@ -85,21 +90,4 @@ public class BrickLevelGenerator : MonoBehaviour
                 brck.Initialize(type);
         }
     }
-
-    float GetBrickSize()
-    {
-        Vector2 screenMin = ScreenUtils.ScreenMin;
-        Vector2 screenMax = ScreenUtils.ScreenMax;
-        float screenWidth = screenMax.x - screenMin.x;
-        float screenHeight = screenMax.y - screenMin.y;
-
-        float totalHSpacing = spacing * (columns - 1);
-        float totalVSpacing = spacing * (rows - 1);
-
-        float brickWidth = (screenWidth - totalHSpacing) / columns;
-        float brickHeight = (screenHeight - totalVSpacing) / rows;
-
-        return Mathf.Min(brickWidth, brickHeight);
-    }
-
 }

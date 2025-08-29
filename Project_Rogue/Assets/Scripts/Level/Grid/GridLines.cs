@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class GridLines : MonoBehaviour
 {
-    [SerializeField] ScriptableBrickData brickData;
+    [SerializeField] BrickDatasSO brickData;
     //public int rows = 6;
     //public int cols = 4;
     public RectTransform gridParent;
