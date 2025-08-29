@@ -92,10 +92,6 @@ public static class ScreenUtils
         return new Vector3(x, y, pos.z);
     }
 
-
-
-
-
     public static Vector3 ConvertScreenToWorld(Vector2 pos)
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(pos);
@@ -103,6 +99,18 @@ public static class ScreenUtils
 
         return worldPos;
     }
+
+    public static Vector2 SimulateBounce(Vector2 position, Vector2 direction, float radius, float step)
+    {
+        Vector2 newPos = position + direction * step;
+        var edges = GetTouchedEdges(newPos, radius);
+
+        if (edges.Count > 0)
+        {
+            direction = ReflectDirection(direction, edges);
+            newPos = position + direction * step; // recalculer après rebond
+        }
+
+        return newPos;
+    }
 }
-
-

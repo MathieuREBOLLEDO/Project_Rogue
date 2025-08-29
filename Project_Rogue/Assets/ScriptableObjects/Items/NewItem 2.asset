@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80260e06ec763304c81555aca8feac6c, type: 3}
-  m_Name: New Scriptable Brick Data
+  m_Script: {fileID: 11500000, guid: 7909887b550a4794a896b7ca7acd816f, type: 3}
+  m_Name: NewItem 2
   m_EditorClassIdentifier: 
-  columns: 8
-  rows: 4
-  cellSize: 0
-  maxNumberRows: 0
-  spacingWithScreen: 0
-  spacingWithBricks: 0
+  itemName: 
+  icon: {fileID: 0}
+  effects: []

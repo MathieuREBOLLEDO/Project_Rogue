@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: e7c3d3578875ba74a863fcae79dee29c
+guid: b57ac2f177314834c8d33283a6d10904
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - brickData: {fileID: 11400000, guid: 03ba3394e7ce27745a6ba1ed78c6d132, type: 2}
-  - brickPrefab: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
