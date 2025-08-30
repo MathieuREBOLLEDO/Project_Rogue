@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteAlways]
 public class TransformGizmos : MonoBehaviour
 {
     public float gizmoLength = 1.0f;

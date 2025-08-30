@@ -1,6 +1,8 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class InputManager : MonoBehaviour
 {
@@ -8,10 +10,14 @@ public class InputManager : MonoBehaviour
 
     [Header("Trail / Aiming")]
     [SerializeField] private GameObject trail;       // Cible visuelle (GC node)
+    [SerializeField] private GameObject debugSphere;
     [SerializeField] private GameObject cancelZone;  // UI ou collider pour annuler
 
     private bool isAiming = false;
     private bool isCanceled = false;
+
+    private GameObject objDebug;
+    private Vector2 currentWorldPos;
 
     #region Events
     public Vector2Event OnTouchScreen;
@@ -24,7 +30,7 @@ public class InputManager : MonoBehaviour
     {
         playerControls = new PlayerControls();
         playerControls.Touch.Press.started += TouchScreen;
-        playerControls.Touch.Press.performed += TouchScreen;
+        playerControls.Touch.Position.performed += TouchScreen;
         playerControls.Touch.Press.canceled += TouchScreen;
     }
 
@@ -35,6 +41,9 @@ public class InputManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 #endif
+
+        objDebug = GameObject.Instantiate(debugSphere, currentWorldPos, Quaternion.identity);
+        objDebug.SetActive (false);
     }
 
     private void OnEnable() => playerControls.Enable();
@@ -46,30 +55,29 @@ public class InputManager : MonoBehaviour
     private void TouchScreen(InputAction.CallbackContext context)
     {
         Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
-        Vector2 worldPosition = ScreenUtils.ConvertScreenToWorld(screenPosition);
+        currentWorldPos = ScreenUtils.ConvertScreenToWorld(screenPosition);
+        
 
         if (context.started)
         {
             isAiming = true;
             isCanceled = false;
-
-            //trail.SetActive(true);
-            //trail.transform.position = worldPosition;
-
-            OnTouchScreen?.Invoke(worldPosition);
             Debug.Log("Input Started");
+            objDebug.SetActive(true);
+            OnTouchScreen?.Invoke(currentWorldPos);
+
         }
 
         if (context.performed && isAiming)
         {
-            UpdateTouchPosition(worldPosition);
+            OnTouchScreen?.Invoke(currentWorldPos);
         }
 
         if (context.canceled)
         {
             if (!isCanceled)
             {
-                OnShoot?.Invoke(worldPosition);
+                OnShoot?.Invoke(currentWorldPos);
                 Debug.Log("Input not canceled!");
             }
             else
@@ -77,25 +85,14 @@ public class InputManager : MonoBehaviour
                 OnCancel?.Invoke();
                 Debug.Log("Input canceled.");
             }
-
             isAiming = false;
             //trail.SetActive(false);
+            objDebug.SetActive(false);
         }
-    }
+            
 
-    private void UpdateTouchPosition(Vector2 worldPos)
-    {
-        //trail.transform.position = worldPos;
 
-        // Si tu as un cancel zone, tu peux vérifier si le doigt est dedans
-        //if (cancelZone != null)
-        //{
-        //    Vector2 cancelZoneScreenPos = Camera.main.WorldToScreenPoint(cancelZone.transform.position);
-        //    Rect cancelRect = new Rect(cancelZoneScreenPos - new Vector2(50, 50), new Vector2(100, 100)); // zone de 100x100px
-        //
-        //    Vector2 currentScreenPos = playerControls.Touch.Position.ReadValue<Vector2>();
-        //    isCanceled = cancelRect.Contains(currentScreenPos);
-        //}
+        objDebug.transform.position = currentWorldPos;
     }
 
     #endregion

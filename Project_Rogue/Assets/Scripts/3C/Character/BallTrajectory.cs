@@ -1,6 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(LineRenderer))]
 public class BallTrajectory : MonoBehaviour
@@ -17,10 +17,17 @@ public class BallTrajectory : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
+        HideTrajectory();
+    }
+      
+    public void HideTrajectory()
+    {
+        lineRenderer.enabled = false;
     }
 
     public void ShowTrajectory( Vector2 pos)
     {
+        lineRenderer.enabled = true;
         List<Vector3> points = new List<Vector3>();
         Vector2 currentPos = (Vector2)startPos.position;
         Vector2 currentDir = (pos - (Vector2)startPos.position).normalized; //direction.normalized;
@@ -49,8 +56,8 @@ public class BallTrajectory : MonoBehaviour
         lineRenderer.SetPositions(points.ConvertAll(p => (Vector3)p).ToArray());
     }
 
-    public void HideTrajectory()
-    {
-        lineRenderer.positionCount = 0;
-    }
+    //public void HideTrajectory()
+    //{
+    //    lineRenderer.positionCount = 0;
+    //}
 }

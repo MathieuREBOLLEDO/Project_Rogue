@@ -23,7 +23,7 @@ public class BallSettingsManager : MonoBehaviour
         ResetBallSpeed();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         GameEventManager.Instance.Subscribe(GameEventType.PlayerTurnEnd, StopSpeedIncreaseLoop);
     }

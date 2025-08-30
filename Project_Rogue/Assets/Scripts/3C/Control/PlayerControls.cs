@@ -29,9 +29,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Press"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""a38f9383-c820-42a0-8fa2-d9ba12aa203e"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": true
@@ -40,16 +40,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Position"",
                     ""type"": ""PassThrough"",
                     ""id"": ""050bbb92-acf5-447b-9e01-461dcea6fbd5"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": true
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Debug"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""c1264540-61e3-421c-bc86-e9e04ad96238"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -92,10 +92,32 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""91cb0c76-ca06-4248-9d6a-d13bbc810517"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""TouchScreen"",
+                    ""action"": ""Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0c3dfe6-7845-4542-a720-e4e0703d998b"",
                     ""path"": ""<Pointer>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""TouchScreen"",
+                    ""action"": ""Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01b42976-c78c-4543-8e52-0da2f51768bd"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""TouchScreen"",
                     ""action"": ""Position"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -103,11 +125,70 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bd202627-2420-44b7-886d-82810d551d83"",
-                    ""path"": ""<Keyboard>/f1"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Debug"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Slide"",
+            ""id"": ""7cb33a20-098c-4e67-b9af-e596e40e0f4d"",
+            ""actions"": [
+                {
+                    ""name"": ""Hold"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""45db4253-d144-4863-9049-83529b13937e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Position"",
+                    ""type"": ""Button"",
+                    ""id"": ""4802a94a-7faf-4d39-b74a-5f0d81a67e51"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7164e29b-df28-4a70-813f-b8e8243b53b7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""TouchScreen"",
+                    ""action"": ""Hold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aeaa17b3-eff3-48de-b97e-89433befbaea"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca204855-bb91-46ca-98fc-b3063ad23fa7"",
+                    ""path"": ""<Pointer>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -133,6 +214,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Touch_Press = m_Touch.FindAction("Press", throwIfNotFound: true);
         m_Touch_Position = m_Touch.FindAction("Position", throwIfNotFound: true);
         m_Touch_Debug = m_Touch.FindAction("Debug", throwIfNotFound: true);
+        // Slide
+        m_Slide = asset.FindActionMap("Slide", throwIfNotFound: true);
+        m_Slide_Hold = m_Slide.FindAction("Hold", throwIfNotFound: true);
+        m_Slide_Position = m_Slide.FindAction("Position", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -252,6 +337,60 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public TouchActions @Touch => new TouchActions(this);
+
+    // Slide
+    private readonly InputActionMap m_Slide;
+    private List<ISlideActions> m_SlideActionsCallbackInterfaces = new List<ISlideActions>();
+    private readonly InputAction m_Slide_Hold;
+    private readonly InputAction m_Slide_Position;
+    public struct SlideActions
+    {
+        private @PlayerControls m_Wrapper;
+        public SlideActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Hold => m_Wrapper.m_Slide_Hold;
+        public InputAction @Position => m_Wrapper.m_Slide_Position;
+        public InputActionMap Get() { return m_Wrapper.m_Slide; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SlideActions set) { return set.Get(); }
+        public void AddCallbacks(ISlideActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SlideActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SlideActionsCallbackInterfaces.Add(instance);
+            @Hold.started += instance.OnHold;
+            @Hold.performed += instance.OnHold;
+            @Hold.canceled += instance.OnHold;
+            @Position.started += instance.OnPosition;
+            @Position.performed += instance.OnPosition;
+            @Position.canceled += instance.OnPosition;
+        }
+
+        private void UnregisterCallbacks(ISlideActions instance)
+        {
+            @Hold.started -= instance.OnHold;
+            @Hold.performed -= instance.OnHold;
+            @Hold.canceled -= instance.OnHold;
+            @Position.started -= instance.OnPosition;
+            @Position.performed -= instance.OnPosition;
+            @Position.canceled -= instance.OnPosition;
+        }
+
+        public void RemoveCallbacks(ISlideActions instance)
+        {
+            if (m_Wrapper.m_SlideActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISlideActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SlideActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SlideActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SlideActions @Slide => new SlideActions(this);
     private int m_TouchScreenSchemeIndex = -1;
     public InputControlScheme TouchScreenScheme
     {
@@ -266,5 +405,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnPress(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
         void OnDebug(InputAction.CallbackContext context);
+    }
+    public interface ISlideActions
+    {
+        void OnHold(InputAction.CallbackContext context);
+        void OnPosition(InputAction.CallbackContext context);
     }
 }

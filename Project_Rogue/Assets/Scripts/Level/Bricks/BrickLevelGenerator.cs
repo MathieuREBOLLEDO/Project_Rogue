@@ -23,8 +23,9 @@ public class BrickLevelGenerator : MonoBehaviour
 
     GameEventType lastEvent;
 
-    private void OnEnable()
+    private void Start()
     {
+        GenerateInitialBricks();
         GameEventManager.Instance.Subscribe(GameEventType.MachineTurnStart, HandleGameStateChanged);
     }
     private void OnDisable()
@@ -36,11 +37,6 @@ public class BrickLevelGenerator : MonoBehaviour
     {
         randomProvider = new SeededRandomProvider(useSeed ? seed : System.DateTime.Now.Millisecond);
         lineGenerator = new WeightedLineGenerator(presetLinePool, randomProvider);
-    }
-
-    void Start()
-    {
-        GenerateInitialBricks();
     }
 
     void GenerateInitialBricks()

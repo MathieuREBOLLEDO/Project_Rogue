@@ -413,7 +413,6 @@ GameObject:
   m_Component:
   - component: {fileID: 177369095}
   - component: {fileID: 177369096}
-  - component: {fileID: 177369097}
   m_Layer: 0
   m_Name: MG_Input
   m_TagString: Untagged
@@ -449,25 +448,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trail: {fileID: 0}
+  debugSphere: {fileID: 7494299778122485754, guid: 91d8ecc9cfab6f9418b52442b6d6be86, type: 3}
   cancelZone: {fileID: 0}
   OnTouchScreen:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 446047634}
-        m_TargetAssemblyTypeName: BallSpawner, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 177369097}
-        m_TargetAssemblyTypeName: DrawDebugShape, Assembly-CSharp
-        m_MethodName: SpawnShape
+      - m_Target: {fileID: 446047639}
+        m_TargetAssemblyTypeName: BallTrajectory, Assembly-CSharp
+        m_MethodName: ShowTrajectory
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -494,8 +482,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 446047639}
         m_TargetAssemblyTypeName: BallTrajectory, Assembly-CSharp
-        m_MethodName: ShowTrajectory
-        m_Mode: 0
+        m_MethodName: HideTrajectory
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -507,19 +495,6 @@ MonoBehaviour:
   OnCancel:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &177369097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177369094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 069a15dce1ab5834cba77eb9e306211f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Shape: {fileID: 7494299778122485754, guid: 91d8ecc9cfab6f9418b52442b6d6be86, type: 3}
 --- !u!1 &238967120
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,10 +28,6 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         OnInitScore?.Invoke(0);
-    }
-
-    private void OnEnable()
-    {
         GameEventManager.Instance.Subscribe(GameEventType.EnemyKilled, OnEnemyTriggered);
         GameEventManager.Instance.Subscribe(GameEventType.EnemyTouched, OnEnemyTriggered);
         GameEventManager.Instance.Subscribe(GameEventType.MachineTurnStart, OnMachineTurnStart);

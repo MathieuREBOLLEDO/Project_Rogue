@@ -1,12 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-public enum FireMode
-{
-    SingleShot,
-    Burst // Toutes les balles à la chaîne
-}
-
 public class BallSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject averrageBallLocation;

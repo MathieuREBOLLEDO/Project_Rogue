@@ -1,18 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ScreenBounds
-{
-    None,
-    Left,
-    Right,
-    Bottom,
-    Top,
-}
-
 public static class ScreenUtils
 {
-
     public static Vector2 ScreenMin
     {
         get
