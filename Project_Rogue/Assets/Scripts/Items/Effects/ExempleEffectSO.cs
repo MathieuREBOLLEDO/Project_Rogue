@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TestEffect", menuName = "Game/Effects/Test")]
-public class ExempleEffectSO : EffectSO
+public class ExempleEffectSO: EffectSO
 {
     public override void Apply(GameContext context, Dictionary<string, string> parameters)
     {

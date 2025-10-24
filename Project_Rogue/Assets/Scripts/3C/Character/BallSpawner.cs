@@ -9,8 +9,7 @@ public class BallSpawner : MonoBehaviour
     public float burstDelay = 0.1f;
 
     private float minAllowedAngle = -GlobalBallVariables.angleOfShooting; 
-    private float maxAllowedAngle = GlobalBallVariables.angleOfShooting;
-
+    private float maxAllowedAngle = GlobalBallVariables.angleOfShooting;    
 
     public void TryShootBall(Vector2 pos)
     {

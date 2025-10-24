@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7909887b550a4794a896b7ca7acd816f, type: 3}
-  m_Name: NewItem
+  m_Script: {fileID: 11500000, guid: fda2dde3c82f14d498c2e43e36568f7a, type: 3}
+  m_Name: AddNumberOfShootEffect
   m_EditorClassIdentifier: 
-  itemName: Test
-  icon: {fileID: 0}
-  effects:
-  - effect: {fileID: 11400000, guid: 547ae8988c44c94428508d12fb2cb178, type: 2}
-    parameters:
-    - key: shootAmount
-      value: 1
+  effectName: 

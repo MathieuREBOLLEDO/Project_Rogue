@@ -52,6 +52,11 @@ public class InputManager : MonoBehaviour
 
     #region Touch
 
+    public void SetIsCanceled(bool newValue)
+    {
+        isCanceled = newValue;
+    }
+
     private void TouchScreen(InputAction.CallbackContext context)
     {
         Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
