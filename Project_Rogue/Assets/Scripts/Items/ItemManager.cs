@@ -1,5 +1,6 @@
 using MoreMountains.Tools;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
@@ -21,8 +22,26 @@ public class ItemManager : MonoBehaviour
 
     public void AddItem(ItemSO item)
     {
-        if (!activeItems.Contains(item))
-            activeItems.Add(item);
+        if (item == null)
+        {
+            Debug.LogWarning("Tentative d'ajouter un item nul à la liste des items actifs.");
+            return;
+        }
+
+        if (activeItems.Contains(item))
+        {
+            Debug.Log($"L'item {item.name} est déjà actif et ne peut pas être empilé.");
+            return;
+        }   
+
+        activeItems.Add(item);
+        Debug.Log($"Item ajouté : {item.name}");
+
+        // Initialise les effets (abonnements aux GameEvents, timers, etc.)
+        //foreach (var itemeffect in item.effects)
+        //{
+        //    itemeffect.effect.Apply(); // ex : abonne l'effet aux GameEvents appropriés
+        //}
     }
 
     public void RemoveItem(ItemSO item)

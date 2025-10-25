@@ -62,13 +62,44 @@ public static class ScreenUtils
 
     public static Vector2 ReflectDirection(Vector2 direction, List<ScreenBounds> edges)
     {
+        // On clone la direction initiale pour le debug
+        Vector2 originalDir = direction.normalized;
+
         foreach (var edge in edges)
         {
-            if (edge == ScreenBounds.Left || edge == ScreenBounds.Right)
-                direction.x *= -1;
-            else if (edge == ScreenBounds.Top)//|| edge == ScreenBounds.Bottom)
-                direction.y *= -1;
+            switch (edge)
+            {
+                case ScreenBounds.Left:
+                    direction = Vector2.Reflect(direction, Vector2.right);
+                    Debug.DrawRay(Vector3.zero, Vector3.right * 0.5f, Color.cyan, 1f); // normale
+                    break;
+
+                case ScreenBounds.Right:
+                    direction = Vector2.Reflect(direction, Vector2.left);
+                    Debug.DrawRay(Vector3.zero, Vector3.left * 0.5f, Color.cyan, 1f);
+                    break;
+
+                case ScreenBounds.Top:
+                    direction = Vector2.Reflect(direction, Vector2.down);
+                    Debug.DrawRay(Vector3.zero, Vector3.down * 0.5f, Color.cyan, 1f);
+                    break;
+
+                case ScreenBounds.Bottom:
+                    direction = Vector2.Reflect(direction, Vector2.up);
+                    Debug.DrawRay(Vector3.zero, Vector3.up * 0.5f, Color.cyan, 1f);
+                    break;
+            }
         }
+
+        // Normalisation de la direction finale
+        direction.Normalize();
+
+        // --- DEBUG VISUEL ---
+        // Ligne jaune : direction avant rebond
+        // Ligne rouge : direction après rebond
+        Debug.DrawRay(Vector3.zero, originalDir * 0.8f, Color.yellow, 1f);
+        Debug.DrawRay(Vector3.zero, direction * 0.8f, Color.red, 1f);
+
         return direction;
     }
 

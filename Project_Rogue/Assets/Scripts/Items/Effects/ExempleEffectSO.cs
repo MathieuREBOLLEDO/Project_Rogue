@@ -15,4 +15,14 @@ public class ExempleEffectSO: EffectSO
             }
         }
     }
+
+  //  public override void Initialize()
+  //  {
+  //      throw new System.NotImplementedException();
+  //  }
+  //
+  //  public override void Clenaup()
+  //  {
+  //      throw new System.NotImplementedException();
+  //  }
 }
