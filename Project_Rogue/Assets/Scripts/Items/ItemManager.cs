@@ -38,10 +38,10 @@ public class ItemManager : MonoBehaviour
         Debug.Log($"Item ajouté : {item.name}");
 
         // Initialise les effets (abonnements aux GameEvents, timers, etc.)
-        //foreach (var itemeffect in item.effects)
-        //{
-        //    itemeffect.effect.Apply(); // ex : abonne l'effet aux GameEvents appropriés
-        //}
+        foreach (var itemeffect in item.effects)
+        {
+           // itemeffect.effect.Apply(); // ex : abonne l'effet aux GameEvents appropriés
+        }
     }
 
     public void RemoveItem(ItemSO item)
@@ -57,7 +57,7 @@ public class ItemManager : MonoBehaviour
             foreach (var effectData in item.effects)
             {
                 // Convertit la liste de paramètres en dictionnaire
-                Dictionary<string, string> paramDict = new Dictionary<string, string>();
+                Dictionary<ValueKey, string> paramDict = new Dictionary<ValueKey, string>();
                 foreach (var param in effectData.parameters)
                 {
                     paramDict[param.key] = param.value;

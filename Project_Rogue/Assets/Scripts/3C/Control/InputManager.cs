@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using static UnityEditor.PlayerSettings;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
+using UnityEngine.EventSystems;
+
 
 public class InputManager : MonoBehaviour
 {
@@ -60,6 +60,15 @@ public class InputManager : MonoBehaviour
     private void TouchScreen(InputAction.CallbackContext context)
     {
         Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
+
+        //if (IsPointerOverUI())
+        //    return;
+
+
+        if (!IsWithinCameraView(Camera.main, screenPosition))
+            return;
+
+
         currentWorldPos = ScreenUtils.ConvertScreenToWorld(screenPosition);
         
 
@@ -100,5 +109,32 @@ public class InputManager : MonoBehaviour
         objDebug.transform.position = currentWorldPos;
     }
 
+    #endregion
+
+    #region Utils
+    private bool IsWithinCameraView(Camera cam, Vector2 screenPos)
+    {
+        if (cam == null) return true; // sécurité si la caméra n’est pas assignée
+
+        Vector3 viewportPos = cam.ScreenToViewportPoint(screenPos);
+        return viewportPos.x >= 0f && viewportPos.x <= 1f &&
+               viewportPos.y >= 0f && viewportPos.y <= 1f;
+    }
+
+    private bool IsPointerOverUI()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE
+        // Souris
+        return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+#elif UNITY_IOS || UNITY_ANDROID
+        // Tactile — chaque toucher a un fingerId
+        if (EventSystem.current == null) return false;
+        if (Input.touchCount > 0)
+            return EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+        return false;
+#else
+        return false;
+#endif
+    }
     #endregion
 }

@@ -9,15 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7909887b550a4794a896b7ca7acd816f, type: 3}
-  m_Name: NewItem 1
+  m_Script: {fileID: 11500000, guid: e34c2d13891e1114c807960f0536ca61, type: 3}
+  m_Name: TestEffect
   m_EditorClassIdentifier: 
-  itemName: 
-  icon: {fileID: 0}
-  type: 0
-  effects:
-  - effect: {fileID: 11400000, guid: e6a9b92ddfc7fd146ae3383fc67dcad7, type: 2}
-    parameters:
-    - eventType: 0
-      key: 0
-      value: 
+  effectName: 

@@ -2,6 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ValueKey
+{
+    Unknown,
+    Amount,
+    Duration,
+    Percentage
+}
+
 
 [Serializable]
 public class ItemEffectData
@@ -13,6 +21,7 @@ public class ItemEffectData
 [Serializable]
 public class EffectParameter
 {
-    public string key;  // ex: "amount", "duration"
+    public GameEventType eventType; 
+    public ValueKey key;  // ex: "amount", "duration"
     public string value; // sérialisé sous forme de string pour flexibilité
 }

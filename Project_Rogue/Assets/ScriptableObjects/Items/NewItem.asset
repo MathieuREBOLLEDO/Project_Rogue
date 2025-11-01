@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Test
   icon: {fileID: 0}
+  type: 0
   effects:
   - effect: {fileID: 11400000, guid: 547ae8988c44c94428508d12fb2cb178, type: 2}
     parameters:
-    - key: shootAmount
+    - eventType: 0
+      key: 0
       value: 1

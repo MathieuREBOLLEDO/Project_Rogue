@@ -8,5 +8,11 @@ public enum GameEventType
     MachineTurnEnd,
     EnemyTouched,
     EnemyKilled,
+    OnCollisionStart,
+    OnCollisionEnd,
+    OnScreenTouched,
+    OnItemPicked, 
+    OnItemUSed,
+    OnEnemySpawned,
     GameEnd
 }

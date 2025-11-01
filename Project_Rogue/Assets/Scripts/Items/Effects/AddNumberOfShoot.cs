@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AddNumberOfShootEffect", menuName = "Game/Effects/NumberOFShoot")]
 public class AddNumberOfShoot : EffectSO
 {
-    public override void Apply(GameContext context, Dictionary<string, string> parameters)
+    public override void Apply(GameContext context, Dictionary<ValueKey, string> parameters)
     {
-        if (parameters.TryGetValue("amount", out string value))
+        if (parameters.TryGetValue(ValueKey.Amount, out string value))
         {
             if (int.TryParse(value, out int shootAmount))
             {
