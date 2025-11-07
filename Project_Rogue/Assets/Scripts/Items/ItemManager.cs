@@ -40,7 +40,8 @@ public class ItemManager : MonoBehaviour
         // Initialise les effets (abonnements aux GameEvents, timers, etc.)
         foreach (var itemeffect in item.effects)
         {
-           // itemeffect.effect.Apply(); // ex : abonne l'effet aux GameEvents appropriés
+            itemeffect.effect.Initialize();
+           //itemeffect.effect.Apply(itemeffect.parameters.); // ex : abonne l'effet aux GameEvents appropriés
         }
     }
 
@@ -64,7 +65,8 @@ public class ItemManager : MonoBehaviour
                 }
 
                 // Appelle l'effet
-                effectData.effect.Apply(context, paramDict);
+                effectData.effect.Initialize();
+                //seffectData.effect.Apply(context, paramDict);
             }
         }
     }
