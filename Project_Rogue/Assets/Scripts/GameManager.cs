@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    [SerializeField] private List<EffectSO> allEffects; // à remplir dans l’inspecteur, ou via un registry global
 
     private void Awake()
     {
@@ -14,7 +17,14 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);        
+        DontDestroyOnLoad(gameObject);       
+        StartNewGame();
+    }
+
+
+    public void StartNewGame()
+    {
+        ResetAllEffects();
     }
 
     public void StartPlayerTurn()
@@ -53,4 +63,20 @@ public class GameManager : MonoBehaviour
     {
         GameEventManager.Instance.TriggerEvent(new GameEvent(GameEventType.GameEnd));
     }
+
+    private void ResetAllEffects()
+    {
+#if UNITY_EDITOR
+        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:EffectSO");
+        foreach (string guid in guids)
+        {
+            string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+            EffectSO effect = UnityEditor.AssetDatabase.LoadAssetAtPath<EffectSO>(path);
+            effect.ResetEffectState();
+        }
+#else
+    // En build, il faudra gérer autrement, ex. via une liste globale statique
+#endif
+    }
 }
+

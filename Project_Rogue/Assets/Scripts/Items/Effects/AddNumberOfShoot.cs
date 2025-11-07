@@ -6,7 +6,7 @@ using UnityEngine;
 public class AddNumberOfShoot : EffectSO
 {
     [SerializeField] private int amountToAdd = 1;
-    private bool hasBeenUsed = false;
+    public bool hasBeenUsed = false;
 
     public override void Initialize()
     {
@@ -31,5 +31,11 @@ public class AddNumberOfShoot : EffectSO
     public override void Cleanup()
     {
         // Rien à nettoyer car l’effet est one-shot et ne s’abonne à rien
+    }
+
+    public override void ResetEffectState()
+    {
+        hasBeenUsed = false;
+        Debug.Log($"[Effect] {effectName} reset pour la nouvelle partie");
     }
 }
