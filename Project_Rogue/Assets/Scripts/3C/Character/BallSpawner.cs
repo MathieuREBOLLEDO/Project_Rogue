@@ -9,7 +9,26 @@ public class BallSpawner : MonoBehaviour
     public float burstDelay = 0.1f;
 
     private float minAllowedAngle = -GlobalBallVariables.angleOfShooting; 
-    private float maxAllowedAngle = GlobalBallVariables.angleOfShooting;    
+    private float maxAllowedAngle = GlobalBallVariables.angleOfShooting;
+
+    private bool canShoot = true;
+
+
+    private void Start()
+    {
+        GameEventManager.Instance.Subscribe(GameEventType.PlayerTurnStart, SetCanShoot);
+        GameEventManager.Instance.Subscribe(GameEventType.PlayerTurnEnd, SetCanShoot);
+    }
+    private void OnDisable()
+    {
+        GameEventManager.Instance.Unsubscribe(GameEventType.PlayerTurnStart, SetCanShoot);
+        GameEventManager.Instance.Unsubscribe(GameEventType.PlayerTurnEnd, SetCanShoot);
+    }
+
+    private void SetCanShoot(GameEvent gameEvent)
+    {
+        canShoot = (gameEvent.eventType == GameEventType.PlayerTurnStart) ? true : false;
+    }
 
     public void TryShootBall(Vector2 pos)
     {
@@ -30,8 +49,9 @@ public class BallSpawner : MonoBehaviour
             return;
         }
 
-        if (BallsHandler.Instance.AllBallsInactiveOrAtBottom())
+        if (BallsHandler.Instance.AllBallsInactiveOrAtBottom() && canShoot)
         {
+            Debug.LogWarning("Can shoot ball");
             GameManager.Instance.NotifyPlayerTurnEnd();
             //EventBus.PublishGameStateChange(GameState.WaitingForBalls);
 

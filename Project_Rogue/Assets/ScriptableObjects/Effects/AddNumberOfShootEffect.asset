@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: AddNumberOfShootEffect
   m_EditorClassIdentifier: 
   effectName: 
+  amountToAdd: 1
+  hasBeenUsed: 0

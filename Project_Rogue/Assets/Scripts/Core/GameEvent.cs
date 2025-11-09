@@ -13,6 +13,7 @@ public class GameEvent
     public GameEvent(GameEventType type)
     {
         eventType = type;
+        Debug.Log("Event type is " + eventType.ToString());
     }
 
     public GameEvent(GameEventType type, GameObject source = null, GameObject target = null, object extraData = null)

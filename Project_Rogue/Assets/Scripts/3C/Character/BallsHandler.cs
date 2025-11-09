@@ -48,7 +48,7 @@ public class BallsHandler : MonoBehaviour
         if (AllBallsInactiveOrAtBottom())
         {
             MoveBallToAverragePosition();
-            GameManager.Instance.NotifyBallTurnEnd();
+            GameManager.Instance.StartMachineTurn();
         }
     }
 
@@ -90,6 +90,7 @@ public class BallsHandler : MonoBehaviour
 
     public void MoveBallToAverragePosition()
     {
+        //Debug.LogWarning(Game.ToString());
         Vector3 avgPosition = GetAverageBallPosition(allBalls);
         foreach (var ball in allBalls)
             StartCoroutine(LerpToPosition(ball.transform, avgPosition, lerpDuration));
@@ -116,10 +117,9 @@ public class BallsHandler : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
-
         ballTransform.position = targetPos;
     }
 
-    
+
 }
 

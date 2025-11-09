@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private List<EffectSO> allEffects; // à remplir dans l’inspecteur, ou via un registry global
+    private int idTurn = 0; // if 0 player can  
 
     private void Awake()
     {
@@ -41,22 +43,27 @@ public class GameManager : MonoBehaviour
     public void StartBallTurn()
     {
         GameEventManager.Instance.TriggerEvent(new GameEvent(GameEventType.BallsTurnStart));
+        idTurn++;
+
     }
     public void NotifyBallTurnEnd()
     {
         GameEventManager.Instance.TriggerEvent(new GameEvent(GameEventType.BallsTurnEnd));
         StartMachineTurn();
+
     }
 
     public void StartMachineTurn()
     {
         GameEventManager.Instance.TriggerEvent(new GameEvent(GameEventType.MachineTurnStart));
+        
     }
 
     public void NotifyMachineTurnEnd()
     {
         GameEventManager.Instance.TriggerEvent(new GameEvent(GameEventType.MachineTurnEnd));
         StartPlayerTurn();
+
     }
 
     public void NotifyEndGame()

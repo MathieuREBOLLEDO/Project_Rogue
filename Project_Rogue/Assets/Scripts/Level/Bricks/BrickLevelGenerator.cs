@@ -47,13 +47,10 @@ public class BrickLevelGenerator : MonoBehaviour
 
     private void HandleGameStateChanged(GameEvent gameEvent)
     {
-        Debug.LogWarning(gameEvent.eventType.ToString());
-        if (gameEvent.eventType == lastEvent) return; // Ignore les états répétés
-
-        lastEvent = gameEvent.eventType;
-
         if (gameEvent.eventType == GameEventType.MachineTurnStart)
             AddProceduralLineAt();
+
+        GameManager.Instance.NotifyMachineTurnEnd();
     }
 
     void AddProceduralLineAt()
