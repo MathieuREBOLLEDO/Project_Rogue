@@ -2,7 +2,7 @@
 - Project name: Project_Rogue
 - Unity version: Unity 2022.3.7f1
 - Active game object:
-  - Name: Canvas-Bot
+  - Name: MG_Ball
   - Tag: Untagged
-  - Layer: UI
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

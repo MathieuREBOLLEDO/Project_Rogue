@@ -93,7 +93,11 @@ public class BallsHandler : MonoBehaviour
         //Debug.LogWarning(Game.ToString());
         Vector3 avgPosition = GetAverageBallPosition(allBalls);
         foreach (var ball in allBalls)
-            StartCoroutine(LerpToPosition(ball.transform, avgPosition, lerpDuration));
+        {
+            //StartCoroutine(LerpToPosition(ball.transform, avgPosition, lerpDuration));
+            ball.transform.position = avgPosition;
+            
+        }
         AverrageBallsLocations.transform.position = avgPosition;
     }
 
