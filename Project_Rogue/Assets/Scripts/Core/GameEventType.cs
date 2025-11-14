@@ -12,6 +12,8 @@ public enum GameEventType
     OnCollisionEnd,
     OnScreenTouched,
     OnItemPicked, 
+    OnItemDestroyed,
+    OnItemEquiped,
     OnItemUSed,
     OnEnemySpawned,
     GameEnd

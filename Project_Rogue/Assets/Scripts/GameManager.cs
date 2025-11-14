@@ -73,17 +73,17 @@ public class GameManager : MonoBehaviour
 
     private void ResetAllEffects()
     {
-#if UNITY_EDITOR
-        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:EffectSO");
-        foreach (string guid in guids)
-        {
-            string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
-            EffectSO effect = UnityEditor.AssetDatabase.LoadAssetAtPath<EffectSO>(path);
-            effect.ResetEffectState();
-        }
-#else
-    // En build, il faudra gérer autrement, ex. via une liste globale statique
-#endif
+//#if UNITY_EDITOR
+//        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:EffectSO");
+//        foreach (string guid in guids)
+//        {
+//            string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+//            EffectSO effect = UnityEditor.AssetDatabase.LoadAssetAtPath<EffectSO>(path);
+//            effect.ResetEffectState(); // Obsolète
+//        }
+//#else
+//    // En build, il faudra gérer autrement, ex. via une liste globale statique
+//#endif
     }
 }
 

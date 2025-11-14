@@ -1,20 +1,27 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AddNumberOfShootEffect", menuName = "Game/Effects/NumberOFShoot")]
+[CreateAssetMenu(fileName = "AddNumberOfShootEffect", menuName = "Game/Effects/NumberOfShoot")]
 public class AddNumberOfShoot : EffectSO
 {
-    [SerializeField] private int amountToAdd = 1;
-    public bool hasBeenUsed = false;
+    // valeur par défaut si l'item ne fournit pas le paramètre
+    public int defaultAmountToAdd = 1;
 
-    public override void Initialize()
+    public override void Initialize(EffectRuntime runtime, Dictionary<ValueKey, string> parameters)
     {
-        if (hasBeenUsed)
+        // rien à faire par défaut, mais possible d'initialiser des timers / abonnements
+    }
+
+    public override void Execute(GameEventType gameEvent, GameContext context, EffectRuntime runtime, Dictionary<ValueKey, string> parameters)
+    {
+        // Exemple: si c'est un one-shot, on peut utiliser runtime.hasBeenUsed
+        if (runtime.hasBeenUsed)
         {
-            Debug.Log($"[Effect] {effectName} déjà utilisé, ignoré.");
+            Debug.Log($"[Effect] {effectName} déjà utilisé pour l'item {runtime.ownerItem?.itemName}, ignoré.");
             return;
         }
+
+        int amount = GetParam<int>(parameters, ValueKey.Amount, defaultAmountToAdd);
 
         if (ShootHandler.Instance == null)
         {
@@ -22,20 +29,14 @@ public class AddNumberOfShoot : EffectSO
             return;
         }
 
-        ShootHandler.Instance.AddShootNumber(amountToAdd);
-        Debug.Log($"[Effect] +{amountToAdd} shoot ajouté via {effectName}");
+        ShootHandler.Instance.AddShootNumber(amount);
+        Debug.Log($"[Effect] +{amount} shoot ajouté via {effectName} pour {runtime.ownerItem?.itemName}");
 
-        hasBeenUsed = true;
+        runtime.hasBeenUsed = true;
     }
 
-    public override void Cleanup()
+    public override void Cleanup(EffectRuntime runtime)
     {
-        // Rien à nettoyer car l’effet est one-shot et ne s’abonne à rien
-    }
-
-    public override void ResetEffectState()
-    {
-        hasBeenUsed = false;
-        Debug.Log($"[Effect] {effectName} reset pour la nouvelle partie");
+        // rien
     }
 }
