@@ -1,12 +1,15 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance { get; private set; }
     public List<ItemSO> activeItems = new List<ItemSO>();
 
-    // Liste d'effets runtime actifs (lié aux items)
+    private ItemSO currentItemPicked;
+
+    // Liste d'effets runtime actifs (liÃ© aux items)
     private List<EffectRuntime> activeEffectRuntimes = new List<EffectRuntime>();
 
     private void Awake()
@@ -20,43 +23,61 @@ public class ItemManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        GameEventManager.Instance.Subscribe(GameEventType.OnItemPicked, ItemPicked);
+    }
+    private void OnDisable()
+    {
+        GameEventManager.Instance.Unsubscribe(GameEventType.MachineTurnStart, ItemPicked);
+    }
+
+
+    
+
     public void AddItem(ItemSO item)
     {
         if (item == null)
         {
-            Debug.LogWarning("Tentative d'ajouter un item nul à la liste des items actifs.");
+            Debug.LogWarning("Tentative d'ajouter un item nul Ã  la liste des items actifs.");
             return;
         }
 
         if (activeItems.Contains(item))
         {
-            Debug.Log($"L'item {item.name} est déjà actif et ne peut pas être empilé.");
+            Debug.Log($"L'item {item.name} est dÃ©jÃ  actif et ne peut pas Ãªtre empilÃ©.");
             return;
         }
 
+        currentItemPicked = item;
         activeItems.Add(item);
-        Debug.Log($"Item ajouté : {item.name}");
+        Debug.Log($"Item ajoutÃ© : {item.name}");
 
-        // Initialise les effets (crée des runtime, initialise)
-        foreach (var itemEffect in item.effects)
+        GameEventManager.Instance.TriggerEvent(new GameEvent(GameEventType.OnItemPicked));
+        
+    }
+
+    private void ItemPicked(GameEvent gameEvent)
+    {
+        foreach (var itemEffect in currentItemPicked.effects)
         {
             if (itemEffect == null || itemEffect.effect == null)
             {
-                Debug.LogWarning($"Item {item.name} a un effet null.");
+                Debug.LogWarning($"Item {currentItemPicked.name} a un effet null.");
                 continue;
             }
 
-            // Construire le dictionnaire de paramètres
+            // Construire le dictionnaire de paramÃ¨tres
             Dictionary<ValueKey, string> paramDict = new Dictionary<ValueKey, string>();
             foreach (var p in itemEffect.parameters)
             {
                 paramDict[p.key] = p.value;
             }
 
-            // Créer runtime
+            // CrÃ©er runtime
             EffectRuntime runtime = new EffectRuntime
             {
-                ownerItem = item,
+                ownerItem = currentItemPicked,
                 effectData = itemEffect,
                 hasBeenUsed = false
             };
@@ -66,10 +87,10 @@ public class ItemManager : MonoBehaviour
             // Appel Initialize du SO (pour abonner si besoin)
             itemEffect.effect.Initialize(runtime, paramDict);
 
-            // Si trigger OnAdd ou OnEquip immédiat -> exécuter tout de suite
-            if (itemEffect.trigger == EffectTrigger.OnAdd || itemEffect.trigger == EffectTrigger.OnEquip)
+            if (itemEffect.triggerEvent == GameEventType.OnItemPicked) // itemEffect.triggerEvent == GameEventType.OnAdd)
             {
-                itemEffect.effect.Execute(GameEventType.OnItemEquiped, null, runtime, paramDict);
+                itemEffect.effect.Apply( null, paramDict);
+                Debug.Log("L'effet estt activÃ© ");
             }
         }
     }
@@ -79,7 +100,7 @@ public class ItemManager : MonoBehaviour
         if (!activeItems.Contains(item))
             return;
 
-        // Cleanup des runtime liés à cet item
+        // Cleanup des runtime liÃ©s Ã  cet item
         for (int i = activeEffectRuntimes.Count - 1; i >= 0; i--)
         {
             var r = activeEffectRuntimes[i];
@@ -98,44 +119,66 @@ public class ItemManager : MonoBehaviour
         activeItems.Remove(item);
     }
 
-    // Appelé par le GameEvent system de ton jeu quand un event arrive
-    public void OnGameEvent(GameEventType gameEvent, GameContext context)
+    //// AppelÃ© par le GameEvent system de ton jeu quand un event arrive
+    //public void OnGameEvent(GameEventType gameEvent, GameContext context)
+    //{
+    //    // Parcourir les runtimes et exÃ©cuter ceux dont le trigger correspond
+    //    foreach (var runtime in activeEffectRuntimes)
+    //    {
+    //        var itemEffect = runtime.effectData;
+    //        if (itemEffect == null || itemEffect.effect == null) continue;
+    //
+    //        // reconstruire le dict de params (on peut le cache si on veut optimiser)
+    //        Dictionary<ValueKey, string> paramDict = new Dictionary<ValueKey, string>();
+    //        foreach (var p in itemEffect.parameters)
+    //            paramDict[p.key] = p.value;
+    //
+    //        // DÃ©cider si on doit exÃ©cuter selon le trigger
+    //        bool shouldExecute = false;
+    //        switch (itemEffect.trigger)
+    //        {
+    //            case EffectTrigger.OnPickup:
+    //                shouldExecute = gameEvent == GameEventType.OnItemPicked;
+    //                break;
+    //            case EffectTrigger.OnDestroy:
+    //                shouldExecute = gameEvent == GameEventType.OnItemDestroyed;
+    //                break;
+    //            case EffectTrigger.OnUse:
+    //                shouldExecute = gameEvent == GameEventType.OnItemUSed;
+    //                break;
+    //            case EffectTrigger.OnGameEvent:
+    //                // ExÃ©cute pour tout GameEvent (ou tu peux Ã©tendre ItemEffectData pour filtrer prÃ©cisÃ©ment)
+    //                shouldExecute = true;
+    //                break;
+    //                // autres cas gÃ©rÃ©s dans AddItem (OnAdd/OnEquip)
+    //        }
+    //
+    //        if (shouldExecute)
+    //        {
+    //            itemEffect.effect.Execute(gameEvent, context, runtime, paramDict);
+    //        }
+    //    }
+    //}
+
+    public void OnGameEvent(GameEvent gameEvent, GameContext context)
     {
-        // Parcourir les runtimes et exécuter ceux dont le trigger correspond
-        foreach (var runtime in activeEffectRuntimes)
+        foreach (var item in activeItems)
         {
-            var itemEffect = runtime.effectData;
-            if (itemEffect == null || itemEffect.effect == null) continue;
-
-            // reconstruire le dict de params (on peut le cache si on veut optimiser)
-            Dictionary<ValueKey, string> paramDict = new Dictionary<ValueKey, string>();
-            foreach (var p in itemEffect.parameters)
-                paramDict[p.key] = p.value;
-
-            // Décider si on doit exécuter selon le trigger
-            bool shouldExecute = false;
-            switch (itemEffect.trigger)
+            foreach (var effectData in item.effects)
             {
-                case EffectTrigger.OnPickup:
-                    shouldExecute = gameEvent == GameEventType.OnItemPicked;
-                    break;
-                case EffectTrigger.OnDestroy:
-                    shouldExecute = gameEvent == GameEventType.OnItemDestroyed;
-                    break;
-                case EffectTrigger.OnUse:
-                    shouldExecute = gameEvent == GameEventType.OnItemUSed;
-                    break;
-                case EffectTrigger.OnGameEvent:
-                    // Exécute pour tout GameEvent (ou tu peux étendre ItemEffectData pour filtrer précisément)
-                    shouldExecute = true;
-                    break;
-                    // autres cas gérés dans AddItem (OnAdd/OnEquip)
-            }
+                // On ne dÃ©clenche QUE si le GameEvent correspond
+                if (effectData.triggerEvent != gameEvent.eventType)
+                    continue;
 
-            if (shouldExecute)
-            {
-                itemEffect.effect.Execute(gameEvent, context, runtime, paramDict);
+                // Convertit paramÃ¨tres â†’ dictionnaire
+                Dictionary<ValueKey, string> paramDict = new Dictionary<ValueKey, string>();
+                foreach (var param in effectData.parameters)
+                    paramDict[param.key] = param.value;
+
+                // Appelle lâ€™effet
+                effectData.effect.Apply(context, paramDict);
             }
         }
     }
+
 }

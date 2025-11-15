@@ -26,14 +26,14 @@ public enum EffectTrigger
 public class ItemEffectData
 {
     public EffectSO effect;
-    public EffectTrigger trigger = EffectTrigger.OnPickup;
+    public GameEventType triggerEvent = GameEventType.OnItemPicked;
     public List<EffectParameter> parameters = new List<EffectParameter>();
 }
 
 [Serializable]
 public class EffectParameter
 {
-    public GameEventType eventType; 
+    //public GameEventType eventType; 
     public ValueKey key;  // ex: "amount", "duration"
     public string value; // sérialisé sous forme de string pour flexibilité
 }

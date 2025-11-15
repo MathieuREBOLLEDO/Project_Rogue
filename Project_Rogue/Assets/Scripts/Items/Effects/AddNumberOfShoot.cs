@@ -12,14 +12,14 @@ public class AddNumberOfShoot : EffectSO
         // rien à faire par défaut, mais possible d'initialiser des timers / abonnements
     }
 
-    public override void Execute(GameEventType gameEvent, GameContext context, EffectRuntime runtime, Dictionary<ValueKey, string> parameters)
+    public override void Apply(GameContext context, Dictionary<ValueKey, string> parameters)
     {
         // Exemple: si c'est un one-shot, on peut utiliser runtime.hasBeenUsed
-        if (runtime.hasBeenUsed)
-        {
-            Debug.Log($"[Effect] {effectName} déjà utilisé pour l'item {runtime.ownerItem?.itemName}, ignoré.");
-            return;
-        }
+        //if (runtime.hasBeenUsed)
+        //{
+        //    Debug.Log($"[Effect] {effectName} déjà utilisé pour l'item {runtime.ownerItem?.itemName}, ignoré.");
+        //    return;
+        //}
 
         int amount = GetParam<int>(parameters, ValueKey.Amount, defaultAmountToAdd);
 
@@ -30,9 +30,10 @@ public class AddNumberOfShoot : EffectSO
         }
 
         ShootHandler.Instance.AddShootNumber(amount);
-        Debug.Log($"[Effect] +{amount} shoot ajouté via {effectName} pour {runtime.ownerItem?.itemName}");
+        Debug.Log(" L'effet à était appelé");
+        //Debug.Log($"[Effect] +{amount} shoot ajouté via {effectName} pour {runtime.ownerItem?.itemName}");
 
-        runtime.hasBeenUsed = true;
+        //runtime.hasBeenUsed = true;
     }
 
     public override void Cleanup(EffectRuntime runtime)

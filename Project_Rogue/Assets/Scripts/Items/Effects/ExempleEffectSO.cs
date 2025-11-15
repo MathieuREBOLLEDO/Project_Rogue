@@ -10,7 +10,7 @@ public class ExempleEffectSO: EffectSO
         Debug.Log("Test effect sucessefully Initliazed");
     }
 
-    public override void Execute(GameEventType gameEvent, GameContext context, EffectRuntime runtime, Dictionary<ValueKey, string> parameters)
+    public override void Apply( GameContext context, Dictionary<ValueKey, string> parameters)
     {
         Debug.Log("Test effect sucessefully remove");
     }

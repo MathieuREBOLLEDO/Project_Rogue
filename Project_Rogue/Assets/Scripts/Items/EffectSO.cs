@@ -12,7 +12,7 @@ public abstract class EffectSO : ScriptableObject
     }
 
     // Le coeur : appliquer/execute l'effet — appelé quand le trigger correspond
-    public abstract void Execute(GameEventType gameEvent, GameContext context, EffectRuntime runtime, Dictionary<ValueKey, string> parameters);
+    public abstract void Apply(GameContext context, Dictionary<ValueKey, string> parameters);
 
     // Cleanup possible à la suppression de l'item
     public virtual void Cleanup(EffectRuntime runtime)
