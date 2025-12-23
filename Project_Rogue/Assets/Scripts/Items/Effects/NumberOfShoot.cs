@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AddNumberOfShootEffect", menuName = "Game/Effects/NumberOfShoot")]
-public class AddNumberOfShoot : EffectSO
+public class NumberOfShoot : EffectSO
 {
     // valeur par défaut si l'item ne fournit pas le paramètre
     public int defaultAmountToAdd = 1;

@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     private bool isAiming = false;
     private bool isCanceled = false;
 
+    private GameObject objUnderPointer;
     private GameObject objDebug;
     private Vector2 currentWorldPos;
 
@@ -61,25 +62,25 @@ public class InputManager : MonoBehaviour
     {
         Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
 
-        //if (IsPointerOverUI())
-        //    return;
-
-
-        if (!IsWithinCameraView(Camera.main, screenPosition))
+        if (IsPointerOverUI())
             return;
 
+        if (!IsWithinCameraView(Camera.main, screenPosition))
+            return; 
 
         currentWorldPos = ScreenUtils.ConvertScreenToWorld(screenPosition);
-        
 
         if (context.started)
         {
             isAiming = true;
             isCanceled = false;
-            Debug.Log("Input Started");
+            Debug.Log("Input Started"); 
+
             objDebug.SetActive(true);
             OnTouchScreen?.Invoke(currentWorldPos);
 
+            if (CheckObjectIsUnderPointer(screenPosition))
+                return;
         }
 
         if (context.performed && isAiming)
@@ -103,10 +104,22 @@ public class InputManager : MonoBehaviour
             //trail.SetActive(false);
             objDebug.SetActive(false);
         }
-            
-
 
         objDebug.transform.position = currentWorldPos;
+    }
+    private bool CheckObjectIsUnderPointer(Vector2 screenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+
+        if (hit.collider != null)
+        {
+            Debug.Log("Objet détecté : " + hit.collider.name);
+            Destroy(hit.transform.gameObject);
+            return true;
+        }
+        else
+            return false;
     }
 
     #endregion
@@ -119,6 +132,26 @@ public class InputManager : MonoBehaviour
         Vector3 viewportPos = cam.ScreenToViewportPoint(screenPos);
         return viewportPos.x >= 0f && viewportPos.x <= 1f &&
                viewportPos.y >= 0f && viewportPos.y <= 1f;
+    }
+
+    private GameObject GetObjectUnderPointer(Vector2 screenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
+        {
+            objUnderPointer = hit.collider.gameObject;
+            return objUnderPointer;
+        }
+
+        return null;
+    }
+
+    private bool IsPointerOverObject(Vector2 scrreenPos)
+    {
+        if (GetObjectUnderPointer(scrreenPos)==null)
+                return false;
+        return true;
     }
 
     private bool IsPointerOverUI()
