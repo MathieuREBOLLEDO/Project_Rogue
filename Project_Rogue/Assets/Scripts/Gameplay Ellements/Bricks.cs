@@ -13,10 +13,12 @@ public class Bricks : MonoBehaviour, ITriggerable
     public IntEvent NotifyPointGains;
     public IntEvent NotifyLifeLost;
 
-    [Header ("Unity Events")]
+    [Header("Unity Events")]
     public UnityEvent NotifyDestroy; 
 
     [SerializeField] SpriteRenderer spriteRenderer;
+
+
 
     public void Initialize(int type)
     {
@@ -69,6 +71,8 @@ public class Bricks : MonoBehaviour, ITriggerable
         GameEventManager.Instance.TriggerEvent( gameEvent );
 
         */
+
+
         // Toujours envoyer Touched
         GameEventManager.Instance.TriggerEvent(new GameEvent(
             GameEventType.EnemyTouched,
@@ -76,6 +80,9 @@ public class Bricks : MonoBehaviour, ITriggerable
             target: GameManager.Instance.gameObject,
             extraData: numberOfPoint_GainOnHit
         ));
+
+
+        /// TO DO Invoke global event for gestion of Bonus 
 
         if (CheckForDestroy())
         {
