@@ -2,13 +2,13 @@
 - Project name: Project_Rogue
 - Unity version: Unity 2022.3.7f1
 - Active scene:
-  - Name: MainLevel
+  - Name: Ball
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Brick
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ball, Water, UI, Bonus
 - Active game object:
-  - Name: MG_Input
+  - Name: Ball
   - Tag: Untagged
-  - Layer: Default
+  - Layer: Ball
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoreMountains.Feedbacks;
+using System;
 using UnityEditor.UIElements;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class BallController : MonoBehaviour, IBallLauncher
     public bool hasTouchedBottom { get; private set; } = false;
 
     [SerializeField] private float raycastDistance = 0.05f; // Distance du Raycast pour anticiper la collision
+
+    public MMFeedbacks HitFeedbck;
 
     void Awake()
     {
@@ -79,6 +82,8 @@ public class BallController : MonoBehaviour, IBallLauncher
 
         var triggerable = collision.gameObject.GetComponent<ITriggerable>();
         triggerable?.OnTriggered();
+
+        HitFeedbck?.PlayFeedbacks();
     }
 
     public void ResetBall()

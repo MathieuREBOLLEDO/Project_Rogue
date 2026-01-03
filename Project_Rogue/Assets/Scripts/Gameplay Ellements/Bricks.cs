@@ -1,12 +1,17 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Bricks : MonoBehaviour, ITriggerable
 {
-    private int type;
-    private int numberOfLifePoint;
+    [Header ("Feedbacks")]
+    public MMFeedbacks HitFeedbck;
+
+    [Header("Bricks Datas")]
     [SerializeField] private int numberOfPoint_GainOnHit = 1;
     [SerializeField] private int numberOfPoint_GainOnDestroy = 20;
+    private int type;
+    private int numberOfLifePoint;
 
     [Header ("Int Events")]
     public IntEvent NotifyInit;
@@ -18,7 +23,7 @@ public class Bricks : MonoBehaviour, ITriggerable
 
     [SerializeField] SpriteRenderer spriteRenderer;
 
-
+    
 
     public void Initialize(int type)
     {
@@ -44,6 +49,8 @@ public class Bricks : MonoBehaviour, ITriggerable
     public void OnTriggered() => UpdateOnTriggered();
     protected virtual void UpdateOnTriggered()
     {
+        HitFeedbck?.PlayFeedbacks();
+
         UpdatelifePoint(1); /// TO DO Valeur change en fonction des dégats du joueur
 
         /// A Definir
