@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2194295861907524021}
   m_Layer: 0
-  m_Name: Base_Brick
+  m_Name: Base_GO
   m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
