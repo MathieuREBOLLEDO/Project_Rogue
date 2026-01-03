@@ -71,11 +71,13 @@ public class BallController : MonoBehaviour, IBallLauncher
     {
         // Calcul de la normale moyenne pour les collisions multiples (coins)
         Vector2 averageNormal = Vector2.zero;
-        foreach (var contact in collision.contacts)
-        {
-            averageNormal += contact.normal;
-        }
-        averageNormal.Normalize();
+        //foreach (var contact in collision.contacts)
+        //{
+        //    averageNormal += contact.normal;
+        //}
+        //averageNormal.Normalize();
+        averageNormal = collision.GetContact(0).normal;
+        
 
         direction = Vector2.Reflect(direction, averageNormal);
         ballMovement.SetDirection(direction);
