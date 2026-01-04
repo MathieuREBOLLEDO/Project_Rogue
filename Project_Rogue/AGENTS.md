@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ball, Water, UI, Bonus
 - Active game object:
-  - Name: Ball(Clone)
+  - Name: MG_Ball
   - Tag: Untagged
-  - Layer: Ball
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
