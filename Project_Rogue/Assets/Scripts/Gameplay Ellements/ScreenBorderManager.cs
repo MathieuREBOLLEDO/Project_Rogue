@@ -1,154 +1,121 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class ScreenBorderManager : MonoBehaviour
 {
     [Header("Parents")]
-    public Transform topParent;
-    public Transform bottomParent;
     public Transform leftParent;
     public Transform rightParent;
-
-    [Header("Borders")]
-    public List<BorderElement> topBorders = new();
-    public List<BorderElement> bottomBorders = new();
-    public List<BorderElement> leftBorders = new();
-    public List<BorderElement> rightBorders = new();
-
-    [Header("Settings")]
-    public float borderThickness = 0.5f;
+    public Transform topParent;
+    public Transform bottomParent;
 
     private void Awake()
     {
-        InitBorders();
         PositionAndResizeBorders();
     }
 
-    #region Init
-
-    private void InitBorders()
+    public void PositionAndResizeBorders()
     {
-        ClearLists();
+        Rect camRect = GetCameraWorldRect();
 
-        CollectBorders(topParent, topBorders);
-        CollectBorders(bottomParent, bottomBorders);
-        CollectBorders(leftParent, leftBorders);
-        CollectBorders(rightParent, rightBorders);
+        // LEFT
+        PositionVerticalBordersKeepWidth(leftParent, camRect.xMin);
+
+        // RIGHT
+        PositionVerticalBordersKeepWidth(rightParent, camRect.xMax);
+
+        // TOP
+        PositionHorizontalBordersKeepHeight(topParent, camRect.yMax);
+
+        // BOTTOM
+        PositionHorizontalBordersKeepHeight(bottomParent, camRect.yMin);
     }
 
-    private void CollectBorders(Transform parent, List<BorderElement> list)
-    {
-        if (parent == null) return;
+    #region Vertical borders (LEFT / RIGHT)
 
+    void PositionVerticalBordersKeepWidth(Transform parent, float xEdge)
+    {
+        if (parent == null || parent.childCount == 0) return;
+
+        Rect camRect = GetCameraWorldRect();
+        float totalHeight = camRect.height;
+
+        int count = parent.childCount;
+        float segmentHeight = totalHeight / count;
+        float startY = camRect.yMin + segmentHeight / 2f;
+
+        int i = 0;
         foreach (Transform child in parent)
         {
-            BorderElement border = child.GetComponent<BorderElement>();
-            if (border != null)
-                list.Add(border);
-        }
-    }
+            if (!child.TryGetComponent(out BoxCollider2D col)) continue;
 
-    private void ClearLists()
-    {
-        topBorders.Clear();
-        bottomBorders.Clear();
-        leftBorders.Clear();
-        rightBorders.Clear();
+            float y = startY + i * segmentHeight;
+
+            // on garde la largeur existante
+            float width = col.size.x;
+
+            // on adapte uniquement la hauteur
+            col.size = new Vector2(width, segmentHeight);
+
+            // position : collé au bord X, réparti en Y
+            child.position = new Vector3(xEdge, y, 0);
+
+            i++;
+        }
     }
 
     #endregion
 
-    #region Placement & Resize
+    #region Horizontal borders (TOP / BOTTOM)
 
-    private void PositionAndResizeBorders()
+    void PositionHorizontalBordersKeepHeight(Transform parent, float yEdge)
     {
-        Vector2 min = ScreenUtils.ScreenMin;
-        Vector2 max = ScreenUtils.ScreenMax;
+        if (parent == null || parent.childCount == 0) return;
 
-        ResizeHorizontal(topBorders, max.y);
-        ResizeHorizontal(bottomBorders, min.y);
+        Rect camRect = GetCameraWorldRect();
+        float totalWidth = camRect.width;
 
-        ResizeVertical(leftBorders, min.x);
-        ResizeVertical(rightBorders, max.x);
-    }
+        int count = parent.childCount;
+        float segmentWidth = totalWidth / count;
+        float startX = camRect.xMin + segmentWidth / 2f;
 
-    private void ResizeHorizontal(List<BorderElement> borders, float yPos)
-    {
-        if (borders.Count == 0) return;
-
-        float width = (ScreenUtils.ScreenMax.x - ScreenUtils.ScreenMin.x) / borders.Count;
-
-        for (int i = 0; i < borders.Count; i++)
+        int i = 0;
+        foreach (Transform child in parent)
         {
-            BorderElement b = borders[i];
+            if (!child.TryGetComponent(out BoxCollider2D col)) continue;
 
-            float x = ScreenUtils.ScreenMin.x + width * (i + 0.5f);
-            b.transform.position = new Vector3(x, yPos, 0);
+            float x = startX + i * segmentWidth;
 
-            SetSize(b, width, borderThickness);
+            // on garde la hauteur existante
+            float height = col.size.y;
+
+            // on adapte uniquement la largeur
+            col.size = new Vector2(segmentWidth, height);
+
+            // position : collé au bord Y, réparti en X
+            child.position = new Vector3(x, yEdge, 0);
+
+            i++;
         }
     }
 
-    private void ResizeVertical(List<BorderElement> borders, float xPos)
+    #endregion
+
+    #region Camera rect
+
+    Rect GetCameraWorldRect()
     {
-        if (borders.Count == 0) return;
+        Camera cam = Camera.main;
 
-        float height = (ScreenUtils.ScreenMax.y - ScreenUtils.ScreenMin.y) / borders.Count;
+        float height = cam.orthographicSize * 2f;
+        float width = height * cam.aspect;
+        Vector3 c = cam.transform.position;
 
-        for (int i = 0; i < borders.Count; i++)
-        {
-            BorderElement b = borders[i];
-
-            float y = ScreenUtils.ScreenMin.y + height * (i + 0.5f);
-            b.transform.position = new Vector3(xPos, y, 0);
-
-            SetSize(b, borderThickness, height);
-        }
-    }
-
-private void SetSize(BorderElement border, float width, float height)
-{
-    // Collider
-    BoxCollider2D col = border.GetComponent<BoxCollider2D>();
-    if (col != null)
-        col.size = new Vector2(width, height);
-
-    // Visuel scale
-    SpriteRenderer sr = border.GetComponent<SpriteRenderer>();
-    if (sr != null)
-    {
-        Vector2 spriteSize = sr.sprite.bounds.size;
-
-        border.transform.localScale = new Vector3(
-            width / spriteSize.x,
-            height / spriteSize.y,
-            1f
+        return Rect.MinMaxRect(
+            c.x - width / 2f,
+            c.y - height / 2f,
+            c.x + width / 2f,
+            c.y + height / 2f
         );
-    }
-}
-
-
-
-#endregion
-
-#region Public API
-
-    public void SetBordersActive(ScreenBounds side, bool value)
-    {
-        foreach (var b in GetBordersBySide(side))
-            b.SetActive(value);
-    }
-
-    private List<BorderElement> GetBordersBySide(ScreenBounds side)
-    {
-        return side switch
-        {
-            ScreenBounds.Top => topBorders,
-            ScreenBounds.Bottom => bottomBorders,
-            ScreenBounds.Left => leftBorders,
-            ScreenBounds.Right => rightBorders,
-            _ => null
-        };
     }
 
     #endregion

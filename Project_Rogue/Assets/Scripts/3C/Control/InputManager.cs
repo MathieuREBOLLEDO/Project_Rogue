@@ -62,8 +62,8 @@ public class InputManager : MonoBehaviour
     {
         Vector2 screenPosition = playerControls.Touch.Position.ReadValue<Vector2>();
 
-        if (IsPointerOverUI())
-            return;
+      //  if (IsPointerOverUI())
+      //      return;
 
         if (!IsWithinCameraView(Camera.main, screenPosition))
             return; 

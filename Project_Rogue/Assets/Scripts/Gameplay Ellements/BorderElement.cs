@@ -33,13 +33,20 @@ public class BorderElement : MonoBehaviour
     {
         if (!isActive) return;
 
-        if (collision.gameObject.CompareTag("Ball"))
+        if (collision.gameObject.GetComponent<BallController>() != null)
         {
             //ScoreManager.Instance.AddScore(points);
 
-            if (destroyOnHit)
-                Destroy(gameObject);
+           // if (destroyOnHit)
+           //     Destroy(gameObject);
         }
+        //if (collision.gameObject.CompareTag("Ball"))
+        //{
+        //    //ScoreManager.Instance.AddScore(points);
+        //
+        //    if (destroyOnHit)
+        //        Destroy(gameObject);
+        //}
     }
 }
 

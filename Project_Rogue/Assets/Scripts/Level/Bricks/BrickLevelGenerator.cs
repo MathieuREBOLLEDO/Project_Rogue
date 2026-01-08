@@ -1,86 +1,73 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
-using static UnityEditorInternal.VersionControl.ListControl;
 
 public class BrickLevelGenerator : MonoBehaviour
 {
-    [Header("Config")]
-    public bool useSeed = false;
-    public int seed = 0;
-    public int rows = 4;
-    public int columns = 8;
+    [SerializeField] GameObject brickPrefab;
 
-    [SerializeField] BrickDatasSO brickData;
-
-    public List<WeightedLine> presetLinePool;
-    public GameObject brickPrefab;
-
-    public float spacing = 0.1f;
-
-    private IRandomProvider randomProvider;
-    private ILineGenerator lineGenerator;
-
-    GameEventType lastEvent;
+    private int currentTopRow;
 
     private void Start()
     {
+        StartCoroutine(WaitAndGenerate());
+    }
+
+    IEnumerator WaitAndGenerate()
+    {
+        // on attend que la PlayArea soit valide
+        while (PlayAreaProvider.Instance == null ||
+               PlayAreaProvider.Instance.PlayArea.width <= 0)
+        {
+            yield return null;
+        }
+
         GenerateInitialBricks();
-        GameEventManager.Instance.Subscribe(GameEventType.MachineTurnStart, HandleGameStateChanged);
+    }
+
+    private void OnEnable()
+    {
+        GridEvents.OnRequestNewBrickLine += AddProceduralLine;
     }
     private void OnDisable()
     {
-        GameEventManager.Instance.Unsubscribe(GameEventType.MachineTurnStart, HandleGameStateChanged);
-    }
-
-    void Awake()
-    {
-        randomProvider = new SeededRandomProvider(useSeed ? seed : System.DateTime.Now.Millisecond);
-        lineGenerator = new WeightedLineGenerator(presetLinePool, randomProvider);
+        GridEvents.OnRequestNewBrickLine -= AddProceduralLine;
     }
 
     void GenerateInitialBricks()
     {
-        for (int i = 0; i < rows; i++)
-            AddProceduralLineAt();
+        currentTopRow = GridService.Instance.Rows - 1;
+
+        // Génère 3 lignes au départ (exemple)
+        for (int i = 0; i < 3; i++)
+            AddProceduralLine();
     }
 
-    private void HandleGameStateChanged(GameEvent gameEvent)
+    public void AddProceduralLine()
     {
-        if (gameEvent.eventType == GameEventType.MachineTurnStart)
-            AddProceduralLineAt();
+        int cols = GridService.Instance.Columns;
 
-        GameManager.Instance.NotifyMachineTurnEnd();
-    }
+        Vector2 cellSize = GridService.Instance.CellSize;
 
-    void AddProceduralLineAt()
-    {
-        float brickSize = brickData.cellSize;
-        float verticalOffset = brickSize + spacing;
+        // petite marge pour éviter de toucher les murs
+        float margin = 0.9f;
 
-        // Déplace toutes les briques existantes vers le bas
-        foreach (Transform child in transform)
-            child.position -= new Vector3(0, verticalOffset, 0);
+        Vector3 brickScale = new Vector3(
+            cellSize.x * margin,
+            cellSize.y * margin,
+            1f
+        );
 
-        // Calcul de la position Y pour la nouvelle ligne
-        float startY = ScreenUtils.ScreenMax.y - brickSize / 2f;
-        float startX = ScreenUtils.ScreenMin.x + brickSize / 2f;
-
-        string line = lineGenerator.GenerateLine();
-
-        for (int col = 0; col < columns; col++)
+        for (int col = 0; col < cols; col++)
         {
-            int type = (col < line.Length) ? int.Parse(line[col].ToString()) : 0;
-            if (type == 0) continue;
+            Vector3 pos = GridService.Instance.GetCellCenter(col, currentTopRow);
 
-            float x = startX + col * (brickSize + spacing);
-            Vector3 pos = new Vector3(x, startY, 0);
+            GameObject brick = Instantiate(brickPrefab, pos, Quaternion.identity, transform);
 
-            GameObject brickGO = Instantiate(brickPrefab, pos, Quaternion.identity, transform);
-            brickGO.transform.localScale = new Vector3(brickSize, brickSize, 1f);
-
-            if (brickGO.TryGetComponent(out Bricks brck))
-                brck.Initialize(type);
+            // on force la taille logique de la brique
+            brick.transform.localScale = brickScale;
         }
+
+        currentTopRow--;
     }
+
 }

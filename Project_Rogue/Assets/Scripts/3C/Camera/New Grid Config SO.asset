@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45926798c43c0a04c94add0b50b37d34, type: 3}
-  m_Name: NewBrickDatas
+  m_Script: {fileID: 11500000, guid: adb65b2c74935ec45bc52ea584603b1f, type: 3}
+  m_Name: New Grid Config SO
   m_EditorClassIdentifier: 
   columns: 6
-  rows: 4
-  cellSize: 0.8180267
-  maxNumberRows: 9
-  spacingWithScreen: 0
-  spacingWithBricks: 0
+  rows: 10

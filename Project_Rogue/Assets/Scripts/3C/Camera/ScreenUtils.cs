@@ -3,15 +3,59 @@ using UnityEngine;
 
 public static class ScreenUtils
 {
-    public static Vector2 ScreenMin
+    // -------------------------
+    // PLAY AREA (SOURCE DE VÉRITÉ)
+    // -------------------------
+    private static Rect? playAreaOverride = null;
+
+    /// <summary>
+    /// Zone de jeu courante en WORLD SPACE.
+    /// Si aucune PlayArea n’est définie, on retourne les bounds caméra.
+    /// </summary>
+    public static Rect PlayArea
     {
         get
         {
+            if (playAreaOverride.HasValue)
+                return playAreaOverride.Value;
+
+            // Fallback = bounds caméra
             Camera cam = Camera.main;
             float height = cam.orthographicSize * 2f;
             float width = height * cam.aspect;
             Vector3 center = cam.transform.position;
-            return new Vector2(center.x - width / 2f, center.y - height / 2f);
+
+            return Rect.MinMaxRect(
+                center.x - width / 2f,
+                center.y - height / 2f,
+                center.x + width / 2f,
+                center.y + height / 2f
+            );
+        }
+    }
+
+    public static void SetPlayArea(Rect worldRect)
+    {
+        playAreaOverride = worldRect;
+    }
+
+    public static void ClearPlayArea()
+    {
+        playAreaOverride = null;
+    }
+
+    // -------------------------
+    // COMPATIBILITÉ ANCIEN CODE
+    // -------------------------
+    public static Vector2 ScreenMin
+    {
+        get
+        {
+            Debug.Log(playAreaOverride.HasValue
+                ? "ScreenUtils : PlayArea utilisée"
+                : "ScreenUtils : Camera utilisée");
+
+            return new Vector2(PlayArea.xMin, PlayArea.yMin);
         }
     }
 
@@ -19,12 +63,21 @@ public static class ScreenUtils
     {
         get
         {
-            Camera cam = Camera.main;
-            float height = cam.orthographicSize * 2f;
-            float width = height * cam.aspect;
-            Vector3 center = cam.transform.position;
-            return new Vector2(center.x + width / 2f, center.y + height / 2f);
+            return new Vector2(PlayArea.xMax, PlayArea.yMax);
         }
+    }
+
+    // -------------------------
+    // DEBUG
+    // -------------------------
+    public static void DebugDrawPlayArea(float duration = 5f)
+    {
+        //Rect r = PlayArea;
+        //
+        //Debug.DrawLine(new Vector3(r.xMin, r.yMin), new Vector3(r.xMax, r.yMin), Color.green, duration);
+        //Debug.DrawLine(new Vector3(r.xMax, r.yMin), new Vector3(r.xMax, r.yMax), Color.green, duration);
+        //Debug.DrawLine(new Vector3(r.xMax, r.yMax), new Vector3(r.xMin, r.yMax), Color.green, duration);
+        //Debug.DrawLine(new Vector3(r.xMin, r.yMax), new Vector3(r.xMin, r.yMin), Color.green, duration);
     }
 
     public static bool IsVisible(Vector2 pos)
@@ -62,44 +115,26 @@ public static class ScreenUtils
 
     public static Vector2 ReflectDirection(Vector2 direction, List<ScreenBounds> edges)
     {
-        // On clone la direction initiale pour le debug
-        Vector2 originalDir = direction.normalized;
-
         foreach (var edge in edges)
         {
             switch (edge)
             {
                 case ScreenBounds.Left:
                     direction = Vector2.Reflect(direction, Vector2.right);
-                    Debug.DrawRay(Vector3.zero, Vector3.right * 0.5f, Color.cyan, 1f); // normale
                     break;
-
                 case ScreenBounds.Right:
                     direction = Vector2.Reflect(direction, Vector2.left);
-                    Debug.DrawRay(Vector3.zero, Vector3.left * 0.5f, Color.cyan, 1f);
                     break;
-
                 case ScreenBounds.Top:
                     direction = Vector2.Reflect(direction, Vector2.down);
-                    Debug.DrawRay(Vector3.zero, Vector3.down * 0.5f, Color.cyan, 1f);
                     break;
-
                 case ScreenBounds.Bottom:
                     direction = Vector2.Reflect(direction, Vector2.up);
-                    Debug.DrawRay(Vector3.zero, Vector3.up * 0.5f, Color.cyan, 1f);
                     break;
             }
         }
 
-        // Normalisation de la direction finale
         direction.Normalize();
-
-        // --- DEBUG VISUEL ---
-        // Ligne jaune : direction avant rebond
-        // Ligne rouge : direction après rebond
-        Debug.DrawRay(Vector3.zero, originalDir * 0.8f, Color.yellow, 1f);
-        Debug.DrawRay(Vector3.zero, direction * 0.8f, Color.red, 1f);
-
         return direction;
     }
 
@@ -117,7 +152,6 @@ public static class ScreenUtils
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(pos);
         worldPos.z = 0;
-
         return worldPos;
     }
 
@@ -129,7 +163,7 @@ public static class ScreenUtils
         if (edges.Count > 0)
         {
             direction = ReflectDirection(direction, edges);
-            newPos = position + direction * step; // recalculer après rebond
+            newPos = position + direction * step;
         }
 
         return newPos;

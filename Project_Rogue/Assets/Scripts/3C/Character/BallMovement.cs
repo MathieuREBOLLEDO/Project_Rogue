@@ -3,16 +3,11 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour, IBallMovement
 {
-    private Vector2 screenMin;
     private float radius;
-
     private Vector2 currentDirection;
-
 
     void Awake()
     {
-        screenMin = ScreenUtils.ScreenMin;
-        //GlobalBallVariables.SetBallSize(transform.localScale.x / 2);
         radius = transform.localScale.x / 2f;
     }
 
@@ -23,15 +18,15 @@ public class BallMovement : MonoBehaviour, IBallMovement
 
     public void InitPosition()
     {
-        //BallSettingsManager.Instance.transform.position = new Vector3(0)
-        //transform.position = BallSettingsManager.Instance.transform.position;
-        //transform.position = new Vector3(0f, screenMin.y + radius,0);// + 0.2f, 0f);
-    }
 
+    }
     public void Move()
     {
         float speed = BallSettingsManager.Instance.GetBallSpeed();
+
         Vector3 pos = transform.position + (Vector3)(currentDirection * speed * Time.deltaTime);
+
+        // --- collisions avec la PlayArea ---
         List<ScreenBounds> touchedEdges = ScreenUtils.GetTouchedEdges(pos, radius);
 
         if (touchedEdges.Count > 0)
@@ -39,16 +34,20 @@ public class BallMovement : MonoBehaviour, IBallMovement
             SetDirection(ScreenUtils.ReflectDirection(currentDirection, touchedEdges));
             pos = ScreenUtils.ClampToScreen(pos, radius);
         }
+
+        // --- perte de balle ---
         if (ScreenUtils.TouchesBottom(pos, radius))
         {
             GetComponent<BallController>().ResetBall();
             return;
         }
+
         transform.position = pos;
     }
 
     public void ResetPosition()
     {
+        Vector2 screenMin = ScreenUtils.ScreenMin; // TOUJOURS à jour
         transform.position = new Vector3(transform.position.x, screenMin.y + radius, 0f);
     }
 }
