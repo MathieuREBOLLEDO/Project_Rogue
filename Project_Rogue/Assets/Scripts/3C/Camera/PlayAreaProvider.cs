@@ -11,6 +11,8 @@ public class PlayAreaProvider : MonoBehaviour
     public Transform bottomParent;
 
     public Rect PlayArea { get; private set; }
+    public static bool IsReady { get; private set; }
+
 
     private bool initialized = false;
 
@@ -24,6 +26,7 @@ public class PlayAreaProvider : MonoBehaviour
         // On attend la fin de l'initialisation des autres scripts (borders, etc.)
         Invoke(nameof(CalculatePlayArea), 0.05f);
     }
+
 
     public void CalculatePlayArea()
     {
@@ -54,6 +57,8 @@ public class PlayAreaProvider : MonoBehaviour
 
         Debug.Log("PlayAreaProvider -> Camera rect = " + cameraRect);
         Debug.Log("PlayAreaProvider -> PlayArea finale = " + PlayArea);
+
+        IsReady = true;
     }
 
     #region Borders reading

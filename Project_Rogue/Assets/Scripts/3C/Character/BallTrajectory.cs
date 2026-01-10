@@ -31,45 +31,45 @@ public class BallTrajectory : MonoBehaviour
 
     public void ShowTrajectory( Vector2 pos)
     {
-        lineRenderer.enabled = true;
-        List<Vector3> points = new List<Vector3>();
-        Vector2 currentPos = (Vector2)startPos.position;
-        Vector2 currentDir = (pos - (Vector2)startPos.position).normalized; //direction.normalized;
-
-        float timeElapsed = 0f;
-        float stepDistance = ballSpeed * simulationStep;
-
-        float angle = Vector2.Angle(Vector2.up, currentDir); // Angle par rapport à vertical (ou change en Vector2.right si horizontal)
-
-
-        if (angle < minAllowedAngle || angle > maxAllowedAngle)  // Vérifie si l'angle est dans les limites autorisées
-        {
-            Debug.LogWarning($"Angle de tir invalide : {angle}°. Autorisé entre {minAllowedAngle}° et {maxAllowedAngle}°.");
-            return;
-        }
-
-        else
-        {
-            while (timeElapsed < simulationDuration)
-            {
-                points.Add(currentPos);
-
-                Vector2 nextPos = currentPos + currentDir * stepDistance;
-
-                var edges = ScreenUtils.GetTouchedEdges(nextPos, ballRadius);
-                if (edges.Count > 0)
-                {
-                    currentDir = ScreenUtils.ReflectDirection(currentDir, edges);
-                    nextPos = currentPos + currentDir * stepDistance;
-                }
-
-                currentPos = nextPos;
-                timeElapsed += simulationStep;
-            }
-
-            lineRenderer.positionCount = points.Count;
-            lineRenderer.SetPositions(points.ConvertAll(p => (Vector3)p).ToArray());
-        }
+      //  lineRenderer.enabled = true;
+      //  List<Vector3> points = new List<Vector3>();
+      //  Vector2 currentPos = (Vector2)startPos.position;
+      //  Vector2 currentDir = (pos - (Vector2)startPos.position).normalized; //direction.normalized;
+      //
+      //  float timeElapsed = 0f;
+      //  float stepDistance = ballSpeed * simulationStep;
+      //
+      //  float angle = Vector2.Angle(Vector2.up, currentDir); // Angle par rapport à vertical (ou change en Vector2.right si horizontal)
+      //
+      //
+      //  if (angle < minAllowedAngle || angle > maxAllowedAngle)  // Vérifie si l'angle est dans les limites autorisées
+      //  {
+      //      Debug.LogWarning($"Angle de tir invalide : {angle}°. Autorisé entre {minAllowedAngle}° et {maxAllowedAngle}°.");
+      //      return;
+      //  }
+      //
+      //  else
+      //  {
+      //      while (timeElapsed < simulationDuration)
+      //      {
+      //          points.Add(currentPos);
+      //
+      //          Vector2 nextPos = currentPos + currentDir * stepDistance;
+      //
+      //          var edges = ScreenUtils.GetTouchedEdges(nextPos, ballRadius);
+      //          if (edges.Count > 0)
+      //          {
+      //              currentDir = ScreenUtils.ReflectDirection(currentDir, edges);
+      //              nextPos = currentPos + currentDir * stepDistance;
+      //          }
+      //
+      //          currentPos = nextPos;
+      //          timeElapsed += simulationStep;
+      //      }
+      //
+      //      lineRenderer.positionCount = points.Count;
+      //      lineRenderer.SetPositions(points.ConvertAll(p => (Vector3)p).ToArray());
+      //  }
     }
 
 }

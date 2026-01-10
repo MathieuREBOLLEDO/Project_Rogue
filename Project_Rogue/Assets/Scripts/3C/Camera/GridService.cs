@@ -22,14 +22,13 @@ public class GridService : MonoBehaviour
     {
         get
         {
-            Rect area = PlayAreaProvider.Instance.PlayArea;
-
-            // sécurité
-            if (area.width <= 0 || area.height <= 0)
+            if (!PlayAreaProvider.IsReady)
             {
-                Debug.LogWarning("GridService: PlayArea invalide, CellSize = 0");
+                Debug.LogWarning("GridService: PlayArea pas prête");
                 return Vector2.zero;
             }
+
+            Rect area = PlayAreaProvider.Instance.PlayArea;
 
             return new Vector2(
                 area.width / gridConfig.columns,
@@ -37,6 +36,7 @@ public class GridService : MonoBehaviour
             );
         }
     }
+
     // Centre d'une cellule (col, row) — row 0 en bas
     public Vector3 GetCellCenter(int col, int row)
     {
