@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &10531602
 RectTransform:
   m_ObjectHideFlags: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridConfig: {fileID: 11400000, guid: dacb1bfbe61fa534e91a140f418d1480, type: 2}
-  buttonPrefab: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+  buttonPrefab: {fileID: 60261284536812607, guid: 1b248fe334fd5d948a7f8e3a850392f7, type: 3}
   canvas: {fileID: 10531605}
   objectToSpawn: {fileID: 948224414023238869, guid: 5e499d9bb9222334ab96f3cd2dec6de0, type: 3}
 --- !u!1 &435986335

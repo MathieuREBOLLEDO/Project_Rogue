@@ -12,6 +12,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_Button_Grid
       objectReference: {fileID: 0}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7437053408862315687}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472559665188991261, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8717925815638620410, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -109,3 +141,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+--- !u!1 &7437053408862315687 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3175565472811078021, guid: 573480c2a2c9fcb45be0dc17dc514731, type: 3}
+  m_PrefabInstance: {fileID: 5414566266461418786}
+  m_PrefabAsset: {fileID: 0}

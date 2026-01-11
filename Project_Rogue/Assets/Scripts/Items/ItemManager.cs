@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -56,6 +57,8 @@ public class ItemManager : MonoBehaviour
         GameEventManager.Instance.TriggerEvent(new GameEvent(GameEventType.OnItemPicked));
         
     }
+
+
 
     private void ItemPicked(GameEvent gameEvent)
     {
@@ -118,6 +121,48 @@ public class ItemManager : MonoBehaviour
 
         activeItems.Remove(item);
     }
+
+    public void AddBonus(BonusItemSO bonus)
+    {
+        if (bonus == null || bonus.effect == null)
+        {
+            Debug.LogWarning("[BONUS] Bonus ou effet null");
+            return;
+        }
+
+        StartCoroutine(HandleBonusLifecycle(bonus));
+    }
+
+    private IEnumerator HandleBonusLifecycle(BonusItemSO bonus)
+    {
+        // Build params dict
+        Dictionary<ValueKey, string> paramDict = new Dictionary<ValueKey, string>();
+        foreach (var p in bonus.parameters)
+            paramDict[p.key] = p.value;
+
+        // Créer un runtime comme pour les items
+        EffectRuntime runtime = new EffectRuntime
+        {
+            ownerItem = null, // important : ce n’est PAS un item
+            effectData = null,
+            hasBeenUsed = false
+        };
+
+        // Initialize
+        bonus.effect.Initialize(runtime, paramDict);
+        bonus.effect.Apply(null, paramDict);
+
+        Debug.Log($"[BONUS] Effet activé : {bonus.effect.effectName}");
+
+        yield return new WaitForSeconds(bonus.duration);
+
+        // Cleanup
+        bonus.effect.Cleanup(runtime);
+
+        Debug.Log($"[BONUS] Effet terminé : {bonus.effect.effectName}");
+    }
+
+
 
     //// Appelé par le GameEvent system de ton jeu quand un event arrive
     //public void OnGameEvent(GameEventType gameEvent, GameContext context)

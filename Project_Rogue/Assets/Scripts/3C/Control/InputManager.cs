@@ -115,7 +115,11 @@ public class InputManager : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log("Objet détecté : " + hit.collider.name);
-            Destroy(hit.transform.gameObject);
+            if(hit.transform.GetComponent<BonusPickup>() != null)
+            {
+                hit.transform.GetComponent<BonusPickup>().OnMouseDown(); 
+               // Destroy(hit.transform.gameObject);
+            }
             return true;
         }
         else

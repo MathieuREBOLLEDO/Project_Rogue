@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class PlayAreaGridDrawer : MonoBehaviour
 {
-    [Header("Grid settings")]
-    public int columns = 8;
-    public int rows = 6;
+    [Header("Grid Data")]
+    [SerializeField] GridConfigSO gridConfig;  
 
     public Color lineColor = Color.green;
     public float lineWidth = 0.05f;
@@ -23,7 +22,16 @@ public class PlayAreaGridDrawer : MonoBehaviour
 
     void DrawGridRuntime()
     {
+        if (gridConfig == null || PlayAreaProvider.Instance == null)
+        {
+            Debug.LogError("PlayAreaGridDrawer : GridConfigSO ou PlayAreaProvider manquant");
+            return;
+        }
+
         Rect area = PlayAreaProvider.Instance.PlayArea;
+
+        int columns = gridConfig.columns;
+        int rows = gridConfig.rows;
 
         // Vertical lines
         for (int i = 0; i <= columns; i++)
@@ -75,9 +83,13 @@ public class PlayAreaGridDrawer : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (!drawInEditor) return;
+        if (gridConfig == null) return;
         if (PlayAreaProvider.Instance == null) return;
 
         Rect area = PlayAreaProvider.Instance.PlayArea;
+
+        int columns = gridConfig.columns;
+        int rows = gridConfig.rows;
 
         Gizmos.color = lineColor;
 

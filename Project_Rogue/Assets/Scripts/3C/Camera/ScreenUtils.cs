@@ -51,10 +51,10 @@ public static class ScreenUtils
     {
         get
         {
-            Debug.Log(playAreaOverride.HasValue
-                ? "ScreenUtils : PlayArea utilisée"
-                : "ScreenUtils : Camera utilisée");
-
+            //Debug.Log(playAreaOverride.HasValue
+            //    ? "ScreenUtils : PlayArea utilisée"
+            //    : "ScreenUtils : Camera utilisée");
+            //
             return new Vector2(PlayArea.xMin, PlayArea.yMin);
         }
     }

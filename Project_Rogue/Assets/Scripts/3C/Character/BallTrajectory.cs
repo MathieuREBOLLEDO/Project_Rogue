@@ -1,75 +1,82 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(LineRenderer))]
 public class BallTrajectory : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] Transform startPos;
-    public float simulationStep = 0.01f; // temps par step (en secondes)
-    public float simulationDuration = 3f; // durée totale de simulation (en secondes)
-    public float ballSpeed = 5f; // vitesse de la balle (unités/seconde)
-    public float ballRadius = 0.2f; // rayon de la balle
+
+    [Header("Trajectory")]
+    public int maxBounces = 10;
+    public float maxDistance = 50f;
+    public float ballRadius = 0.2f;
+
+    [Header("Physics")]
+    public LayerMask collisionMask; // Borders, Bricks, World
 
     private LineRenderer lineRenderer;
 
-    private float maxAllowedAngle = GlobalBallVariables.angleOfShooting;
-    private float minAllowedAngle = -GlobalBallVariables.angleOfShooting;
-
-
-    void Awake()
+    private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
-        HideTrajectory();
+        lineRenderer.enabled = false;
     }
-      
+
     public void HideTrajectory()
     {
         lineRenderer.enabled = false;
     }
 
-    public void ShowTrajectory( Vector2 pos)
+    public void ShowTrajectory(Vector2 targetPos)
     {
-      //  lineRenderer.enabled = true;
-      //  List<Vector3> points = new List<Vector3>();
-      //  Vector2 currentPos = (Vector2)startPos.position;
-      //  Vector2 currentDir = (pos - (Vector2)startPos.position).normalized; //direction.normalized;
-      //
-      //  float timeElapsed = 0f;
-      //  float stepDistance = ballSpeed * simulationStep;
-      //
-      //  float angle = Vector2.Angle(Vector2.up, currentDir); // Angle par rapport à vertical (ou change en Vector2.right si horizontal)
-      //
-      //
-      //  if (angle < minAllowedAngle || angle > maxAllowedAngle)  // Vérifie si l'angle est dans les limites autorisées
-      //  {
-      //      Debug.LogWarning($"Angle de tir invalide : {angle}°. Autorisé entre {minAllowedAngle}° et {maxAllowedAngle}°.");
-      //      return;
-      //  }
-      //
-      //  else
-      //  {
-      //      while (timeElapsed < simulationDuration)
-      //      {
-      //          points.Add(currentPos);
-      //
-      //          Vector2 nextPos = currentPos + currentDir * stepDistance;
-      //
-      //          var edges = ScreenUtils.GetTouchedEdges(nextPos, ballRadius);
-      //          if (edges.Count > 0)
-      //          {
-      //              currentDir = ScreenUtils.ReflectDirection(currentDir, edges);
-      //              nextPos = currentPos + currentDir * stepDistance;
-      //          }
-      //
-      //          currentPos = nextPos;
-      //          timeElapsed += simulationStep;
-      //      }
-      //
-      //      lineRenderer.positionCount = points.Count;
-      //      lineRenderer.SetPositions(points.ConvertAll(p => (Vector3)p).ToArray());
-      //  }
-    }
+        lineRenderer.enabled = true;
+        lineRenderer.positionCount = 0;
 
+        Vector2 currentPos = startPos.position;
+        Vector2 direction = (targetPos - currentPos).normalized;
+
+        List<Vector3> points = new List<Vector3>();
+        points.Add(currentPos);
+
+        float remainingDistance = maxDistance;
+
+        for (int i = 0; i < maxBounces; i++)
+        {
+            if (remainingDistance <= 0f)
+                break;
+
+            RaycastHit2D hit = Physics2D.CircleCast(
+                currentPos,
+                ballRadius,
+                direction,
+                remainingDistance,
+                collisionMask
+            );
+
+            if (hit.collider != null)
+            {
+                // point touché
+                points.Add(hit.point);
+
+                // calcul du rebond
+                direction = Vector2.Reflect(direction, hit.normal);
+
+                // avancer légèrement pour éviter les collisions infinies
+                currentPos = hit.point + hit.normal * 0.01f;
+
+                remainingDistance -= hit.distance;
+            }
+            else
+            {
+                // rien touché -> ligne droite
+                points.Add(currentPos + direction * remainingDistance);
+                break;
+            }
+        }
+
+        lineRenderer.positionCount = points.Count;
+        lineRenderer.SetPositions(points.ToArray());
+    }
 }

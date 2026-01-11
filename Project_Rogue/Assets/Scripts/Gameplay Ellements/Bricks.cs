@@ -23,7 +23,9 @@ public class Bricks : MonoBehaviour, ITriggerable
 
     [SerializeField] SpriteRenderer spriteRenderer;
 
-    
+    [Header("Bonus")]
+    [SerializeField] private GameObject bonusPrefab;
+    [SerializeField] private float bonusChance = 0.25f;
 
     public void Initialize(int type)
     {
@@ -104,8 +106,20 @@ public class Bricks : MonoBehaviour, ITriggerable
 
     }
 
+
+
+    private void TrySpawnBonus()
+    {
+        if (Random.value <= bonusChance)
+        {
+            Instantiate(bonusPrefab, transform.position, Quaternion.identity);
+        }
+    }
+
+
     protected void DestroyEvent()
     {
+        TrySpawnBonus();
         NotifyDestroy?.Invoke();
         Destroy(gameObject);
     }

@@ -57,6 +57,7 @@ public class GridHUDButtonSpawner : MonoBehaviour
                 // clic = spawn objet
                 btn.onClick.AddListener(() =>
                 {
+                    Destroy( btn );
                     SpawnObjectAt(col, row);
                 });
             }
@@ -71,12 +72,45 @@ public class GridHUDButtonSpawner : MonoBehaviour
             return;
         }
 
-        //
 
         Vector3 pos = GridService.Instance.GetCellCenter(col, row);
+        GameObject obj = Instantiate(objectToSpawn, pos, Quaternion.identity);
 
-        Instantiate(objectToSpawn, pos, Quaternion.identity);
+        // on adapte la taille à la grille
+        ResizeObjectToCell(obj);
+
 
         Debug.Log($"Objet spawn à la case [{col},{row}]");
     }
+
+    void ResizeObjectToCell(GameObject obj)
+    {
+        Vector2 cellSize = GridService.Instance.CellSize;
+
+        // marge pour éviter de toucher les murs
+        float margin = 0.9f;
+
+        Vector3 targetSize = new Vector3(
+            cellSize.x * margin,
+            cellSize.y * margin,
+            1f
+        );
+
+        // cas 2D avec SpriteRenderer
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            Vector2 spriteSize = sr.bounds.size;
+
+            float scaleX = targetSize.x / spriteSize.x;
+            float scaleY = targetSize.y / spriteSize.y;
+
+            obj.transform.localScale = new Vector3(scaleX, scaleY, 1f);
+            return;
+        }
+
+        // fallback simple
+        obj.transform.localScale = targetSize;
+    }
+
 }
