@@ -1,15 +1,3 @@
-{
-    "name": "AllIn1SpriteShaderAssembly",
-    "references": [
-        "GUID:7ab3663edede26740845931880bf22af"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+﻿{
+	"name": "AllIn1SpriteShaderAssembly"
 }

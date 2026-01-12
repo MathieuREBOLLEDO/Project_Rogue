@@ -36,7 +36,7 @@ namespace AllIn1SpriteShader
             if (!updateEveryFrame && Application.isPlaying && this != null) this.enabled = false;
         }
 
-        private void Update()
+        private void OnWillRenderObject()
         {
             if (updateEveryFrame)
             {
@@ -44,9 +44,9 @@ namespace AllIn1SpriteShader
             }
         }
 
-        public bool GetAndSetUVs()
+        public void GetAndSetUVs()
         {
-            if (!GetRendererReferencesIfNeeded()) return false;
+            if (!GetRendererReferencesIfNeeded()) return;
 
             if (!isUI)
             {
@@ -85,8 +85,6 @@ namespace AllIn1SpriteShader
                 uiImage.material.SetFloat(minYuv, r.yMin);
                 uiImage.material.SetFloat(maxYuv, r.yMax);
             }
-
-            return true;
         }
 
         public void ResetAtlasUvs()
@@ -132,7 +130,7 @@ namespace AllIn1SpriteShader
                 if (spriteRender.sprite == null)
                 {
                     #if UNITY_EDITOR
-                    EditorUtility.DisplayDialog("No sprite found", "The object: " + gameObject.name + ", has Sprite Renderer but no sprite", "Ok");
+                    EditorUtility.DisplayDialog("No sprite found", "The object: " + gameObject.name + ",has Sprite Renderer but no sprite", "Ok");
                     #endif
                     DestroyImmediate(this);
                     return false;
