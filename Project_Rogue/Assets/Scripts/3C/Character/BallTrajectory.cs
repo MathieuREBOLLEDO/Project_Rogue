@@ -1,52 +1,54 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(LineRenderer))]
-public class BallTrajectory : MonoBehaviour
+public class BallTrajectoryGhost : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Transform startPos;
 
-    [Header("Trajectory")]
-    public int maxBounces = 10;
-    public float maxDistance = 50f;
-    public float ballRadius = 0.2f;
+    [Header("Ghost settings")]
+    public GameObject ghostBallPrefab;
+    public float spacing = 0.3f;          // distance entre chaque ghost
+    public int maxGhosts = 50;
 
     [Header("Physics")]
-    public LayerMask collisionMask; // Borders, Bricks, World
+    public float ballRadius = 0.1f;
+    public int maxBounces = 10;
+    public float maxDistance = 50f;
+    public LayerMask collisionMask;
 
-    private LineRenderer lineRenderer;
+    private readonly List<GameObject> ghosts = new();
+    private int ghostIndex;
 
     private void Awake()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = 0;
-        lineRenderer.enabled = false;
+        // Pool
+        for (int i = 0; i < maxGhosts; i++)
+        {
+            GameObject g = Instantiate(ghostBallPrefab, transform);
+            g.SetActive(false);
+            ghosts.Add(g);
+        }
     }
 
     public void HideTrajectory()
     {
-        lineRenderer.enabled = false;
+        foreach (var g in ghosts)
+            g.SetActive(false);
     }
 
     public void ShowTrajectory(Vector2 targetPos)
     {
-        lineRenderer.enabled = true;
-        lineRenderer.positionCount = 0;
+        HideTrajectory();
+        ghostIndex = 0;
 
         Vector2 currentPos = startPos.position;
         Vector2 direction = (targetPos - currentPos).normalized;
 
-        List<Vector3> points = new List<Vector3>();
-        points.Add(currentPos);
-
         float remainingDistance = maxDistance;
 
-        for (int i = 0; i < maxBounces; i++)
+        while (remainingDistance > 0f && ghostIndex < maxGhosts)
         {
-            if (remainingDistance <= 0f)
-                break;
-
             RaycastHit2D hit = Physics2D.CircleCast(
                 currentPos,
                 ballRadius,
@@ -55,28 +57,32 @@ public class BallTrajectory : MonoBehaviour
                 collisionMask
             );
 
+            float segmentLength = hit.collider != null ? hit.distance : remainingDistance;
+            int steps = Mathf.FloorToInt(segmentLength / spacing);
+
+            for (int i = 0; i < steps && ghostIndex < maxGhosts; i++)
+            {
+                Vector2 pos = currentPos + direction * spacing * i;
+                PlaceGhost(pos);
+            }
+
             if (hit.collider != null)
             {
-                // point touché
-                points.Add(hit.point);
-
-                // calcul du rebond
-                direction = Vector2.Reflect(direction, hit.normal);
-
-                // avancer légèrement pour éviter les collisions infinies
                 currentPos = hit.point + hit.normal * 0.01f;
-
+                direction = Vector2.Reflect(direction, hit.normal);
                 remainingDistance -= hit.distance;
             }
             else
             {
-                // rien touché -> ligne droite
-                points.Add(currentPos + direction * remainingDistance);
                 break;
             }
         }
+    }
 
-        lineRenderer.positionCount = points.Count;
-        lineRenderer.SetPositions(points.ToArray());
+    void PlaceGhost(Vector2 pos)
+    {
+        GameObject g = ghosts[ghostIndex++];
+        g.transform.position = pos;
+        g.SetActive(true);
     }
 }

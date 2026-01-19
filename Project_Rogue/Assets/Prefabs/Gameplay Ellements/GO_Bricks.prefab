@@ -643,7 +643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6872228971779339653, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
       propertyPath: m_Name
-      value: Brick_Cube_Destroyable_With_Text
+      value: GO_Bricks
       objectReference: {fileID: 0}
     - target: {fileID: 9057732059075351048, guid: 57a77892a5d61974d8ed07e39e87781a, type: 3}
       propertyPath: m_LocalScale.x
@@ -798,6 +798,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   spriteRenderer: {fileID: 5315678590342793112}
+  bonusPrefab: {fileID: 1578560822157173036, guid: 5958e30359f7a3a4e9a0642104ff3720, type: 3}
+  bonusChance: 0.25
 --- !u!114 &4414343829465219476
 MonoBehaviour:
   m_ObjectHideFlags: 0

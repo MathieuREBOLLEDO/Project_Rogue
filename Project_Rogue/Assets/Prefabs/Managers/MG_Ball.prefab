@@ -66,10 +66,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {fileID: 3396114788345529405}
-  simulationStep: 0.001
-  simulationDuration: 1.2
-  ballSpeed: 5
+  ghostBallPrefab: {fileID: 6832294291923158639, guid: ef1f33232ff866247a366d973157d6e7, type: 3}
+  spacing: 0.3
+  maxGhosts: 50
   ballRadius: 0.1
+  maxBounces: 10
+  maxDistance: 50
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &8508746188733052662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1abb233f4950ac2489c85c64cdbef957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 1560229207743785726, guid: 40f58894cf72f0d4fb5681b7a2b5753b, type: 3}
+  ballPrefab: {fileID: 1891368100905738043, guid: 46bc0ea7a0ddbc645bb853639eee3af0, type: 3}
   poolSize: 999
   AverrageBallsLocations: {fileID: 7625598699163952152}
   lerpDuration: 1.5
