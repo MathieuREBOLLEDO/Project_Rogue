@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 1313039607}
   - component: {fileID: 1313039608}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GridOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -324,6 +324,18 @@ PrefabInstance:
     - target: {fileID: 990165180174544799, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632067823771966716, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+      propertyPath: ballRadius
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632067823771966716, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+      propertyPath: impactBallPrefab
+      value: 
+      objectReference: {fileID: 6832294291923158639, guid: ef1f33232ff866247a366d973157d6e7, type: 3}
+    - target: {fileID: 5632067823771966716, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+      propertyPath: collisionMask.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 6237181829066881905, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
       propertyPath: OnInitScore.m_PersistentCalls.m_Calls.Array.data[0].m_Target

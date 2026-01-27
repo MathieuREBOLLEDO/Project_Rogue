@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4368277175410830904, guid: 6846c744e3bcbdf40babbcd6d1183cb6, type: 3}
       propertyPath: m_Name
-      value: Brick_Cube_WithCollision
+      value: GO_WithcCollision
+      objectReference: {fileID: 0}
+    - target: {fileID: 4368277175410830904, guid: 6846c744e3bcbdf40babbcd6d1183cb6, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adb65b2c74935ec45bc52ea584603b1f, type: 3}
-  m_Name: New Grid Config SO
+  m_Name: Global_GridArea
   m_EditorClassIdentifier: 
   columns: 6
   rows: 10
