@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ball, Water, UI, Bonus, GameplayEllements
 - Active game object:
-  - Name: GridOverlay
+  - Name: GameObject
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

@@ -2,121 +2,55 @@ using UnityEngine;
 
 public class PlayAreaGridDrawer : MonoBehaviour
 {
-    [Header("Grid Data")]
-    [SerializeField] GridConfigSO gridConfig;  
+    public PlayAreaLayoutBuilder builder;
+    public Color gridColor = Color.green;
+    public float lineThickness = 1f;
 
-    public Color lineColor = Color.green;
-    public float lineWidth = 0.05f;
-
-    [Header("Debug")]
-    public bool drawInGame = true;   // LineRenderer
-    public bool drawInEditor = true; // Gizmos
-
-    private void Start()
+    private void OnDrawGizmos()
     {
-        if (drawInGame)
-            DrawGridRuntime();
-    }
+        if (builder == null) return;
+        if (!builder.Build()) return;
 
-    #region Runtime drawing (LineRenderer)
-
-    void DrawGridRuntime()
-    {
-        if (gridConfig == null || PlayAreaProvider.Instance == null)
-        {
-            Debug.LogError("PlayAreaGridDrawer : GridConfigSO ou PlayAreaProvider manquant");
-            return;
-        }
+        var layout = builder.layout;
+        if (layout == null || layout.globalGrid == null) return;
 
         Rect area = PlayAreaProvider.Instance.PlayArea;
 
-        int columns = gridConfig.columns;
-        int rows = gridConfig.rows;
+        Gizmos.color = gridColor;
+
+        float cellW = builder.CellWidth;
+        float cellH = builder.CellHeight;
 
         // Vertical lines
-        for (int i = 0; i <= columns; i++)
+        for (int i = 0; i <= layout.globalGrid.columns; i++)
         {
-            float t = (float)i / columns;
-            float x = Mathf.Lerp(area.xMin, area.xMax, t);
-
-            CreateLine(
-                new Vector3(x, area.yMin, 0),
-                new Vector3(x, area.yMax, 0)
+            float x = area.xMin + i * cellW;
+            DrawThickLine(
+                new Vector3(x, area.yMin),
+                new Vector3(x, area.yMax),
+                lineThickness
             );
         }
 
         // Horizontal lines
-        for (int j = 0; j <= rows; j++)
+        for (int j = 0; j <= layout.globalGrid.rows; j++)
         {
-            float t = (float)j / rows;
-            float y = Mathf.Lerp(area.yMin, area.yMax, t);
-
-            CreateLine(
-                new Vector3(area.xMin, y, 0),
-                new Vector3(area.xMax, y, 0)
+            float y = area.yMin + j * cellH;
+            DrawThickLine(
+                new Vector3(area.xMin, y),
+                new Vector3(area.xMax, y),
+                lineThickness
             );
         }
     }
 
-    void CreateLine(Vector3 start, Vector3 end)
+    // Gizmos n'ont pas d'épaisseur -> on fake
+    void DrawThickLine(Vector3 a, Vector3 b, float thickness)
     {
-        GameObject go = new GameObject("GridLine");
-        go.transform.SetParent(transform, false);
+        Vector3 dir = (b - a).normalized;
+        Vector3 normal = Vector3.Cross(dir, Vector3.forward) * thickness * 0.01f;
 
-        LineRenderer lr = go.AddComponent<LineRenderer>();
-        lr.positionCount = 2;
-        lr.SetPosition(0, start);
-        lr.SetPosition(1, end);
-
-        lr.startWidth = lineWidth;
-        lr.endWidth = lineWidth;
-        lr.material = new Material(Shader.Find("Sprites/Default"));
-        lr.startColor = lineColor;
-        lr.endColor = lineColor;
-        lr.sortingOrder = 1;
+        Gizmos.DrawLine(a + normal, b + normal);
+        Gizmos.DrawLine(a - normal, b - normal);
     }
-
-    #endregion
-
-    #region Editor drawing (Gizmos)
-
-    private void OnDrawGizmos()
-    {
-        if (!drawInEditor) return;
-        if (gridConfig == null) return;
-        if (PlayAreaProvider.Instance == null) return;
-
-        Rect area = PlayAreaProvider.Instance.PlayArea;
-
-        int columns = gridConfig.columns;
-        int rows = gridConfig.rows;
-
-        Gizmos.color = lineColor;
-
-        // Vertical
-        for (int i = 0; i <= columns; i++)
-        {
-            float t = (float)i / columns;
-            float x = Mathf.Lerp(area.xMin, area.xMax, t);
-
-            Gizmos.DrawLine(
-                new Vector3(x, area.yMin, 0),
-                new Vector3(x, area.yMax, 0)
-            );
-        }
-
-        // Horizontal
-        for (int j = 0; j <= rows; j++)
-        {
-            float t = (float)j / rows;
-            float y = Mathf.Lerp(area.yMin, area.yMax, t);
-
-            Gizmos.DrawLine(
-                new Vector3(area.xMin, y, 0),
-                new Vector3(area.xMax, y, 0)
-            );
-        }
-    }
-
-    #endregion
 }

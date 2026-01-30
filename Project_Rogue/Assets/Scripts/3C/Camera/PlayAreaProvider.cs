@@ -61,6 +61,19 @@ public class PlayAreaProvider : MonoBehaviour
         IsReady = true;
     }
 
+    public bool TryGetPlayArea(out Rect rect)
+    {
+        if (!IsReady || PlayArea.width <= 0 || PlayArea.height <= 0)
+        {
+            rect = default;
+            return false;
+        }
+
+        rect = PlayArea;
+        return true;
+    }
+
+
     #region Borders reading
 
     void ApplyVerticalBorders(Transform parent, ref float minX, ref float maxX, bool isLeft)
