@@ -18,8 +18,8 @@ MonoBehaviour:
     rows: 6
     debugColor: {r: 1, g: 0, b: 0.8968601, a: 1}
   - type: 1
-    rows: 1
-    debugColor: {r: 1, g: 0, b: 0, a: 1}
+    rows: 0
+    debugColor: {r: 1, g: 0, b: 0.15846825, a: 1}
   - type: 2
     rows: 3
     debugColor: {r: 1, g: 0.9856311, b: 0, a: 1}

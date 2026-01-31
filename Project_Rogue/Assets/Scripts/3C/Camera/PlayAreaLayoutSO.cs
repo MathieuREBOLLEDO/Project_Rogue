@@ -23,6 +23,18 @@ public class PlayAreaLayoutSO : ScriptableObject
         def = zones.Find(z => z.type == type);
         return def != null;
     }
+
+    public ZoneDef GetZoneData(ZoneType type)
+    {
+        foreach (ZoneDef zone in zones)
+        {
+            if (zone.type == type)    
+                return zone;          
+        }
+        return null;
+    }
+
+
 }
 
 [Serializable]
