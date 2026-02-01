@@ -309,6 +309,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db6e3fdddf342b41acf4b7d6082abd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &824101409 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2570899141375127073, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+  m_PrefabInstance: {fileID: 4762177856879270373}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1044992515
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,12 +556,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4547209592758528684, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
   m_PrefabInstance: {fileID: 4762177856879270373}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 824101409}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7c3d3578875ba74a863fcae79dee29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1629669020 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8860365880406607514, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+  m_PrefabInstance: {fileID: 4762177856879270373}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1629669021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824101409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e9f0cad3ecb7647b2b239ec0f0a914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layout: {fileID: 11400000, guid: 90696990a4e52464d96fdea87685decb, type: 2}
+  bricksParent: {fileID: 1629669020}
 --- !u!4 &1661667921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1383210196818324511, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
@@ -757,11 +781,13 @@ PrefabInstance:
       propertyPath: OnChangeNumberOfShoot.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 371967512}
-    m_RemovedComponents:
-    - {fileID: 8911656413123474261, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2570899141375127073, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1629669021}
     - targetCorrespondingSourceObject: {fileID: 7166848978424622855, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
