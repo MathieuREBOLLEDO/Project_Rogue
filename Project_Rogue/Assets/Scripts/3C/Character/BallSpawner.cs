@@ -67,6 +67,8 @@ public class BallSpawner : MonoBehaviour
             ShootHandler.Instance.RemoveShootNumber(1);
             BallSettingsManager.Instance.StartSpeedIncreaseLoop();
         }
+        else
+            Debug.Log("Couldn'tShoot");
 
     }
 

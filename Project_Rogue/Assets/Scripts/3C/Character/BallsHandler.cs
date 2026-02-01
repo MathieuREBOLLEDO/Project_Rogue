@@ -48,7 +48,7 @@ public class BallsHandler : MonoBehaviour
         if (AllBallsInactiveOrAtBottom())
         {
             MoveBallToAverragePosition();
-            GameManager.Instance.StartMachineTurn();
+            GameManager.Instance.NotifyBallTurnEnd();
         }
     }
 

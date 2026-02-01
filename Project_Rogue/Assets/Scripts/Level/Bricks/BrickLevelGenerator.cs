@@ -3,54 +3,65 @@ using UnityEngine;
 
 public class BrickLevelGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject brickPrefab;
-
-    private int currentTopRow;
+    [SerializeField] private GameObject brickPrefab;
+    [SerializeField] private int startLines = 3;
 
     private void Start()
     {
-        StartCoroutine(WaitAndGenerate());
+        StartCoroutine(WaitForPlayAreaAndInit());
     }
 
-    IEnumerator WaitAndGenerate()
+    private void OnEnable()
     {
-        // on attend que la PlayArea soit valide
+        GridEvents.OnRequestNewBrickLine += AddNewTopLine;
+        GameEventManager.Instance.Subscribe( GameEventType.MachineTurnStart,_ => AddNewTopLine());
+    }
+
+    private void OnDisable()
+    {
+        GridEvents.OnRequestNewBrickLine -= AddNewTopLine;
+        GameEventManager.Instance.Unsubscribe(GameEventType.MachineTurnStart, _=> AddNewTopLine());
+    }
+
+    private IEnumerator WaitForPlayAreaAndInit()
+    {
         while (PlayAreaProvider.Instance == null ||
                PlayAreaProvider.Instance.PlayArea.width <= 0)
         {
             yield return null;
         }
 
-        GenerateInitialBricks();
+        for (int i = 0; i < startLines; i++)
+            AddNewTopLine();
     }
 
-    private void OnEnable()
+    /// <summary>
+    /// Descend toutes les briques d'une ligne
+    /// puis ajoute une nouvelle ligne en haut
+    /// </summary>
+    public void AddNewTopLine()
     {
-        GridEvents.OnRequestNewBrickLine += AddProceduralLine;
-    }
-    private void OnDisable()
-    {
-        GridEvents.OnRequestNewBrickLine -= AddProceduralLine;
-    }
-
-    void GenerateInitialBricks()
-    {
-        currentTopRow = GridService.Instance.Rows - 1;
-
-        // Génère 3 lignes au départ (exemple)
-        for (int i = 0; i < 3; i++)
-            AddProceduralLine();
+        MoveAllBricksDown();
+        CreateLine(GridService.Instance.Rows - 1);
+        GameManager.Instance.NotifyMachineTurnEnd();
     }
 
-    public void AddProceduralLine()
+    private void MoveAllBricksDown()
     {
-        int cols = GridService.Instance.Columns;
-
         Vector2 cellSize = GridService.Instance.CellSize;
 
-        // petite marge pour éviter de toucher les murs
-        float margin = 0.9f;
+        foreach (Transform brick in transform)
+        {
+            brick.position += Vector3.down * cellSize.y;
+        }
+    }
 
+    private void CreateLine(int row)
+    {
+        int cols = GridService.Instance.Columns;
+        Vector2 cellSize = GridService.Instance.CellSize;
+
+        float margin = 0.9f;
         Vector3 brickScale = new Vector3(
             cellSize.x * margin,
             cellSize.y * margin,
@@ -59,15 +70,9 @@ public class BrickLevelGenerator : MonoBehaviour
 
         for (int col = 0; col < cols; col++)
         {
-            Vector3 pos = GridService.Instance.GetCellCenter(col, currentTopRow);
-
-            GameObject brick = Instantiate(brickPrefab, pos, Quaternion.identity, transform);
-
-            // on force la taille logique de la brique
+            Vector3 position = GridService.Instance.GetCellCenter(col, row);
+            GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity, transform);
             brick.transform.localScale = brickScale;
         }
-
-        currentTopRow--;
     }
-
 }

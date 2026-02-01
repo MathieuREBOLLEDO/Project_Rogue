@@ -2,7 +2,7 @@
 - Project name: Project_Rogue
 - Unity version: Unity 2022.3.7f1
 - Active game object:
-  - Name: PlayAreaSystem
+  - Name: MG_Level
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
