@@ -562,6 +562,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c3d3578875ba74a863fcae79dee29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1629669020 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8860365880406607514, guid: 9419deb5829705c46a2d86c96461e06b, type: 3}
+  m_PrefabInstance: {fileID: 4762177856879270373}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1629669021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,6 +579,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e9f0cad3ecb7647b2b239ec0f0a914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bricksRoot: {fileID: 1629669020}
+  warningDistance: 1
   builder: {fileID: 1044992518}
   line: {fileID: 1629669023}
 --- !u!120 &1629669023
@@ -623,7 +630,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:
