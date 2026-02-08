@@ -486,7 +486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1313039607
 Transform:
   m_ObjectHideFlags: 0
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c95526d14218ce46b3c7dedb71c07e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  builder: {fileID: 0}
+  builder: {fileID: 1044992518}
   gridColor: {r: 0, g: 1, b: 0, a: 1}
   lineThickness: 1
 --- !u!1 &1409814871 stripped

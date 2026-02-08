@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="NumberOfGolds",menuName = "")]
 public class NumberOfGold : EffectSO
 {
-    int defaultAmountToAdd = 1;
+    public int defaultAmountToAdd = 1;
     public override void Initialize(EffectRuntime runtime, Dictionary<ValueKey, string> parameters) { }
 
     public override void Apply(GameContext context, Dictionary<ValueKey, string> parameters)

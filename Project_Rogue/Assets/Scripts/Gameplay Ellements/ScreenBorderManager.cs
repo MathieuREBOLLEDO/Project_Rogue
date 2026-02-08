@@ -8,6 +8,11 @@ public class ScreenBorderManager : MonoBehaviour
     public Transform topParent;
     public Transform bottomParent;
 
+    [Header("Debug Draw Collider (Runtime)")]
+    public bool drawColliders = true;
+    public Color drawColor = Color.red;
+    public float lineWidth = 0.05f;
+
     private void Awake()
     {
         PositionAndResizeBorders();
@@ -28,6 +33,15 @@ public class ScreenBorderManager : MonoBehaviour
 
         // BOTTOM
         PositionHorizontalBordersKeepHeight(bottomParent, camRect.yMin);
+
+        // Update visuals after all modifications
+        if (drawColliders)
+        {
+            UpdateColliderLines(leftParent);
+            UpdateColliderLines(rightParent);
+            UpdateColliderLines(topParent);
+            UpdateColliderLines(bottomParent);
+        }
     }
 
     #region Vertical borders (LEFT / RIGHT)
@@ -50,13 +64,9 @@ public class ScreenBorderManager : MonoBehaviour
 
             float y = startY + i * segmentHeight;
 
-            // on garde la largeur existante
             float width = col.size.x;
-
-            // on adapte uniquement la hauteur
             col.size = new Vector2(width, segmentHeight);
 
-            // position : collé au bord X, réparti en Y
             child.position = new Vector3(xEdge, y, 0);
 
             i++;
@@ -85,16 +95,57 @@ public class ScreenBorderManager : MonoBehaviour
 
             float x = startX + i * segmentWidth;
 
-            // on garde la hauteur existante
             float height = col.size.y;
-
-            // on adapte uniquement la largeur
             col.size = new Vector2(segmentWidth, height);
 
-            // position : collé au bord Y, réparti en X
             child.position = new Vector3(x, yEdge, 0);
 
             i++;
+        }
+    }
+
+    #endregion
+
+    #region Runtime Collider Drawing (LineRenderer)
+
+    void UpdateColliderLines(Transform parent)
+    {
+        if (parent == null) return;
+
+        foreach (Transform child in parent)
+        {
+            if (!child.TryGetComponent(out BoxCollider2D col)) continue;
+
+            LineRenderer lr = child.GetComponent<LineRenderer>();
+            if (lr == null)
+                lr = child.gameObject.AddComponent<LineRenderer>();
+
+            lr.useWorldSpace = true;
+            lr.loop = true;
+            lr.positionCount = 4;
+            lr.startColor = drawColor;
+            lr.endColor = drawColor;
+            lr.startWidth = lineWidth;
+            lr.endWidth = lineWidth;
+
+            // Simple default material so it renders in builds
+            if (lr.material == null)
+                lr.material = new Material(Shader.Find("Sprites/Default"));
+
+            // Collider corners in LOCAL space
+            Vector2 size = col.size;
+            Vector2 offset = col.offset;
+
+            Vector3 p0 = new Vector3(offset.x - size.x / 2f, offset.y - size.y / 2f, 0);
+            Vector3 p1 = new Vector3(offset.x - size.x / 2f, offset.y + size.y / 2f, 0);
+            Vector3 p2 = new Vector3(offset.x + size.x / 2f, offset.y + size.y / 2f, 0);
+            Vector3 p3 = new Vector3(offset.x + size.x / 2f, offset.y - size.y / 2f, 0);
+
+            // Convert to WORLD space
+            lr.SetPosition(0, child.TransformPoint(p0));
+            lr.SetPosition(1, child.TransformPoint(p1));
+            lr.SetPosition(2, child.TransformPoint(p2));
+            lr.SetPosition(3, child.TransformPoint(p3));
         }
     }
 
