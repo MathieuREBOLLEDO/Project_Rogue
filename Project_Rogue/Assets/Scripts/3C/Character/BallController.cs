@@ -37,7 +37,7 @@ public class BallController : MonoBehaviour, IBallLauncher
     {
         if (isLaunched)
         {
-            CheckUpcomingCollision();  // Ajout de vérification avant le mouvement
+            //CheckUpcomingCollision();  // Ajout de vérification avant le mouvement
             ballMovement.Move();
         }
     }
@@ -55,36 +55,36 @@ public class BallController : MonoBehaviour, IBallLauncher
     /// Vérifie avec un Raycast si un obstacle est proche dans la direction actuelle,
     /// et ajuste la direction en conséquence avant le mouvement.
     /// </summary>
-    private void CheckUpcomingCollision()
-    {
-        LayerMask ball = 3;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, raycastDistance,ball);
-        if (hit.collider != null)
-        {
-            // On réfléchit la direction avant d'entrer dans le collider
-            direction = Vector2.Reflect(direction, hit.normal);
-            ballMovement.SetDirection(direction);
-        }
-    }
-
+  //  private void CheckUpcomingCollision()
+  //  {
+  //      LayerMask ball = 3;
+  //      RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, raycastDistance,ball);
+  //      if (hit.collider != null)
+  //      {
+  //          // On réfléchit la direction avant d'entrer dans le collider
+  //          direction = Vector2.Reflect(direction, hit.normal);
+  //          ballMovement.SetDirection(direction);
+  //      }
+  //  }
+  //
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Calcul de la normale moyenne pour les collisions multiples (coins)
-        Vector2 averageNormal = Vector2.zero;
-        //foreach (var contact in collision.contacts)
-        //{
-        //    averageNormal += contact.normal;
-        //}
-        //averageNormal.Normalize();
-        averageNormal = collision.GetContact(0).normal;
-        
-
-        direction = Vector2.Reflect(direction, averageNormal);
-        ballMovement.SetDirection(direction);
-
+        //// Calcul de la normale moyenne pour les collisions multiples (coins)
+        //Vector2 averageNormal = Vector2.zero;
+        ////foreach (var contact in collision.contacts)
+        ////{
+        ////    averageNormal += contact.normal;
+        ////}
+        ////averageNormal.Normalize();
+        //averageNormal = collision.GetContact(0).normal;
+        //
+        //
+        //direction = Vector2.Reflect(direction, averageNormal);
+        //ballMovement.SetDirection(direction);
+  
         var triggerable = collision.gameObject.GetComponent<ITriggerable>();
         triggerable?.OnTriggered();
-
+  
         HitFeedbck?.PlayFeedbacks();
     }
 
