@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class GridService : MonoBehaviour
 {
-  
-
 
     public static GridService Instance { get; private set; }
 

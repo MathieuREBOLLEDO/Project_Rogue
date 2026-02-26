@@ -27,6 +27,11 @@ public class Bricks : MonoBehaviour, ITriggerable
     [SerializeField] private GameObject bonusPrefab;
     [SerializeField] private float bonusChance = 0.25f;
 
+    void Start ()
+    {
+        Initialize(1);
+    }
+
     public void Initialize(int type)
     {
         this.type = type;
