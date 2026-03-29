@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class NewGridLines : MonoBehaviour
 {
     [Header("Data")]
-    [SerializeField] BrickDatasSO brickData;
+    [SerializeField] BrickLevelDatasSO brickData;
     [SerializeField] ScreenBorderManager borderManager;
 
     [Header("UI")]

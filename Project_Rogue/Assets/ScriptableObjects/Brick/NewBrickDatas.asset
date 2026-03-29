@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45926798c43c0a04c94add0b50b37d34, type: 3}
+  m_Script: {fileID: 11500000, guid: f7f37efdf5a7ad946a04159cc52c5aec, type: 3}
   m_Name: NewBrickDatas
-  m_EditorClassIdentifier: 
-  columns: 6
+  m_EditorClassIdentifier: Assembly-CSharp::BrickLevelDatasSO
+  columns: 8
   rows: 4
-  cellSize: 0.8180267
-  maxNumberRows: 9
+  cellSize: 0.61385834
+  maxNumberRows: 12
   spacingWithScreen: 0
   spacingWithBricks: 0

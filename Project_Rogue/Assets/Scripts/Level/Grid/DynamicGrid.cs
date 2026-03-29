@@ -5,7 +5,7 @@ public class DynamicGrid : MonoBehaviour
 {
     public GameObject buttonPrefab; // Un bouton de base (UI Button avec Image)
     public RectTransform gridParent; // Le parent dans le Canvas
-    [SerializeField] private BrickDatasSO brickData;
+    [SerializeField] private BrickLevelDatasSO brickData;
 
     private float cellSize;
 

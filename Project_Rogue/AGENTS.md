@@ -1,14 +1,8 @@
 <!-- UNITY CODE ASSIST INSTRUCTIONS START -->
 - Project name: Project_Rogue
-- Unity version: Unity 2022.3.7f1
-- Active scene:
-  - Name: MainLevel
-  - Tags:
-    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Brick
-  - Layers:
-    - Default, TransparentFX, Ignore Raycast, Ball, Water, UI, Bonus, GameplayEllements
+- Unity version: Unity 6000.3.7f1
 - Active game object:
-  - Name: MG_Border
-  - Tag: Untagged
-  - Layer: Default
+  - Name: GO_Bricks
+  - Tag: Brick
+  - Layer: GameplayEllements
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

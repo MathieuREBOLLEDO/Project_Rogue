@@ -1,11 +1,16 @@
 using MoreMountains.Feedbacks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Bricks : MonoBehaviour, ITriggerable
+public class Brick : MonoBehaviour, ITriggerable
 {
     [Header ("Feedbacks")]
     public MMFeedbacks HitFeedbck;
+
+    [Header ("Componenets")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private TextMeshPro textRenderer;
 
     [Header("Bricks Datas")]
     [SerializeField] private int numberOfPoint_GainOnHit = 1;
@@ -21,15 +26,40 @@ public class Bricks : MonoBehaviour, ITriggerable
     [Header("Unity Events")]
     public UnityEvent NotifyDestroy; 
 
-    [SerializeField] SpriteRenderer spriteRenderer;
+    
 
     [Header("Bonus")]
     [SerializeField] private GameObject bonusPrefab;
     [SerializeField] private float bonusChance = 0.25f;
 
-    void Start ()
+   // void Start ()
+   // {
+   //     Initialize(1);
+   // }
+
+    public void Initialize(BrickData data, BrickDataBase database)
     {
-        Initialize(1);
+        BrickVisual visual = database.GetData(data.Type);
+
+        if (visual == null) return;
+
+        numberOfLifePoint = visual.hp;
+
+        // Sprite
+        var sr = spriteRenderer;
+        if (sr != null)
+        {
+            sr.sprite = visual.sprite;
+            sr.color = visual.color;
+        }
+
+        var tr = textRenderer;
+        if (tr != null)
+        {
+            tr.text = numberOfLifePoint.ToString();
+        }
+        //NotifyInit?.Invoke(numberOfLifePoint); // TO DO => change numberOfLifePoint by Type
+        //name = gameObject.name + type.ToString();
     }
 
     public void Initialize(int type)

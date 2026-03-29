@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class GridLines : MonoBehaviour
 {
-    [SerializeField] BrickDatasSO brickData;
+    [SerializeField] BrickLevelDatasSO brickData;
 
     public RectTransform gridParent;
     public Color lineColor = Color.green;

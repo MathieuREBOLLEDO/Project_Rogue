@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class BrickLevelGenerator : MonoBehaviour
+public class BrickLineGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject brickPrefab;
     [SerializeField] private int startLines = 3;
+
+    public BrickDataEvent OnSpawnBrick;
 
     private void Start()
     {
@@ -71,8 +73,10 @@ public class BrickLevelGenerator : MonoBehaviour
         for (int col = 0; col < cols; col++)
         {
             Vector3 position = GridService.Instance.GetCellCenter(col, row);
-            GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity, transform);
-            brick.transform.localScale = brickScale;
+
+            OnSpawnBrick?.Invoke(new BrickData(position,Quaternion.identity,brickScale,transform));
+            //GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity, transform);
+            //brick.transform.localScale = brickScale;
         }
     }
 }
